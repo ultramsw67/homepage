@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^12.8.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -20,6 +21,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.1.2",
     "eslint": "^9",
+    "firebase-tools": "^15.4.0",
     "react-router-dom": "^7.13.0",
     "tailwindcss": "^4",
     "typescript": "^5",

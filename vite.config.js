@@ -8,10 +8,6 @@ export default defineConfig({
         react(),
         tailwindcss(),
     ],
-    base: '/homepage/',
-    build: {
-        outDir: 'docs',
-    },
     resolve: {
         alias: {
             '@': '/src',
