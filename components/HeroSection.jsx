@@ -1,5 +1,5 @@
 import Link from 'next/link';
-// In a real app, use next/image. Placeholder for now.
+import Image from 'next/image';
 
 export default function HeroSection() {
     return (
@@ -31,10 +31,13 @@ export default function HeroSection() {
 
                     <div className="md:w-1/2 w-full">
                         <div className="aspect-[4/3] bg-gray-200 w-full relative overflow-hidden group">
-                            {/* Placeholder for Hero Image - would be replaced by next/image */}
-                            <div className="absolute inset-0 bg-neutral-300 flex items-center justify-center text-neutral-500 font-serif text-xl">
-                                Hero Image Placeholder
-                            </div>
+                            <Image
+                                src="/rss/image/hero_placeholder.svg"
+                                alt="Hero Image"
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                priority
+                            />
                         </div>
                     </div>
                 </div>

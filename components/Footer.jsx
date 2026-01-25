@@ -18,9 +18,9 @@ export default function Footer() {
                     <div>
                         <h4 className="font-serif text-lg text-white mb-4">Connect</h4>
                         <ul className="space-y-2 text-gray-400 text-sm">
-                            <li><a href="#" className="hover:text-sood-cream transition-colors">LinkedIn</a></li>
-                            <li><a href="#" className="hover:text-sood-cream transition-colors">Twitter (X)</a></li>
-                            <li><a href="#" className="hover:text-sood-cream transition-colors">Instagram</a></li>
+                            <li><a href="https://www.linkedin.com/in/%EC%84%B1%EC%9A%B4-%EB%AC%B8-415976234/" target="_blank" rel="noopener noreferrer" className="hover:text-sood-cream transition-colors">LinkedIn</a></li>
+                            <li><a href="https://blog.naver.com/ultramsw67" target="_blank" rel="noopener noreferrer" className="hover:text-sood-cream transition-colors">Naver Blog</a></li>
+                            <li><a href="https://brunch.co.kr/@a3b90b2e717a467" target="_blank" rel="noopener noreferrer" className="hover:text-sood-cream transition-colors">Brunch</a></li>
                         </ul>
                     </div>
 

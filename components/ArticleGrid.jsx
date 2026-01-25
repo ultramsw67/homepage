@@ -1,43 +1,6 @@
 import Link from 'next/link';
-
-interface Article {
-    id: string;
-    category: string;
-    title: string;
-    excerpt: string;
-    date: string;
-}
-
-const articles: Article[] = [
-    {
-        id: '1',
-        category: 'Streategy',
-        title: '투자자를 설득하는 피치덱의 구조',
-        excerpt: '성공적인 투자 유치를 위한 스토리텔링과 데이터 시각화의 정석.',
-        date: 'Oct 24, 2025'
-    },
-    {
-        id: '2',
-        category: 'Culture',
-        title: '초기 팀 빌딩: 누구를 버스에 태울 것인가',
-        excerpt: '문화적 적합성과 기술적 역량 사이의 균형을 찾는 방법.',
-        date: 'Oct 18, 2025'
-    },
-    {
-        id: '3',
-        category: 'Product',
-        title: 'Product-Market Fit을 찾는 여정',
-        excerpt: '가설 설정부터 검증까지, 실패를 줄이는 프로세스.',
-        date: 'Oct 10, 2025'
-    },
-    {
-        id: '4',
-        category: 'Insight',
-        title: '실리콘밸리 트렌드 2026',
-        excerpt: '현지에서 직접 보고 들은 최신 기술 트렌드와 시사점.',
-        date: 'Sep 28, 2025'
-    },
-];
+import Image from 'next/image';
+import { articlesData as articles } from '@/lib/articles';
 
 export default function ArticleGrid() {
     return (
@@ -57,7 +20,12 @@ export default function ArticleGrid() {
                         <Link key={article.id} href={`/articles/${article.id}`} className="group block h-full">
                             <article className="flex flex-col h-full">
                                 <div className="aspect-[3/2] bg-gray-100 mb-6 overflow-hidden relative">
-                                    <div className="absolute inset-0 bg-neutral-200 transition-transform duration-500 group-hover:scale-105" />
+                                    <Image
+                                        src="/rss/image/nanobanana_placeholder.svg"
+                                        alt={article.title}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
                                 </div>
 
                                 <div className="flex-1 flex flex-col">
