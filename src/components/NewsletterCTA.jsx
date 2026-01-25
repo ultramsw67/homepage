@@ -7,7 +7,7 @@ export default function NewsletterCTA() {
                 </h2>
                 <p className="text-lg text-sood-charcoal/80 mb-8 font-sans leading-relaxed">
                     매주 월요일 아침, 스타트업 성장에 필요한 <br className="hidden md:block" />
-                    가 확실한 인사이트를 배달해 드립니다.
+                    확실한 인사이트를 배달해 드립니다.
                 </p>
 
                 <form className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">

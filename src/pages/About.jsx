@@ -20,12 +20,8 @@ export default function AboutPage() {
                 {/* Profile Image & Key Intro */}
                 <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
                     <div className="relative w-full">
-                        <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-2xl mb-6 bg-gray-200">
-                            <img
-                                src="/rss/image/profile_placeholder.svg"
-                                alt="Sood Profile"
-                                className="object-cover w-full h-full absolute inset-0"
-                            />
+                        <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-2xl mb-6 bg-gradient-to-br from-[#FDFBF7] to-[#E5E5E5] flex items-center justify-center">
+                            <div className="text-sood-burgundy font-serif font-bold text-4xl opacity-20">Sood</div>
                         </div>
                         <div className="flex justify-center gap-6">
                             <Link to="https://blog.naver.com/ultramsw67" target="_blank" className="text-sood-burgundy font-bold hover:underline">Naver Blog</Link>

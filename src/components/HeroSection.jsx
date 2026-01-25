@@ -29,12 +29,10 @@ export default function HeroSection() {
                     </div>
 
                     <div className="md:w-1/2 w-full">
-                        <div className="aspect-[4/3] bg-gray-200 w-full relative overflow-hidden group">
-                            <img
-                                src="/rss/image/hero_placeholder.svg"
-                                alt="Hero Image"
-                                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-                            />
+                        <div className="aspect-[4/3] w-full relative overflow-hidden group bg-gradient-to-br from-sood-burgundy/5 to-sood-burgundy/10 flex items-center justify-center border border-sood-burgundy/5">
+                            <div className="text-sood-charcoal/20 font-serif text-3xl italic">
+                                Strategic Visualization
+                            </div>
                         </div>
                     </div>
                 </div>

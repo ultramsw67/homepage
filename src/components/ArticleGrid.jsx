@@ -18,12 +18,10 @@ export default function ArticleGrid() {
                     {articles.map((article) => (
                         <Link key={article.id} to={`/articles/${article.id}`} className="group block h-full">
                             <article className="flex flex-col h-full">
-                                <div className="aspect-[3/2] bg-gray-100 mb-6 overflow-hidden relative">
-                                    <img
-                                        src="/rss/image/nanobanana_placeholder.svg"
-                                        alt={article.title}
-                                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                                    />
+                                <div className="aspect-[3/2] bg-sood-charcoal/5 relative overflow-hidden flex items-center justify-center group-hover:bg-sood-charcoal/10 transition-colors">
+                                    <span className="text-4xl text-sood-burgundy/20 font-serif font-bold">
+                                        {article.title.charAt(0)}
+                                    </span>
                                 </div>
 
                                 <div className="flex-1 flex flex-col">

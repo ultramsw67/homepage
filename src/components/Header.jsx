@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
     return (
-        <header className="border-b border-sood-burgundy/10 bg-sood-cream sticky top-0 z-50">
+        <header className="border-b border-sood-burgundy/10 bg-[#FDFBF7] sticky top-0 z-50">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 <Link to="/" className="font-serif text-2xl font-bold text-sood-burgundy">
                     Sood
