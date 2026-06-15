@@ -1,13 +1,15 @@
 import HeroSection from '@/components/HeroSection';
-import ArticleGrid from '@/components/ArticleGrid';
-import NewsletterCTA from '@/components/NewsletterCTA';
+import CoreSolutions from '@/components/CoreSolutions';
+import ExperienceSection from '@/components/ExperienceSection';
+import FeaturedInsights from '@/components/FeaturedInsights';
 
 export default function Home() {
     return (
         <>
             <HeroSection />
-            <NewsletterCTA />
-            <ArticleGrid />
+            <CoreSolutions />
+            <ExperienceSection />
+            <FeaturedInsights />
         </>
     );
 }

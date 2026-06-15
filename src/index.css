@@ -1,29 +1,53 @@
 @import "tailwindcss";
 
 :root {
-  /* Sood Brand Colors */
-  --sood-burgundy: #6B1F2E;
-  --sood-cream: #FDFBF7;
-  --sood-charcoal: #1A1A1A;
-  --sood-gray: #757575;
-  
-  --background: var(--sood-cream);
-  --foreground: var(--sood-charcoal);
+  /* SOOD Brand Colors — Suit Logic x Hoodie Action */
+  --sood-orange: #F26B21;
+  --sood-orange-soft: #FF8A4C;
+  --sood-ink: #1B2A41;       /* deep navy — headings & dark panels */
+  --sood-ink-soft: #2C3E55;
+  --sood-cream: #FBF6F0;     /* warm off-white background */
+  --sood-cream-deep: #F4EBE1;
+  --sood-charcoal: #1B2A41;
+  --sood-gray: #6B7686;
 
-  /* Font Variables matching Google Fonts import */
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Inter', sans-serif;
+  /* Backwards-compatible aliases used across older pages */
+  --sood-burgundy: var(--sood-orange);
+
+  --background: var(--sood-cream);
+  --foreground: var(--sood-ink);
+
+  --font-display: 'Poppins', 'Pretendard', sans-serif;
+  --font-sans: 'Pretendard', 'Inter', sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-burgundy: var(--sood-burgundy);
+
+  --color-orange: var(--sood-orange);
+  --color-orange-soft: var(--sood-orange-soft);
+  --color-ink: var(--sood-ink);
+  --color-ink-soft: var(--sood-ink-soft);
   --color-cream: var(--sood-cream);
-  --color-charcoal: var(--sood-charcoal);
+  --color-cream-deep: var(--sood-cream-deep);
+
+  /* aliases kept so existing components keep compiling */
+  --color-burgundy: var(--sood-orange);
+  --color-charcoal: var(--sood-ink);
   --color-subtle: var(--sood-gray);
-  
-  --font-serif: var(--font-serif);
+
+  /* sood-* utilities used by older pages (About / Articles / Consulting) */
+  --color-sood-orange: var(--sood-orange);
+  --color-sood-ink: var(--sood-ink);
+  --color-sood-burgundy: var(--sood-orange);
+  --color-sood-charcoal: var(--sood-ink);
+  --color-sood-cream: var(--sood-cream);
+  --color-sood-cream-deep: var(--sood-cream-deep);
+  --color-sood-gray: var(--sood-gray);
+
+  --font-display: var(--font-display);
+  --font-serif: var(--font-display);
   --font-sans: var(--font-sans);
 }
 
@@ -31,8 +55,10 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
