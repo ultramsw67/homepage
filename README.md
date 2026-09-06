@@ -37,7 +37,12 @@ npm run import:blog -- <폴더>  # 다른 경로
 - `public/sood-character.jpg`: 브랜드 캐릭터
 
 고객사 이름, 비공개 문서, 검증되지 않은 실적 수치는 공개하지 않습니다.
-상담 폼은 메일 앱을 열 뿐, 사이트가 메일을 보내거나 개인정보를 저장하지 않습니다.
+
+## 상담 폼 발송 방식
+
+`src/lib/site.js` 의 `profile.formKey` 에 Web3Forms 액세스 키가 있으면 폼 내용이 사이트에서 바로 ultramsw67@gmail.com 으로 전송됩니다(무료, 회신 주소는 입력한 이메일).
+키가 비어 있으면 메일 앱을 여는 방식으로 동작합니다. 키 발급: https://web3forms.com/#start 에 ultramsw67@gmail.com 을 입력하면 키가 그 메일로 옵니다.
+액세스 키는 공개돼도 되는 값이지만, 스팸이 많아지면 Web3Forms 대시보드에서 hCaptcha 를 켤 수 있습니다.
 
 ## 검증
 

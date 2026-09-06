@@ -1,16 +1,56 @@
 import { useState } from 'react';
 import { services, profile, process } from '../lib/site';
 
-export default function Consulting() {
-  const [status, setStatus] = useState('');
+const ENDPOINT = 'https://api.web3forms.com/submit';
 
-  function contact(event) {
+function mailtoLink(data) {
+  const body = `이름 / 팀: ${data.name}\n회신 이메일: ${data.email}\n상담 분야: ${data.service}\n\n현재 상황과 고민:\n${data.message}`;
+  const subject = `[SOOD 상담] ${data.service} · ${data.name}`;
+  return `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+export default function Consulting() {
+  const [state, setState] = useState({ phase: 'idle', text: '' });
+
+  async function contact(event) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const body = `이름 / 팀: ${data.get('name')}\n회신 이메일: ${data.get('email')}\n상담 분야: ${data.get('service')}\n\n현재 상황과 고민:\n${data.get('message')}`;
-    const subject = `[SOOD 상담] ${data.get('service')} · ${data.get('name')}`;
-    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setStatus(`메일 앱이 열렸습니다. 발송 버튼을 눌러야 접수됩니다. 앱이 열리지 않으면 ${profile.email} 로 직접 보내주세요.`);
+    const form = event.currentTarget;
+    const fd = new FormData(form);
+    const data = { name: fd.get('name'), email: fd.get('email'), service: fd.get('service'), message: fd.get('message') };
+    if (fd.get('botcheck')) return;
+
+    if (!profile.formKey) {
+      window.location.href = mailtoLink(data);
+      setState({ phase: 'mailto', text: `메일 앱이 열렸습니다. 발송 버튼을 눌러야 접수됩니다. 앱이 열리지 않으면 ${profile.email} 로 직접 보내주세요.` });
+      return;
+    }
+
+    setState({ phase: 'sending', text: '보내는 중입니다…' });
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: profile.formKey,
+          subject: `[SOOD 상담] ${data.service} · ${data.name}`,
+          from_name: 'SOOD 홈페이지 상담 폼',
+          name: data.name,
+          email: data.email,
+          replyto: data.email,
+          service: data.service,
+          message: data.message,
+        }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && json.success !== false) {
+        form.reset();
+        setState({ phase: 'sent', text: '접수됐습니다. 보통 2~3일 안에 회신 이메일로 답장드립니다.' });
+      } else {
+        throw new Error(json.message || res.statusText);
+      }
+    } catch {
+      setState({ phase: 'error', text: `전송에 실패했습니다. 아래 버튼으로 메일 앱을 열거나 ${profile.email} 로 직접 보내주세요.`, fallback: mailtoLink(data) });
+    }
   }
 
   return (
@@ -65,9 +105,15 @@ export default function Consulting() {
           </select>
           <label htmlFor="message">현재 상황과 고민</label>
           <textarea id="message" name="message" required rows="5" maxLength="3000" placeholder="어떤 사업을 하고 계신가요? 가장 고민되는 점을 알려주세요." />
-          <p className="muted small">입력 내용으로 메일 앱이 열립니다. 사이트는 내용을 저장하지 않습니다.</p>
-          <button className="button primary" type="submit">상담 메일 작성하기</button>
-          <p role="status" className="form-status">{status}</p>
+          <input type="checkbox" name="botcheck" tabIndex="-1" autoComplete="off" className="sr-only" aria-hidden="true" />
+          <p className="muted small">{profile.formKey ? `보내기를 누르면 ${profile.email} 로 바로 전달됩니다. 입력한 이메일로 답장드립니다.` : '입력 내용으로 메일 앱이 열립니다. 사이트는 내용을 저장하지 않습니다.'}</p>
+          <button className="button primary" type="submit" disabled={state.phase === 'sending'}>
+            {profile.formKey ? (state.phase === 'sending' ? '보내는 중…' : '상담 요청 보내기') : '상담 메일 작성하기'}
+          </button>
+          <p role="status" className="form-status">
+            {state.text}
+            {state.phase === 'error' && state.fallback && <> <a href={state.fallback}>메일 앱으로 보내기 →</a></>}
+          </p>
         </form>
       </section>
     </div>
