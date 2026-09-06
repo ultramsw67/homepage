@@ -105,7 +105,7 @@ export default function Consulting() {
           </select>
           <label htmlFor="message">현재 상황과 고민</label>
           <textarea id="message" name="message" required rows="5" maxLength="3000" placeholder="어떤 사업을 하고 계신가요? 가장 고민되는 점을 알려주세요." />
-          <input type="checkbox" name="botcheck" tabIndex="-1" autoComplete="off" className="sr-only" aria-hidden="true" />
+          <input type="checkbox" name="botcheck" tabIndex="-1" autoComplete="off" className="honeypot" aria-hidden="true" />
           <p className="muted small">{profile.formKey ? `보내기를 누르면 ${profile.email} 로 바로 전달됩니다. 입력한 이메일로 답장드립니다.` : '입력 내용으로 메일 앱이 열립니다. 사이트는 내용을 저장하지 않습니다.'}</p>
           <button className="button primary" type="submit" disabled={state.phase === 'sending'}>
             {profile.formKey ? (state.phase === 'sending' ? '보내는 중…' : '상담 요청 보내기') : '상담 메일 작성하기'}

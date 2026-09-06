@@ -171,6 +171,7 @@ em { font-style: normal; color: var(--accent); }
 .contact input, .contact select, .contact textarea, .search input { width: 100%; padding: 12px 14px; background: #fff; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 18px; font-size: 15px; }
 .contact input:focus, .contact select:focus, .contact textarea:focus, .search input:focus { border-color: var(--ink); outline: none; }
 .contact textarea { resize: vertical; }
+.contact .honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; margin: 0; padding: 0; opacity: 0; pointer-events: none; }
 .contact .button { margin-top: 6px; }
 .form-status { font-size: 13px; color: var(--muted); margin-top: 12px; }
 
