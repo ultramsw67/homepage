@@ -1,55 +1,56 @@
-# SOOD · 수트와후드
+# 수트와후드 SOOD · 문성운
 
-문성운의 개인 브랜드, 경력 포트폴리오, 스타트업 전략 상담 홈페이지입니다.
-React 19 + Vite 7 + React Router / Firebase Hosting.
+스타트업 경영 코치 문성운(수트와후드)의 홈페이지. 소개 · 칼럼 아카이브 · 상담 문의.
+React 19 + Vite 7 + React Router, Firebase Hosting.
+
+- 운영 URL: https://sood-page.web.app
+- 문의 메일: ultramsw67@gmail.com (상담 폼은 메일 앱을 열어 이 주소로 보냅니다)
 
 ## 로컬 실행
 
-Node.js 22 이상에서 다음을 실행합니다.
+Node.js 22 이상.
 
 ```sh
 npm ci
 npm run dev
 ```
 
+## 블로그 글 가져오기
+
+네이버 블로그 발행글은 Obsidian vault(`C:\Obsidian\tomwiki\10_블로그\네이버`)의 md 파일을 읽어 `public/posts/*.json` 과 `public/sitemap.xml` 로 변환합니다.
+새 글을 발행한 뒤 vault 를 갱신(`fetch-naver.js`)하고 아래를 실행한 다음 커밋하면 사이트에 반영됩니다.
+
+```sh
+npm run import:blog            # 기본 경로
+npm run import:blog -- <폴더>  # 다른 경로
+```
+
+- `public/posts/index.json`: 목록(제목·날짜·카테고리·요약·썸네일)
+- `public/posts/<logNo>.json`: 본문 HTML. 글 페이지는 `/articles/<logNo>` 로 열립니다.
+- 이미지는 네이버 원본을 그대로 씁니다. `referrerpolicy="no-referrer"` 가 없으면 네이버가 403 을 돌려주므로 유지해야 합니다.
+
+## 콘텐츠 수정
+
+- `src/lib/site.js`: 이름, 이메일, 채널, 서비스 4개, 경력, 자문 사례, 진행 방식
+- `src/pages/*.jsx`: 홈 · 소개 · 글 · 상담 페이지 문구
+- `src/index.css`: 색상, 글꼴, 반응형
+- `public/sood-character.jpg`: 브랜드 캐릭터
+
+고객사 이름, 비공개 문서, 검증되지 않은 실적 수치는 공개하지 않습니다.
+상담 폼은 메일 앱을 열 뿐, 사이트가 메일을 보내거나 개인정보를 저장하지 않습니다.
+
 ## 검증
 
 ```sh
 npm run lint
 npm run build
-npx playwright test
+npx playwright test   # 로컬은 설치된 Chrome, CI 는 Chromium
 ```
 
-로컬 브라우저 테스트는 설치된 Chrome을 사용합니다. CI는 Playwright Chromium을 사용합니다.
+테스트는 반응형 레이아웃, 모바일 메뉴, 상담 폼, 글 필터·검색·본문, 문의 메일 주소, `더문테크`/`themoontech` 미포함을 확인하고 `tmp/` 에 스크린샷을 남깁니다.
 
-## 콘텐츠 수정
+## 배포
 
-- `src/lib/site.js`: 이름, 이메일, 외부 채널, 서비스, 경력, 자문 분야
-- `src/lib/articles.js`: 기존 홈페이지 글. HTML은 신뢰하는 작성자만 수정합니다.
-- `src/pages/Home.jsx`: 메인 문구와 섹션 구성
-- `src/index.css`: 색상, 글꼴, 모바일 레이아웃
-- `public/sood-character.jpg`: 수트와후드 브랜드 캐릭터
-
-기존 홈페이지 및 사용자 로컬 기획 메모에서 확인한 경력을 반영했습니다.
-고객사 이름, 비공개 문서, 검증되지 않은 실적 수치는 공개하지 않습니다.
-문의 주소는 기존 사이트의 `contact@themoontech.com`을 유지했습니다.
-상담 폼은 메일 앱을 열며, 사이트 자체에서 메일을 전송하거나 개인정보를 저장하지 않습니다.
-방문자는 메일 앱에서 직접 발송해야 합니다. 수신 메일함 운영은 별도로 확인해야 합니다.
-기존의 저장되지 않는 데모 댓글은 공개 화면에서 제거했습니다.
-
-## 배포 및 복구
-
-Firebase 프로젝트: `sood-page`
-운영 URL: https://sood-page.web.app
-`main`에 push하면 `.github/workflows/firebase-hosting-merge.yml`에서 빌드 후 배포합니다.
-GitHub Secret `FIREBASE_SERVICE_ACCOUNT_SOOD_PAGE`가 필요합니다(기존 설정).
-실패 시 GitHub Actions 로그를 확인하고 직전 정상 커밋으로 수정 커밋을 만들어 push합니다.
-긴급 복구는 Firebase Hosting 콘솔의 이전 릴리스 롤백을 사용할 수 있습니다.
-
-## 관리 기준
-
-배포 전 모바일 메뉴·상담 이동·글 검색·본문·404를 검증합니다.
-배포 후 홈, 소개, 상담 페이지와 이미지가 정상인지 확인합니다.
-정기적으로 연락처, 경력, 채널 링크 및 문의 수신 여부를 점검합니다.
-자동 상시 모니터링은 설정되어 있지 않습니다. 현재 CI는 저장소 변경 때 빌드와 배포를 실행합니다. 강화한 검사 워크플로는 `maintenance/*.proposed.yml`에 보관했습니다. GitHub 인증에 workflow 권한을 부여한 뒤 `.github/workflows/`에 적용하면 배포 전 자동 브라우저 검사도 실행됩니다.
-원본 브랜드 덱과 로컬 문서는 저장소에 올리지 않습니다.
+Firebase 프로젝트 `sood-page`. `main` 에 push 하면 `.github/workflows/firebase-hosting-merge.yml` 이 `npm ci && npm run build` 후 배포합니다.
+GitHub Secret `FIREBASE_SERVICE_ACCOUNT_SOOD_PAGE` 가 필요합니다. `dist/` 는 저장소에 올리지 않습니다.
+실패 시 GitHub Actions 로그를 확인하고 수정 커밋을 push 하거나, Firebase Hosting 콘솔에서 이전 릴리스로 롤백합니다.
