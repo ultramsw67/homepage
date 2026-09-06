@@ -41,7 +41,7 @@ npx playwright test
 
 Firebase 프로젝트: `sood-page`
 운영 URL: https://sood-page.web.app
-`main`에 push하면 `.github/workflows/firebase-hosting-merge.yml`에서 검사, 빌드 후 배포합니다.
+`main`에 push하면 `.github/workflows/firebase-hosting-merge.yml`에서 빌드 후 배포합니다.
 GitHub Secret `FIREBASE_SERVICE_ACCOUNT_SOOD_PAGE`가 필요합니다(기존 설정).
 실패 시 GitHub Actions 로그를 확인하고 직전 정상 커밋으로 수정 커밋을 만들어 push합니다.
 긴급 복구는 Firebase Hosting 콘솔의 이전 릴리스 롤백을 사용할 수 있습니다.
@@ -51,5 +51,5 @@ GitHub Secret `FIREBASE_SERVICE_ACCOUNT_SOOD_PAGE`가 필요합니다(기존 설
 배포 전 모바일 메뉴·상담 이동·글 검색·본문·404를 검증합니다.
 배포 후 홈, 소개, 상담 페이지와 이미지가 정상인지 확인합니다.
 정기적으로 연락처, 경력, 채널 링크 및 문의 수신 여부를 점검합니다.
-자동 상시 모니터링은 설정되어 있지 않습니다. CI는 저장소 변경 때 실행됩니다.
+자동 상시 모니터링은 설정되어 있지 않습니다. 현재 CI는 저장소 변경 때 빌드와 배포를 실행합니다. 강화한 검사 워크플로는 `maintenance/*.proposed.yml`에 보관했습니다. GitHub 인증에 workflow 권한을 부여한 뒤 `.github/workflows/`에 적용하면 배포 전 자동 브라우저 검사도 실행됩니다.
 원본 브랜드 덱과 로컬 문서는 저장소에 올리지 않습니다.

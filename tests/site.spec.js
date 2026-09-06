@@ -36,4 +36,3 @@ test('review screenshots',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/');await page.screenshot({path:'tmp/home-mobile.png',fullPage:true});
  await page.goto('/consulting');await page.screenshot({path:'tmp/consulting-mobile.png',fullPage:true});
 });
-
