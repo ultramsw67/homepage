@@ -1,0 +1,3 @@
+﻿User-agent: *
+Allow: /
+Sitemap: https://sood-page.web.app/sitemap.xml

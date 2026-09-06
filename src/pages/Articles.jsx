@@ -1,58 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { articlesData as allArticles } from '@/lib/articles';
-
-export default function ArticlesPage() {
-    return (
-        <main className="pt-24 pb-20 bg-white min-h-screen">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl font-serif font-bold text-sood-charcoal mb-4">
-                        Articles
-                    </h1>
-                    <p className="text-gray-500 max-w-xl mx-auto">
-                        스타트업 성장, 전략, 그리고 인사이트에 관한 깊이 있는 이야기들
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                    {allArticles.map((article) => (
-                        <Link key={article.id} to={`/articles/${article.id}`} className="group block h-full">
-                            <article className="flex flex-col h-full bg-sood-cream rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                                <div className="aspect-[3/2] bg-gray-100 relative overflow-hidden">
-                                    <img
-                                        src="/rss/image/nanobanana_placeholder.svg"
-                                        alt={article.title}
-                                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                                    />
-                                </div>
-
-                                <div className="p-6 flex-1 flex flex-col">
-                                    <div className="mb-3 flex items-center gap-3">
-                                        <span className="text-xs font-bold text-sood-burgundy uppercase tracking-wider">
-                                            {article.category}
-                                        </span>
-                                        <span className="text-xs text-gray-400 font-sans">
-                                            {article.date}
-                                        </span>
-                                    </div>
-
-                                    <h3 className="text-xl font-serif font-bold text-sood-charcoal mb-3 group-hover:text-sood-burgundy transition-colors leading-tight">
-                                        {article.title}
-                                    </h3>
-
-                                    <p className="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-4">
-                                        {article.excerpt}
-                                    </p>
-
-                                    <div className="mt-auto pt-4 text-sood-burgundy font-bold text-sm flex items-center gap-2">
-                                        Read More <span className="text-lg">→</span>
-                                    </div>
-                                </div>
-                            </article>
-                        </Link>
-                    ))}
-                </div>
-            </div>
-        </main>
-    );
+import { articlesData } from '../lib/articles';
+import { profile } from '../lib/site';
+export default function Articles() {
+  const [filter, setFilter] = useState('전체');
+  const [query, setQuery] = useState('');
+  const categories = ['전체', ...new Set(articlesData.map(a => a.category))];
+  const articles = articlesData.filter(a => (filter === '전체' || a.category === filter) && (a.title + ' ' + a.excerpt).toLowerCase().includes(query.toLowerCase()));
+  return <div className="shell page-section"><p className="eyebrow">THE SOOD JOURNAL</p><h1 className="page-title">생각은 나눌수록,<br /><em>더 멀리 갑니다.</em></h1><p className="lead">스타트업, 일하는 방식, 그리고 AI.<br />변화를 읽고 사업의 다음 질문을 찾는 기록입니다.</p><div className="channel-banner"><p>수트와후드의 새로운 글은 이곳에서 만나보세요.</p><div><a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그 ↗</a><a href={profile.brunch} target="_blank" rel="noreferrer">브런치스토리 ↗</a></div></div><div className="journal-toolbar"><div className="filters" aria-label="글 카테고리">{categories.map(c => <button key={c} aria-pressed={filter === c} onClick={() => setFilter(c)}>{c}</button>)}</div><label className="search-label"><span className="sr-only">글 검색</span><input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="궁금한 주제 검색" /></label></div><div className="article-list">{articles.map((a, i) => <Link to={'/articles/' + a.id} className="article-row" key={a.id}><span className="article-number">0{i+1}</span><div><p className="eyebrow">{a.category} / {a.date}</p><h2>{a.title}</h2><p>{a.excerpt}</p></div><span className="article-arrow">↗</span></Link>)}{articles.length === 0 && <p className="empty-state" role="status">검색 결과가 없습니다. 다른 단어나 카테고리를 선택해 주세요.</p>}</div></div>;
 }

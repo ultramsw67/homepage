@@ -1,18 +1,4 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
-
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
-
-export default eslintConfig;
+export default [
+  { ignores: ['node_modules/**', 'dist/**', '.firebase/**', 'lib/**', 'rss/**', 'test-results/**', 'playwright-report/**', 'tmp/**'] },
+  { files: ['**/*.{js,jsx,mjs}'], languageOptions: { ecmaVersion: 'latest', sourceType: 'module', parserOptions: { ecmaFeatures: { jsx: true } } }, rules: { 'no-debugger': 'error', 'no-dupe-args': 'error', 'no-dupe-keys': 'error', 'constructor-super': 'error', 'valid-typeof': 'error' } },
+];

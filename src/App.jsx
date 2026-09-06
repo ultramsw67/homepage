@@ -1,43 +1,26 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import HomePage from './pages/Home';
-import AboutPage from './pages/About';
-import ArticlesPage from './pages/Articles';
+import Home from './pages/Home';
+import About from './pages/About';
+import Articles from './pages/Articles';
 import ArticleDetail from './pages/ArticleDetail';
-import ConsultingPage from './pages/Consulting';
-
-// Scroll to top on route change
-function ScrollToTop() {
-    const { pathname } = useLocation();
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [pathname]);
-
-    return null;
+import Consulting from './pages/Consulting';
+function RouteEffects() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    const names = { '/': '수트의 논리. 후드의 실행.', '/about': '문성운 소개', '/articles': '생각과 기록', '/consulting': '스타트업 전략 상담' };
+    document.title = (names[pathname] || '생각과 기록') + ' | SOOD 수트와후드';
+    const frame = requestAnimationFrame(() => {
+      if (hash) document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'instant' });
+      else window.scrollTo({top:0,behavior:'instant'});
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, hash]);
+  return null;
 }
-
-function App() {
-    return (
-        <Router>
-            <ScrollToTop />
-            <div className="flex flex-col min-h-screen bg-sood-cream text-sood-charcoal">
-                <Header />
-                <main className="flex-grow">
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/about" element={<AboutPage />} />
-                        <Route path="/articles" element={<ArticlesPage />} />
-                        <Route path="/articles/:id" element={<ArticleDetail />} />
-                        <Route path="/consulting" element={<ConsultingPage />} />
-                    </Routes>
-                </main>
-                <Footer />
-            </div>
-        </Router>
-    );
+function NotFound(){return <div className="shell page-section not-found"><p className="eyebrow">404 / PAGE NOT FOUND</p><h1>페이지를 찾을 수 없습니다.</h1><p>주소를 확인하거나 첫 화면에서 다시 시작해 주세요.</p><Link className="button primary" to="/">홈으로 돌아가기 ↗</Link></div>}
+export default function App() {
+  return <BrowserRouter><RouteEffects /><Header /><main id="main" tabIndex="-1"><Routes><Route path="/" element={<Home />} /><Route path="/about" element={<About />} /><Route path="/articles" element={<Articles />} /><Route path="/articles/:id" element={<ArticleDetail />} /><Route path="/consulting" element={<Consulting />} /><Route path="*" element={<NotFound />} /></Routes></main><Footer /></BrowserRouter>;
 }
-
-export default App;

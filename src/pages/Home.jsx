@@ -1,15 +1,15 @@
-import HeroSection from '@/components/HeroSection';
-import CoreSolutions from '@/components/CoreSolutions';
-import ExperienceSection from '@/components/ExperienceSection';
-import FeaturedInsights from '@/components/FeaturedInsights';
-
+import { Link } from 'react-router-dom';
+import { services, projects, profile } from '../lib/site';
 export default function Home() {
-    return (
-        <>
-            <HeroSection />
-            <CoreSolutions />
-            <ExperienceSection />
-            <FeaturedInsights />
-        </>
-    );
+  return <>
+    <section className="hero shell">
+      <div className="hero-copy"><p className="eyebrow"><span className="status-dot" /> INDEPENDENT BUSINESS STRATEGIST</p><h1>수트의 논리.<br />후드의 <em>실행.</em></h1><p className="hero-description">전략을 세우는 사람, 직접 사업을 해본 사람.<br />두 세계의 경험으로 당신의 다음 성장을 함께 만듭니다.</p><div className="hero-actions"><Link className="button primary" to="/consulting#contact">함께 풀어볼 문제 이야기하기 <span>↗</span></Link><Link className="text-link" to="/about">문성운을 소개합니다 <span>↗</span></Link></div><div className="hero-footnote"><span>STRATEGY × ENTREPRENEURSHIP × AI</span><span>SCROLL TO EXPLORE ↓</span></div></div>
+      <div className="hero-visual"><div className="visual-topline"><span>THE TWO SIDES OF SOOD</span><span>01 / 02</span></div><div className="visual-word suit">SUIT.</div><img src="/sood-character.jpg" alt="안경을 쓰고 미소 짓는 수트와후드의 캐릭터" width="1020" height="1024" fetchPriority="high" /><div className="visual-word hood">HOOD.</div><div className="portrait-label"><strong>문성운 <span>MOON SUNG WOON</span></strong><p>창업가 · 전략가 · 수트와후드</p></div><span className="visual-sticker">생각은 깊게.<br />실행은 가볍게. ↗</span></div>
+    </section>
+    <div className="credentials"><div className="shell"><span>BUILT ON EXPERIENCE</span><p>현대그룹 <small>기획</small></p><i>↗</i><p>인터랙티비 <small>창업 · 투자 유치 · 매각</small></p><i>↗</i><p>스타트업 <small>전략 자문</small></p></div></div>
+    <section className="section shell"><div className="section-heading"><div><p className="eyebrow">01 / WHAT I DO</p><h2>다음 단계가 막막할 때,<br />함께 답을 찾습니다.</h2></div><p>사업의 시작부터 성장의 갈림길까지.<br />지금 가장 중요한 문제에 집중합니다.</p></div><div className="services-grid">{services.map(s => <Link key={s.id} className="service-card" to={'/consulting#' + s.id}><div className="card-top"><span>{s.number}</span><span>↗</span></div><p className="eyebrow">{s.en}</p><h3>{s.title}</h3><p>{s.description}</p><div className="tags">{s.outputs.map(o => <span key={o}>{o}</span>)}</div></Link>)}</div></section>
+    <section className="manifesto"><div className="shell manifesto-inner"><p className="eyebrow">THE SOOD APPROACH</p><div><h2>계획서 밖에도,<br /><span>사업은 계속되니까.</span></h2><p>대기업 기획실에서 사업의 구조를 배웠고,<br />직접 세운 회사에서 실행의 무게를 배웠습니다.<br />보기 좋은 전략을 넘어, 함께 움직일 수 있는 다음 한 수를 찾습니다.</p><Link className="text-link" to="/about">경험과 일하는 방식 살펴보기 ↗</Link></div><span className="asterisk" aria-hidden="true">✳</span></div></section>
+    <section className="section shell"><div className="section-heading"><div><p className="eyebrow">02 / SELECTED EXPERIENCE</p><h2>서로 다른 시장.<br />같은 본질의 질문.</h2></div><Link className="text-link" to="/about#experience">경력 자세히 보기 ↗</Link></div><div className="project-grid">{projects.map(([tag, title, desc, style], i) => <Link to="/consulting" className="project-card" key={tag}><div className={'project-art ' + style} aria-hidden="true"><span className="project-index">FIELD NOTES / 0{i+1}</span><div className="geometric"><i /><i /><i /></div><span className="project-art-label">{tag}</span><span className="project-arrow">↗</span></div><h3>{title}</h3><p>{desc}</p></Link>)}</div><p className="section-note">참여한 자문 분야입니다. 개별 프로젝트의 상세 범위는 상담에서 안내합니다.</p></section>
+    <section className="journal-section"><div className="shell section"><div className="section-heading"><div><p className="eyebrow">03 / IDEAS IN PROGRESS</p><h2>배우고, 나누고, 성장합니다.</h2></div><Link className="text-link" to="/articles">생각과 기록 전체 보기 ↗</Link></div><div className="journal-links"><a href={profile.blog} target="_blank" rel="noreferrer"><span className="journal-number">01</span><div><p className="eyebrow">NAVER BLOG</p><h3>스타트업과 AI, 현장에서 발견한 이야기.</h3><p>비즈니스의 변화와 새로운 기회를 수트와후드의 시선으로 읽습니다.</p></div><span>↗</span></a><a href={profile.brunch} target="_blank" rel="noreferrer"><span className="journal-number">02</span><div><p className="eyebrow">BRUNCH STORY</p><h3>일하는 사람으로 오래 성장하는 법.</h3><p>커리어와 창업, 그리고 일에 대한 생각을 기록합니다.</p></div><span>↗</span></a></div></div></section>
+  </>;
 }
