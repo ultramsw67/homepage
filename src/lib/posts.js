@@ -21,7 +21,7 @@ export function formatDate(iso) {
 let indexPromise;
 export function loadIndex() {
   if (!indexPromise) {
-    indexPromise = fetch('/posts/index.json').then((r) => {
+    indexPromise = fetch('/posts/index.json', { cache: 'no-cache' }).then((r) => {
       if (!r.ok) throw new Error('index ' + r.status);
       return r.json();
     }).catch((e) => { indexPromise = undefined; throw e; });
@@ -33,7 +33,7 @@ const postCache = new Map();
 export function loadPost(id) {
   if (!/^\d+$/.test(id)) return Promise.resolve(null);
   if (!postCache.has(id)) {
-    postCache.set(id, fetch(`/posts/${id}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => { postCache.delete(id); return null; }));
+    postCache.set(id, fetch(`/posts/${id}.json`, { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).catch(() => { postCache.delete(id); return null; }));
   }
   return postCache.get(id);
 }

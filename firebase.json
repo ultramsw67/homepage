@@ -6,6 +6,16 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "headers": [
+      {
+        "source": "/posts/**",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache, must-revalidate" }]
+      },
+      {
+        "source": "/sitemap.xml",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache, must-revalidate" }]
+      }
+    ],
     "rewrites": [
       {
         "source": "**",
