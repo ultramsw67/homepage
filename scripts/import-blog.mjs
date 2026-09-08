@@ -137,8 +137,16 @@ for (const file of walk(SRC)) {
 posts.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 writeFileSync(join(OUT, 'index.json'), JSON.stringify(posts));
 
-const urls = ['/', '/about', '/consulting', '/articles', ...posts.map((p) => `/articles/${p.id}`)];
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${SITE}${u}</loc></url>`).join('\n')}\n</urlset>\n`;
+const today = new Date().toISOString().slice(0, 10);
+const newest = posts[0]?.date || today;
+const urls = [
+  { u: '/', m: newest, f: 'daily', p: '1.0' },
+  { u: '/articles', m: newest, f: 'daily', p: '0.9' },
+  { u: '/about', m: today, f: 'monthly', p: '0.6' },
+  { u: '/consulting', m: today, f: 'monthly', p: '0.6' },
+  ...posts.map((p) => ({ u: `/articles/${p.id}`, m: p.date || today, f: 'monthly', p: '0.7' })),
+];
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((x) => `  <url><loc>${SITE}${x.u}</loc><lastmod>${x.m}</lastmod><changefreq>${x.f}</changefreq><priority>${x.p}</priority></url>`).join('\n')}\n</urlset>\n`;
 writeFileSync(resolve('public/sitemap.xml'), sitemap);
 
 const byCat = posts.reduce((a, p) => ((a[p.category] = (a[p.category] || 0) + 1), a), {});
