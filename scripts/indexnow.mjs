@@ -21,6 +21,14 @@ const check = await fetch(`${SITE}/${keyFile}`);
 if (!check.ok || (await check.text()).trim() !== key) { console.error(`키 파일이 아직 배포되지 않았습니다: ${SITE}/${keyFile} (${check.status})`); process.exit(2); }
 
 const body = { host: HOST, key, keyLocation: `${SITE}/${keyFile}`, urlList: urls.slice(0, 10000) };
-const res = await fetch('https://api.indexnow.org/indexnow', { method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }, body: JSON.stringify(body) });
-console.log(`IndexNow 제출: ${urls.length} URLs → HTTP ${res.status} ${res.statusText}`);
-if (![200, 202].includes(res.status)) { console.error(await res.text()); process.exit(3); }
+// 참여 엔진 한 곳에 제출하면 나머지에도 공유되지만, 이 노트북에서 api.indexnow.org 연결이 끊기는 경우가 있어 네이버·빙 엔드포인트에도 직접 제출한다.
+const endpoints = ['https://searchadvisor.naver.com/indexnow', 'https://www.bing.com/indexnow', 'https://api.indexnow.org/indexnow'];
+let ok = 0;
+for (const ep of endpoints) {
+  try {
+    const res = await fetch(ep, { method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }, body: JSON.stringify(body) });
+    console.log(`${ep} → HTTP ${res.status} ${res.statusText} (${urls.length} URLs)`);
+    if ([200, 202].includes(res.status)) ok++; else console.error((await res.text()).slice(0, 300));
+  } catch (e) { console.log(`${ep} → 연결 실패 (${e.cause?.code || e.message})`); }
+}
+if (!ok) process.exit(3);
