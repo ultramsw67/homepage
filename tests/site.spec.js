@@ -25,7 +25,13 @@ test('contact uses ultramsw67@gmail.com and no themoontech', async ({ page }) =>
   const html = await page.content();
   expect(html).not.toContain('themoontech');
   expect(html).not.toContain('더문테크');
+  // 2026-09-09: 더문테크는 소개 페이지 경력 타임라인(과거 전략 고문)에만 나타나야 한다. 옛 연락처(themoontech)는 어디에도 없어야 한다.
   await page.goto('/about');
+  const about = await page.content();
+  expect(about).not.toContain('themoontech');
+  expect(await page.locator('.timeline').textContent()).toContain('더문테크');
+  expect(await page.locator('.timeline').textContent()).toContain('전략 고문');
+  await page.goto('/');
   expect(await page.content()).not.toContain('더문테크');
 });
 
