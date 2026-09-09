@@ -116,6 +116,8 @@ em { font-style: normal; color: var(--accent); }
 .timeline { list-style: none; padding: 0; border-top: 1px solid var(--line); }
 .timeline li { display: grid; grid-template-columns: 160px 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--line); }
 .timeline li > span { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.timeline-points { margin: 10px 0 0; padding-left: 18px; color: var(--muted); font-size: 14.5px; line-height: 1.7; }
+.timeline-points li { margin: 2px 0; }
 .timeline strong { display: block; font-size: 19px; }
 .timeline em { display: block; color: var(--muted); font-size: 14px; margin: 4px 0 8px; }
 .timeline p { color: var(--muted); font-size: 15px; }

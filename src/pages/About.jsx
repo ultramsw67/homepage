@@ -55,6 +55,7 @@ export default function About() {
                 <strong>{e.org}</strong>
                 <em>{e.role}</em>
                 <p>{e.desc}</p>
+                {e.points?.length ? <ul className="timeline-points">{e.points.map((pt) => <li key={pt}>{pt}</li>)}</ul> : null}
               </div>
             </li>
           ))}
