@@ -32,7 +32,10 @@ test('contact uses ultramsw67@gmail.com and no themoontech', async ({ page }) =>
   expect(await page.locator('.timeline').textContent()).toContain('더문테크');
   expect(await page.locator('.timeline').textContent()).toContain('전략 고문');
   await page.goto('/');
-  expect(await page.content()).not.toContain('더문테크');
+  const home = await page.content();
+  expect(home).not.toContain('themoontech');
+  // 홈의 '지나온 길' 타임라인에도 같은 경력이 표시된다
+  expect(await page.locator('.timeline').textContent()).toContain('전략 고문');
 });
 
 test('mobile menu and consultation anchor', async ({ page }) => {
