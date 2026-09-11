@@ -65,7 +65,7 @@ em { font-style: normal; color: var(--accent); }
 .hero-links { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 22px; font-size: 15px; font-weight: 600; }
 .hero-links a { color: var(--accent-dark); text-decoration: underline; text-decoration-color: rgba(214, 74, 42, .35); text-decoration-thickness: 2px; text-underline-offset: 5px; transition: color .15s, text-decoration-color .15s; }
 .hero-links a:hover, .hero-links a:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
-.hero-links span { font-size: 13px; margin-left: 1px; }
+.hero-links span { display: inline-block; font-size: 13px; margin-left: 4px; text-decoration: none; }
 .hero-figure { position: relative; margin: 0; }
 .hero-figure img { border-radius: var(--radius); box-shadow: 0 20px 60px rgba(27, 27, 26, .12); }
 .hero-figure figcaption { position: absolute; left: 16px; bottom: 16px; background: rgba(251, 250, 247, .92); padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; }

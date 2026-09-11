@@ -24,8 +24,8 @@ export default function Home() {
             <Link className="button ghost" to="/articles">칼럼 읽기</Link>
           </div>
           <div className="hero-links" aria-label="블로그, 브런치, 이메일">
-            <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그 <span aria-hidden="true">↗</span></a>
-            <a href={profile.brunch} target="_blank" rel="noreferrer">브런치 <span aria-hidden="true">↗</span></a>
+            <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그<span aria-hidden="true">↗</span></a>
+            <a href={profile.brunch} target="_blank" rel="noreferrer">브런치<span aria-hidden="true">↗</span></a>
             <a href={'mailto:' + profile.email}>{profile.email}</a>
           </div>
         </div>
