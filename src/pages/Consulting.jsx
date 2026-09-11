@@ -83,6 +83,11 @@ export default function Consulting() {
             <div key={p.step}><span>{p.step}</span><h3>{p.title}</h3><p>{p.desc}</p></div>
           ))}
         </div>
+        <div className="entry-offer">
+          <p className="eyebrow">처음이라면</p>
+          <h3>첫 상담 60분, '다음 한 수 1장'</h3>
+          <p>현재 지표와 고민을 듣고, 지금 가장 먼저 풀어야 할 문제 하나와 다음 4주 동안 할 일을 한 장으로 정리해 드립니다. 이후 집중 자문으로 이어갈지는 그때 정합니다.</p>
+        </div>
         <p className="muted small">일정과 비용은 상담 범위에 따라 협의합니다.</p>
       </section>
 
