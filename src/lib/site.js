@@ -65,7 +65,7 @@ export const cases = [
 
 export const stats = [
   { value: '기획실의 숫자', label: '현대그룹 기획실에서 M&A와 가치평가를 배웠습니다' },
-  { value: '창업에서 매각까지 19년', label: '직접 세운 회사를 투자 유치로 키워 매각까지 이끌었습니다' },
+  { value: '19년의 창업과 매각', label: '직접 세운 회사를 투자 유치로 키워 매각까지 이끌었습니다' },
   { value: '스무 팀의 다음 한 수', label: '초기 스타트업과 1:1로 함께 풀었습니다' },
   { value: '매일 아침 한 편', label: '{n}편째 이어 쓰는 스타트업 경영 칼럼', fallback: '200편 넘게 이어 쓴 스타트업 경영 칼럼', dynamic: 'posts' },
 ];
