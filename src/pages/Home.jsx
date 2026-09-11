@@ -23,6 +23,11 @@ export default function Home() {
             <Link className="button primary" to="/consulting#contact">상담 문의하기</Link>
             <Link className="button ghost" to="/articles">칼럼 읽기</Link>
           </div>
+          <div className="hero-links" aria-label="블로그, 브런치, 이메일">
+            <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그 <span aria-hidden="true">↗</span></a>
+            <a href={profile.brunch} target="_blank" rel="noreferrer">브런치 <span aria-hidden="true">↗</span></a>
+            <a href={'mailto:' + profile.email}>{profile.email}</a>
+          </div>
         </div>
         <figure className="hero-figure">
           <img src="/sood-character.jpg" alt="수트와후드 캐릭터. 안경을 쓰고 미소 짓는 문성운의 일러스트" width="1020" height="1024" fetchPriority="high" />
