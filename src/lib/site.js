@@ -64,10 +64,10 @@ export const cases = [
 ];
 
 export const stats = [
-  { value: '30년+', label: '기획실부터 창업, 코칭까지' },
-  { value: '1회', label: '19년 경영 후 사업 매각(Exit)' },
-  { value: '20건', label: '스타트업 1:1 자문 실적' },
-  { value: '200+', label: '스타트업 경영 칼럼', dynamic: 'posts' },
+  { value: '기획실의 숫자', label: '현대그룹 기획실에서 M&A와 가치평가를 배웠습니다' },
+  { value: '19년을 버틴 창업', label: '투자 유치부터 매각(Exit)까지 직접 완주했습니다' },
+  { value: '스무 팀의 다음 한 수', label: '초기 스타트업과 1:1로 함께 풀었습니다' },
+  { value: '매일 아침 한 편', label: '{n}편째 이어 쓰는 스타트업 경영 칼럼', fallback: '200편 넘게 이어 쓴 스타트업 경영 칼럼', dynamic: 'posts' },
 ];
 
 export const process = [

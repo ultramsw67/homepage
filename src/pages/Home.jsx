@@ -33,9 +33,9 @@ export default function Home() {
       <section className="stats">
         <div className="wrap stats-inner">
           {stats.map((s) => (
-            <div key={s.label}>
-              <strong>{s.dynamic === 'posts' && posts.length ? posts.length + '편' : s.value}</strong>
-              <span>{s.label}</span>
+            <div key={s.value}>
+              <strong>{s.value}</strong>
+              <span>{s.dynamic === 'posts' && posts.length ? s.label.replace('{n}', posts.length) : (s.fallback || s.label)}</span>
             </div>
           ))}
         </div>
