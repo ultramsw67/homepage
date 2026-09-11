@@ -106,7 +106,7 @@ export default function Consulting() {
           <label htmlFor="service">함께 이야기할 분야</label>
           <select id="service" name="service">
             {services.map((s) => <option key={s.id}>{s.title}</option>)}
-            <option>강의 · 콘텐츠 협업 · 기타</option>
+            <option>콘텐츠 협업 · 기타</option>
           </select>
           <label htmlFor="message">현재 상황과 고민</label>
           <textarea id="message" name="message" required rows="5" maxLength="3000" placeholder="어떤 사업을 하고 계신가요? 가장 고민되는 점을 알려주세요." />

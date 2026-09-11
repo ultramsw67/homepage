@@ -42,7 +42,7 @@ export default function About() {
           </p>
           <p>
             매일 아침 네이버 블로그 「Design &amp; Breakthrough」에 스타트업 경영 칼럼을 쓰고(200편+), 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」을 펴냈으며,
-            모비인사이드에 「수트와 후드의 스타트업 경영」을 연재합니다. 기관과 대학에서는 「숫자로 증명하는 창업」을 강의합니다.
+            모비인사이드에 「수트와 후드의 스타트업 경영」을 연재합니다.
           </p>
         </div>
       </section>
@@ -79,11 +79,11 @@ export default function About() {
 
       <section className="section">
         <p className="eyebrow">지금 하는 일</p>
-        <h2>쓰고, 코칭하고, 강의합니다.</h2>
+        <h2>쓰고, 코칭합니다.</h2>
         <div className="now-grid">
           <div><strong>칼럼</strong><p>네이버 블로그 「Design & Breakthrough」에 스타트업 전략·투자·정부지원·AI 활용 글을 매일 씁니다. 브런치에서는 「방구석 데이터 경영」을 연재합니다.</p><Link className="text-link" to="/articles">글 보기 →</Link></div>
           <div><strong>1:1 자문</strong><p>초기 스타트업 대표와 1인 기업가를 위한 사업모델·지표·자금 코칭. 정리된 계획서가 없어도 시작할 수 있습니다.</p><Link className="text-link" to="/consulting">상담 안내 →</Link></div>
-          <div><strong>강의 · 협업</strong><p>창업 교육, 정부지원사업 준비, AI 활용 강의와 콘텐츠 협업을 진행합니다.</p><a className="text-link" href={'mailto:' + profile.email}>메일로 제안하기 →</a></div>
+          <div><strong>콘텐츠 협업</strong><p>스타트업 경영 칼럼 기고와 콘텐츠 협업 제안을 받습니다.</p><a className="text-link" href={'mailto:' + profile.email}>메일로 제안하기 →</a></div>
         </div>
       </section>
 

@@ -62,7 +62,7 @@ render({
   description: `${AUTHOR}(수드). 현대그룹 기획실 출신의 가치평가 프레임과 IT 스타트업 창업·매각 경험을 융합해 지표 중심의 데이터 경영을 코칭합니다.`,
   type: 'profile',
   head: `    ${jsonld({ '@context': 'https://schema.org', ...person })}\n`,
-  body: `<main class="wrap page"><h1>소개</h1><p>${AUTHOR}(수드)는 현대그룹 기획실 출신의 가치평가(Valuation) 프레임과 IT 스타트업 창업·매각(Exit) 경험을 융합해 지표 중심의 데이터 경영을 리드하는 스타트업 경영 코치입니다.</p><p>2023년부터 25만 유저 서비스의 전략 고문으로 리텐션 관리와 AI 에이전트 도입 모델을 맡았고, 지금까지 20개 팀의 사업모델·지표·투자·정부지원을 1:1로 자문했습니다. 비즈니스 모델 설계, 지표 튜닝, 신사업 타당성 시뮬레이션, 투자유치·정부지원사업, AI 에이전트 활용, 기관 강연·교육을 제공합니다.</p><h2>경력</h2><ol class="timeline">${experience.map((e) => `<li><span>${esc(e.period)}</span><div><strong>${esc(e.org)}</strong> <em>${esc(e.role)}</em><p>${esc(e.desc || '')}</p>${e.points?.length ? `<ul>${e.points.map((pt) => `<li>${esc(pt)}</li>`).join('')}</ul>` : ''}</div></li>`).join('')}</ol></main>`,
+  body: `<main class="wrap page"><h1>소개</h1><p>${AUTHOR}(수드)는 현대그룹 기획실 출신의 가치평가(Valuation) 프레임과 IT 스타트업 창업·매각(Exit) 경험을 융합해 지표 중심의 데이터 경영을 리드하는 스타트업 경영 코치입니다.</p><p>2023년부터 25만 유저 서비스의 전략 고문으로 리텐션 관리와 AI 에이전트 도입 모델을 맡았고, 지금까지 20개 팀의 사업모델·지표·투자·정부지원을 1:1로 자문했습니다. 비즈니스 모델 설계, 지표 튜닝, 신사업 타당성 시뮬레이션, 투자유치·정부지원사업, AI 에이전트 활용을 1:1로 코칭합니다.</p><h2>경력</h2><ol class="timeline">${experience.map((e) => `<li><span>${esc(e.period)}</span><div><strong>${esc(e.org)}</strong> <em>${esc(e.role)}</em><p>${esc(e.desc || '')}</p>${e.points?.length ? `<ul>${e.points.map((pt) => `<li>${esc(pt)}</li>`).join('')}</ul>` : ''}</div></li>`).join('')}</ol></main>`,
 });
 
 // 3) 상담
