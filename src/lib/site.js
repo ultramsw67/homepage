@@ -14,7 +14,7 @@ export const profile = {
   // 방문 분석 ID. 비어 있으면 해당 스크립트를 불러오지 않는다 (src/lib/analytics.js).
   // gaId: 구글 애널리틱스 GA4 측정 ID 'G-XXXXXXXXXX' (analytics.google.com, 반드시 ultramsw67@gmail.com 계정으로 발급)
   // naverId: 네이버 애널리틱스 사이트 ID (선택, analytics.naver.com)
-  analytics: { gaId: '', naverId: '' },
+  analytics: { gaId: 'G-MGEY7WJB1Q', naverId: '' },
 };
 
 export const services = [
