@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { services, profile, process } from '../lib/site';
+import { trackLead } from '../lib/analytics';
 
 const ENDPOINT = 'https://api.web3forms.com/submit';
 
@@ -44,6 +45,7 @@ export default function Consulting() {
       const json = await res.json().catch(() => ({}));
       if (res.ok && json.success !== false) {
         form.reset();
+        trackLead();
         setState({ phase: 'sent', text: '접수됐습니다. 보통 2~3일 안에 회신 이메일로 답장드립니다.' });
       } else {
         throw new Error(json.message || res.statusText);

@@ -11,6 +11,10 @@ export const profile = {
   // Web3Forms 액세스 키 (https://web3forms.com/#start 에서 ultramsw67@gmail.com 으로 발급).
   // 비어 있으면 상담 폼은 메일 앱을 여는 방식으로 동작한다.
   formKey: '05e6dd01-e063-4d56-9099-87fc2f9f7edf',
+  // 방문 분석 ID. 비어 있으면 해당 스크립트를 불러오지 않는다 (src/lib/analytics.js).
+  // gaId: 구글 애널리틱스 GA4 측정 ID 'G-XXXXXXXXXX' (analytics.google.com, 반드시 ultramsw67@gmail.com 계정으로 발급)
+  // naverId: 네이버 애널리틱스 사이트 ID (선택, analytics.naver.com)
+  analytics: { gaId: '', naverId: '' },
 };
 
 export const services = [
