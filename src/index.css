@@ -89,6 +89,13 @@ em { font-style: normal; color: var(--accent); }
 .entry-offer h3 { font-size: 22px; margin: 0 0 10px; }
 .entry-offer p { color: var(--muted); font-size: 15px; margin: 0; }
 .entry-offer .eyebrow { margin-bottom: 8px; }
+.faq-list { max-width: 820px; border-top: 1px solid var(--line); }
+.faq-list details { border-bottom: 1px solid var(--line); }
+.faq-list summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; font-size: 18px; font-weight: 700; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: '+'; color: var(--accent); font-weight: 400; font-size: 22px; line-height: 1; }
+.faq-list details[open] summary::after { content: '−'; }
+.faq-list details p { margin: 0 0 22px; color: var(--muted); font-size: 16px; line-height: 1.75; }
 .service-card { display: block; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; transition: border-color .15s, transform .15s; }
 .service-card:hover { border-color: var(--ink); transform: translateY(-2px); }
 .service-card .num { font-size: 13px; font-weight: 700; color: var(--accent); }

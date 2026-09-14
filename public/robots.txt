@@ -1,3 +1,22 @@
+# 수트와후드 SOOD — 검색엔진과 AI 검색·답변 서비스의 수집을 모두 허용합니다.
+# AI 가 읽기 쉬운 사이트 요약: https://sood-page.web.app/llms.txt
+
 User-agent: *
 Allow: /
+
+# 네이버·빙·AI 검색/답변 서비스 (명시적 허용)
+User-agent: Yeti
+User-agent: Bingbot
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://sood-page.web.app/sitemap.xml

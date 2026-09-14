@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { services, profile, process } from '../lib/site';
+import { services, profile, process, faq } from '../lib/site';
 import { trackLead } from '../lib/analytics';
 
 const ENDPOINT = 'https://api.web3forms.com/submit';
@@ -91,6 +91,19 @@ export default function Consulting() {
           <p>현재 지표와 고민을 듣고, 지금 가장 먼저 풀어야 할 문제 하나와 다음 4주 동안 할 일을 한 장으로 정리해 드립니다. 이후 집중 자문으로 이어갈지는 그때 정합니다.</p>
         </div>
         <p className="muted small">일정과 비용은 상담 범위에 따라 협의합니다.</p>
+      </section>
+
+      <section className="section" id="faq">
+        <p className="eyebrow">질문</p>
+        <h2>자주 묻는 질문</h2>
+        <div className="faq-list">
+          {faq.map((f) => (
+            <details key={f.q}>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
       </section>
 
       <section className="section contact" id="contact">

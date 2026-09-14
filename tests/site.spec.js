@@ -38,6 +38,14 @@ test('contact uses ultramsw67@gmail.com and no themoontech', async ({ page }) =>
   expect(await page.locator('.timeline').textContent()).toContain('전략 고문');
 });
 
+test('consulting FAQ opens and answers', async ({ page }) => {
+  await page.goto('/consulting#faq');
+  const items = page.locator('.faq-list details');
+  await expect(items).toHaveCount(6);
+  await items.first().locator('summary').click();
+  await expect(items.first().locator('p')).toBeVisible();
+});
+
 test('mobile menu and consultation anchor', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');

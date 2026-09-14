@@ -15,12 +15,17 @@
       {
         "source": "/sitemap.xml",
         "headers": [{ "key": "Cache-Control", "value": "no-cache, must-revalidate" }]
-      }
-    ],
-    "rewrites": [
+      },
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/llms.txt",
+        "headers": [
+          { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+          { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
+        ]
+      },
+      {
+        "source": "/404.html",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
       }
     ]
   }
