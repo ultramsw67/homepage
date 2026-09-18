@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const NEW = (process.argv[2] || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
 const DRY = process.argv.includes('--dry');
 const OLD = 'sood-page.web.app';
-const OLD_HOSTS = ['sood-page.web.app', 'sood-page.firebaseapp.com'];
+const OLD_HOSTS = [OLD, 'sood-page.firebaseapp.com', `${NEW.replace(/.com$/, '.co.kr')}`, `www.${NEW.replace(/.com$/, '.co.kr')}`, `www.${NEW}`];
 
 if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(NEW)) {
   console.error('새 도메인을 주세요. 예: node scripts/switch-domain.mjs soodcoach.com');
@@ -37,7 +37,7 @@ edit('src/lib/analytics.js', (s) => s
   .split(`실제 사이트(${OLD})에서만`).join(`실제 사이트(${NEW})에서만`),
   () => '새 주소에서 집계');
 
-// 3) 옛 주소로 들어오면 같은 경로의 새 주소로 넘긴다 (PR 미리보기 주소 sood-page--xxx.web.app 는 제외)
+// 3) 옛 주소·co.kr·www 로 들어오면 같은 경로의 새 주소로 넘긴다 (PR 미리보기 주소 sood-page--xxx.web.app 는 제외)
 const MARK = '<!-- old-host-redirect -->';
 const snippet = `    ${MARK}\n    <script>if(${JSON.stringify(OLD_HOSTS)}.indexOf(location.hostname)>-1)location.replace('https://${NEW}'+location.pathname+location.search+location.hash)</script>\n`;
 edit('index.html', (s) => s.includes(MARK)
