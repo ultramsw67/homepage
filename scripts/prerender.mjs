@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { experience, services, profile, cases, process as steps, faq, stats } from '../src/lib/site.js';
 
-const SITE = 'https://sood-page.web.app';
+const SITE = 'https://soodcoach.com';
 const DIST = resolve('dist');
 const POSTS = resolve('public/posts');
 const BRAND = '수트와후드 SOOD';

@@ -1,11 +1,11 @@
 // IndexNow 로 사이트맵의 URL 을 검색엔진(네이버·빙·얀덱스 등 IndexNow 참여 엔진)에 직접 제출한다.
-// 키 파일: public/<32자리 hex>.txt (내용 = 키). 배포되어 https://sood-page.web.app/<key>.txt 로 접근 가능해야 한다.
+// 키 파일: public/<32자리 hex>.txt (내용 = 키). 배포되어 https://soodcoach.com/<key>.txt 로 접근 가능해야 한다.
 // 실행: node scripts/indexnow.mjs            → 사이트맵 전체 URL 제출
 //       node scripts/indexnow.mjs /articles/224404004807 …  → 지정 URL 만 제출
 import { readdirSync, readFileSync } from 'node:fs';
 
-const SITE = 'https://sood-page.web.app';
-const HOST = 'sood-page.web.app';
+const SITE = 'https://soodcoach.com';
+const HOST = 'soodcoach.com';
 const keyFile = readdirSync('public').find((f) => /^[0-9a-f]{32}\.txt$/.test(f));
 if (!keyFile) { console.error('public/ 에 IndexNow 키 파일(32자리 hex .txt)이 없습니다.'); process.exit(1); }
 const key = readFileSync(`public/${keyFile}`, 'utf8').trim();

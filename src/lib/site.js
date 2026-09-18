@@ -7,7 +7,7 @@ export const profile = {
   blog: 'https://blog.naver.com/ultramsw67',
   brunch: 'https://brunch.co.kr/@a3b90b2e717a467',
   linkedin: 'https://www.linkedin.com/in/%EC%84%B1%EC%9A%B4-%EB%AC%B8-415976234/',
-  site: 'https://sood-page.web.app',
+  site: 'https://soodcoach.com',
   // Web3Forms 액세스 키 (https://web3forms.com/#start 에서 ultramsw67@gmail.com 으로 발급).
   // 비어 있으면 상담 폼은 메일 앱을 여는 방식으로 동작한다.
   formKey: '05e6dd01-e063-4d56-9099-87fc2f9f7edf',

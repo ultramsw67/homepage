@@ -21,3 +21,5 @@ npm-debug.log*
 # codex scratch scripts
 /read-brand.mjs
 /render-brand.mjs
+/.omc/
+/tmpstats-*.png

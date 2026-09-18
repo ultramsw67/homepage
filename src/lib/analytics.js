@@ -1,15 +1,15 @@
 // 방문 분석. 기본은 구글 애널리틱스(GA4), 네이버 애널리틱스는 선택.
 // profile.analytics 의 ID 가 비어 있으면 해당 도구는 불러오지 않는다.
-// 실제 사이트(sood-page.web.app)에서만 집계하고, 로컬·테스트 환경에서는 아무 요청도 보내지 않는다.
+// 실제 사이트(soodcoach.com)에서만 집계하고, 로컬·테스트 환경에서는 아무 요청도 보내지 않는다.
 import { profile } from './site';
 
 const GA = profile.analytics?.gaId;
 const NAVER = profile.analytics?.naverId;
-const HOST = 'sood-page.web.app';
+const HOSTS = ['soodcoach.com', 'www.soodcoach.com'];
 const scripts = {};
 
 function onSite() {
-  return typeof window !== 'undefined' && window.location.hostname === HOST;
+  return typeof window !== 'undefined' && HOSTS.includes(window.location.hostname);
 }
 
 function loadScript(src) {

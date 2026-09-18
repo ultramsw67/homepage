@@ -6,7 +6,7 @@ import { join, resolve } from 'node:path';
 
 const SRC = resolve(process.argv[2] || 'C:/Obsidian/tomwiki/10_블로그/네이버');
 const OUT = resolve('public/posts');
-const SITE = 'https://sood-page.web.app';
+const SITE = 'https://soodcoach.com';
 
 function walk(dir) {
   const out = [];
