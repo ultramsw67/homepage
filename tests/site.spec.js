@@ -18,6 +18,18 @@ for (const width of [390, 768, 1440]) {
   });
 }
 
+test('first paint: no prerender flash, hero visible within 1s', async ({ page }) => {
+  // JS 도착을 늦춰도 검색로봇용 본문(#root > .page)이 화면에 보이면 안 된다
+  await page.route('**/assets/index-*.js', async (route) => { await new Promise((r) => setTimeout(r, 700)); route.continue(); });
+  await page.goto('/', { waitUntil: 'commit' });
+  await page.waitForTimeout(250);
+  expect(await page.locator('#root > .page').count() === 0 || !(await page.locator('#root > .page').first().isVisible())).toBe(true);
+  await page.locator('.hero h1').waitFor({ state: 'attached', timeout: 10000 });
+  await page.waitForTimeout(1000);
+  const opacity = await page.evaluate(() => parseFloat(getComputedStyle(document.querySelector('.hero h1')).opacity));
+  expect(opacity).toBeGreaterThan(0.95);
+});
+
 test('contact uses ultramsw67@gmail.com and no themoontech', async ({ page }) => {
   await page.goto('/consulting');
   const mailto = await page.locator('a.contact-email').getAttribute('href');

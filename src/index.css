@@ -89,8 +89,11 @@ em { font-style: normal; color: var(--brass); }
 
 /* 등장 모션 (첫 화면만) */
 @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
-.rise { animation: rise .9s var(--ease) both; }
-.d1 { animation-delay: .05s; } .d2 { animation-delay: .16s; } .d3 { animation-delay: .27s; } .d4 { animation-delay: .38s; } .d5 { animation-delay: .49s; } .d6 { animation-delay: .24s; }
+.rise { animation: rise .5s var(--ease) both; }
+.d1 { animation-delay: .02s; } .d2 { animation-delay: .08s; } .d3 { animation-delay: .14s; } .d4 { animation-delay: .2s; } .d5 { animation-delay: .26s; } .d6 { animation-delay: .12s; }
+
+/* 검색로봇용 사전 렌더링 본문: JS 가 실행되는 브라우저에서는 React 가 그리기 전까지 숨긴다 (첫 화면 깜빡임 방지) */
+html.js #root > .page { display: none; }
 
 /* 헤더 */
 .site-header { position: sticky; top: 0; z-index: 60; background: rgba(246, 243, 236, .9); backdrop-filter: saturate(150%) blur(12px); border-bottom: 1px solid var(--navy-line); }

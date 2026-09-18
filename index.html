@@ -4,6 +4,8 @@
     <!-- old-host-redirect -->
     <script>if(["sood-page.web.app","sood-page.firebaseapp.com","soodcoach.co.kr","www.soodcoach.co.kr","www.soodcoach.com"].indexOf(location.hostname)>-1)location.replace('https://soodcoach.com'+location.pathname+location.search+location.hash)</script>
     <meta charset="UTF-8" />
+    <!-- JS 가 켜진 브라우저에서는 검색로봇용 사전 렌더링 본문(#root > .page)을 숨겨 첫 화면 깜빡임을 막는다. JS 없는 로봇은 그대로 읽는다. -->
+    <script>document.documentElement.classList.add('js')</script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="스타트업 경영 코치 수트와후드(SOOD) 문성운. 현대그룹 기획실과 19년 창업·엑시트 경험으로 사업모델, 지표·PMF, 투자·정부지원, AI 활용을 코칭합니다. 스타트업 경영 칼럼 200편." />
