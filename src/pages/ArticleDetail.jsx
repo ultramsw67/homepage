@@ -46,7 +46,13 @@ export default function ArticleDetail() {
       </header>
       <div className="article-body" dangerouslySetInnerHTML={{ __html: post.html }} />
       <footer className="article-foot">
-        <p>이 주제로 고민 중이라면 <a href={'mailto:' + profile.email}>{profile.email}</a> 로 상황을 들려주세요. <Link to="/consulting">상담 안내 →</Link></p>
+        <div className="article-cta">
+          <div>
+            <strong>이 주제로 고민 중이라면</strong>
+            <p>첫 상담 60분에 현재 상황을 듣고 다음 한 수를 한 장으로 정리해 드립니다. <a href={'mailto:' + profile.email}>{profile.email}</a></p>
+          </div>
+          <Link className="button primary" to="/consulting#contact">첫 상담 60분 신청</Link>
+        </div>
         <nav className="prev-next" aria-label="이전 · 다음 글">
           {newer ? <Link to={'/articles/' + newer.id}><span>다음 글</span>{newer.title}</Link> : <span />}
           {older ? <Link to={'/articles/' + older.id} className="older"><span>이전 글</span>{older.title}</Link> : <span />}

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import MobileBar from './components/MobileBar';
 import Home from './pages/Home';
 import About from './pages/About';
 import Articles from './pages/Articles';
@@ -9,7 +10,7 @@ import ArticleDetail from './pages/ArticleDetail';
 import Consulting from './pages/Consulting';
 import { trackPageview } from './lib/analytics';
 
-const TITLES = { '/': '수트의 논리, 후드의 실행', '/about': '소개', '/articles': '글', '/consulting': '상담' };
+const TITLES = { '/': '수트의 논리, 후드의 실행', '/about': '소개', '/articles': '글', '/consulting': '자문 영역 · 상담' };
 
 function RouteEffects() {
   const { pathname, hash } = useLocation();
@@ -52,6 +53,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <MobileBar />
     </BrowserRouter>
   );
 }

@@ -42,8 +42,10 @@ test('consulting FAQ opens and answers', async ({ page }) => {
   await page.goto('/consulting#faq');
   const items = page.locator('.faq-list details');
   await expect(items).toHaveCount(6);
-  await items.first().locator('summary').click();
+  // 2026-09-18 리디자인: 첫 항목은 기본으로 열려 있고, 나머지는 눌러서 연다
   await expect(items.first().locator('p')).toBeVisible();
+  await items.nth(1).locator('summary').click();
+  await expect(items.nth(1).locator('p')).toBeVisible();
 });
 
 test('mobile menu and consultation anchor', async ({ page }) => {
@@ -94,4 +96,17 @@ test('review screenshots', async ({ page }) => {
   await page.screenshot({ path: 'tmp/home-mobile.png', fullPage: true });
   await page.goto('/about');
   await page.screenshot({ path: 'tmp/about-mobile.png', fullPage: true });
+});
+
+test('home lead card carries name, email and issue into the consulting form', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('#leadName').fill('검증용 팀');
+  await page.locator('#leadEmail').fill('lead@example.com');
+  await page.locator('#leadIssue').fill('첫 매출이 안 나옵니다');
+  await page.getByRole('button', { name: '상담 폼으로 이어가기' }).click();
+  await expect(page).toHaveURL(/consulting#contact/);
+  await expect(page.locator('#name')).toHaveValue('검증용 팀');
+  await expect(page.locator('#email')).toHaveValue('lead@example.com');
+  await expect(page.locator('#message')).toHaveValue('첫 매출이 안 나옵니다');
+  await expect(page.locator('#contact')).toBeInViewport();
 });
