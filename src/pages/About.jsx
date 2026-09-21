@@ -87,7 +87,7 @@ export default function About() {
           <h2>쓰고, 코칭합니다.</h2>
         </div>
         <div className="now-grid">
-          <div><strong>칼럼</strong><p>네이버 블로그 「Design &amp; Breakthrough」에 스타트업 전략·투자·정부지원·AI 활용 글을 매일 씁니다. 브런치에서는 「방구석 데이터 경영」을 연재합니다.</p><Link className="text-link" to="/articles">글 보기<Arrow /></Link></div>
+          <div><strong>칼럼</strong><p>네이버 블로그 「수트와후드」와 브런치에 스타트업 전략·투자·데이터 경영 글을 정기 연재하며, 모비인사이드 필진으로도 활동 중입니다.</p><Link className="text-link" to="/articles">글 보기<Arrow /></Link></div>
           <div><strong>1:1 자문</strong><p>초기 스타트업 대표와 1인 기업가를 위한 사업모델·지표·자금 코칭. 정리된 계획서가 없어도 시작할 수 있습니다.</p><Link className="text-link" to="/consulting">상담 안내<Arrow /></Link></div>
           <div><strong>콘텐츠 협업</strong><p>스타트업 경영 칼럼 기고와 콘텐츠 협업 제안을 받습니다.</p><a className="text-link" href={'mailto:' + profile.email}>메일로 제안하기<Arrow /></a></div>
         </div>
