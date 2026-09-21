@@ -35,9 +35,9 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:var(--navy)}
 .axes{margin-top:24px;font-size:25px;font-weight:500;line-height:1.6;color:var(--muted);letter-spacing:-.01em}
 .axes b{color:var(--ivory);font-weight:500}
 .cta{margin-top:auto;width:100%;height:92px;border-radius:4px;background:linear-gradient(180deg,#d3b071,#b8924a);color:#0b1f3a;
-  font-size:31px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;justify-content:center;gap:12px;
+  font-size:26px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:12px;
   box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
-.cta span{font-size:30px}
+.cta span{font-size:25px}
 .url{margin-top:24px;font-size:26px;font-weight:500;letter-spacing:.05em;color:rgba(246,243,236,.86)}
 </style></head><body>
 <div class="card"><div class="frame"></div>
@@ -47,7 +47,7 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:var(--navy)}
   <div class="eyebrow">스타트업 경영 코치</div>
   <div class="head">수트의 논리,<br>후드의 실행.</div>
   <div class="axes">사업모델 · 지표 · 투자유치<br><b>1인 기업</b> 첫 매출까지</div>
-  <div class="cta">1:1 자문 신청 <span>→</span></div>
+  <div class="cta">지금 뭘 먼저 해야 할까? <span>→</span></div>
   <div class="url">soodcoach.com</div>
 </div></body></html>`;
 
