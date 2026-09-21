@@ -35,9 +35,9 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:var(--navy)}
 .axes{margin-top:24px;font-size:25px;font-weight:500;line-height:1.6;color:var(--muted);letter-spacing:-.01em}
 .axes b{color:var(--ivory);font-weight:500}
 .cta{margin-top:auto;width:100%;height:92px;border-radius:4px;background:linear-gradient(180deg,#d3b071,#b8924a);color:#0b1f3a;
-  font-size:26px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:12px;
+  font-size:30px;font-weight:700;letter-spacing:-.035em;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:12px;
   box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
-.cta span{font-size:25px}
+.cta span{font-size:28px}
 .url{margin-top:24px;font-size:26px;font-weight:500;letter-spacing:.05em;color:rgba(246,243,236,.86)}
 </style></head><body>
 <div class="card"><div class="frame"></div>
