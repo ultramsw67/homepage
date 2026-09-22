@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { loadIndex, loadBrunch, toBrunchPost, label, CATEGORY_ORDER } from '../lib/posts';
+import { loadIndex, loadBrunch, loadSearch, toBrunchPost, label, CATEGORY_ORDER } from '../lib/posts';
 import { profile } from '../lib/site';
 import PostCard from '../components/PostCard';
 
@@ -26,12 +26,18 @@ export default function Articles() {
   const [text, setText] = useState(query);
   const composing = useRef(false);
   const pushed = useRef(query);
+  // 본문 검색 자료. undefined=아직 안 받음, null=못 받음, 객체=받음
+  const [bodies, setBodies] = useState(undefined);
+  const [loadingBodies, setLoadingBodies] = useState(false);
+  const asked = useRef(false);
 
   useEffect(() => { loadIndex().then(setPosts).catch(() => setError(true)); }, []);
   useEffect(() => { loadBrunch().then((b) => setBrunch(b && b.posts ? b.posts.map(toBrunchPost) : [])); }, []);
   useEffect(() => { setLimit(PAGE); }, [channel, filter, query]);
   // 뒤로 가기 등으로 주소가 밖에서 바뀔 때만 검색창을 맞춘다 (내가 넣은 값은 건드리지 않는다)
   useEffect(() => { if (query !== pushed.current) { pushed.current = query; setText(query); } }, [query]);
+  // 주소에 ?q= 를 달고 바로 들어온 경우에도 본문 검색 자료를 받는다
+  useEffect(() => { if (query) wantBodies(); }, [query]);
 
   const blogPosts = posts || [];
   const all = useMemo(
@@ -51,11 +57,10 @@ export default function Articles() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return inChannel.filter(
-      (p) => (filter === '전체' || p.category === filter)
-        && (!q || (p.title + ' ' + (p.excerpt || '')).toLowerCase().includes(q)),
-    );
-  }, [inChannel, channel, filter, query]);
+    const hit = (p) => (p.title + ' ' + (p.excerpt || '')).toLowerCase().includes(q)
+      || Boolean(bodies && bodies[p.id] && bodies[p.id].includes(q));
+    return inChannel.filter((p) => (filter === '전체' || p.category === filter) && (!q || hit(p)));
+  }, [inChannel, filter, query, bodies]);
 
   function update(next) {
     setParams((prev) => {
@@ -65,6 +70,14 @@ export default function Articles() {
     }, { replace: true });
   }
 
+  // 검색창을 누르거나 검색어가 들어오면 그때 한 번만 본문 자료를 받는다
+  function wantBodies() {
+    if (asked.current) return;
+    asked.current = true;
+    setLoadingBodies(true);
+    loadSearch().then((b) => { setBodies(b); setLoadingBodies(false); });
+  }
+
   function pushQuery(v) {
     pushed.current = v;
     update({ q: v });
@@ -72,6 +85,7 @@ export default function Articles() {
 
   function onSearchChange(e) {
     const v = e.target.value;
+    if (v) wantBodies();
     setText(v);
     if (!composing.current) pushQuery(v);
   }
@@ -112,9 +126,10 @@ export default function Articles() {
             type="search"
             value={text}
             onChange={onSearchChange}
+            onFocus={wantBodies}
             onCompositionStart={() => { composing.current = true; }}
             onCompositionEnd={onCompositionEnd}
-            placeholder="제목·요약 검색"
+            placeholder="제목·본문 검색"
           />
         </label>
       </div>
@@ -133,14 +148,18 @@ export default function Articles() {
       {posts && !error && (
         filtered.length ? (
           <>
-            <p className="muted small result-count" role="status">{filtered.length}편</p>
+            <p className="muted small result-count" role="status">
+              {filtered.length}편
+              {query && loadingBodies && <span className="search-note">본문까지 찾는 중…</span>}
+              {query && !loadingBodies && channel !== 'blog' && <span className="search-note">브런치 글은 제목·소개글에서만 찾습니다</span>}
+            </p>
             <div className="post-grid">{filtered.slice(0, limit).map((p, i) => <PostCard key={p.id} post={p} index={i} />)}</div>
             {limit < filtered.length && (
               <div className="more"><button type="button" className="button ghost" onClick={() => setLimit(limit + PAGE)}>더 보기 ({filtered.length - limit}편 남음)</button></div>
             )}
           </>
         ) : (
-          <p className="empty" role="status">검색 결과가 없습니다. 다른 단어나 카테고리를 선택해 주세요.</p>
+          <p className="empty" role="status">{query && loadingBodies ? '본문까지 찾는 중…' : '검색 결과가 없습니다. 다른 단어나 카테고리를 선택해 주세요.'}</p>
         )
       )}
       {!posts && !error && <p className="muted">글을 불러오는 중입니다.</p>}

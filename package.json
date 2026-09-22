@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && node scripts/prerender.mjs",
+    "dev": "node scripts/build-search.mjs && vite",
+    "build": "node scripts/build-search.mjs && vite build && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "import:blog": "node scripts/import-blog.mjs",
+    "build:search": "node scripts/build-search.mjs",
     "seo:indexnow": "node scripts/indexnow.mjs",
     "import:brunch": "node scripts/import-brunch.mjs",
     "import:all": "npm run import:blog && npm run import:brunch"

@@ -185,3 +185,25 @@ test('앵커로 이동하면 고정 헤더 바로 아래에 붙는다', async ({
     expect(Math.abs(top - 92)).toBeLessThan(12);
   }
 });
+
+// 2026-09-22: 검색이 본문까지 훑는다 (public/search.json, 검색창을 누를 때만 내려받음)
+test('글 검색이 본문까지 찾는다', async ({ page }) => {
+  const requests = [];
+  page.on('request', (r) => { if (r.url().includes('/search.json')) requests.push(r.url()); });
+  await page.goto('/articles');
+  await expect(page.locator('.post-card').first()).toBeVisible();
+  expect(requests).toHaveLength(0); // 목록만 열었을 때는 받지 않는다
+  // '엑셀러레이터' 는 어느 글의 제목·요약에도 없고 본문에만 있는 낱말
+  await page.locator('input[type=search]').first().fill('엑셀러레이터');
+  await expect(page.locator('.post-card').first()).toBeVisible({ timeout: 15000 });
+  expect(requests.length).toBeGreaterThan(0);
+  const n = Number((await page.locator('.result-count').innerText()).match(/(\d+)편/)[1]);
+  expect(n).toBeGreaterThan(0);
+});
+
+test('검색 자료를 못 받아도 제목 검색은 된다', async ({ page }) => {
+  await page.route('**/search.json', (r) => r.abort());
+  await page.goto('/articles');
+  await page.locator('input[type=search]').first().fill('Canva');
+  await expect(page.locator('.result-count')).toContainText('1편');
+});

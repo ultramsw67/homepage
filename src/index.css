@@ -298,6 +298,8 @@ html.js #root > .page { display: none; }
 .faq-list details p { padding: 0 44px 24px 0; font-size: 15.5px; color: var(--muted); line-height: 1.9; }
 
 
+.result-count .search-note { margin-left: 10px; color: var(--muted); opacity: .8; }
+
 .contact-grid { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
 .contact h2 { font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -.05em; }
 .contact .lead { margin-top: 18px; font-size: 16.5px; max-width: 38ch; }

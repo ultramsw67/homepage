@@ -54,6 +54,19 @@ export const toBrunchPost = (b) => ({
   like: b.like,
 });
 
+// 본문 검색 자료 (public/search.json, 글 번호 → 소문자로 눌러 놓은 본문 글자).
+// 1.6MB 라 첫 화면에서는 받지 않고, 검색창을 누르거나 검색어가 들어올 때 한 번만 받는다.
+// 못 받으면 null 을 돌려 제목·요약 검색으로 조용히 되돌아간다.
+let searchPromise;
+export function loadSearch() {
+  if (!searchPromise) {
+    searchPromise = fetch('/search.json', { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => { searchPromise = undefined; return null; });
+  }
+  return searchPromise;
+}
+
 const postCache = new Map();
 export function loadPost(id) {
   if (!/^\d+$/.test(id)) return Promise.resolve(null);

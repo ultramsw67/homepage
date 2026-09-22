@@ -153,3 +153,6 @@ const byCat = posts.reduce((a, p) => ((a[p.category] = (a[p.category] || 0) + 1)
 console.log(`imported ${posts.length} posts from ${SRC}`);
 console.log(byCat);
 if (!existsSync(join(OUT, 'index.json'))) process.exit(1);
+
+// 본문 검색 자료도 함께 다시 만든다 (public/search.json)
+await import('./build-search.mjs');

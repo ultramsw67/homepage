@@ -27,3 +27,6 @@ npm-debug.log*
 # 플러그인 작업 상태 (저장소에 넣지 않음)
 src/.omc/
 .omc/
+
+# 본문 검색 자료 (매 빌드에서 posts 로부터 다시 만든다)
+/public/search.json
