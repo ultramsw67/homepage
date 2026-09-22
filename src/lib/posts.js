@@ -1,14 +1,14 @@
 export const CATEGORY_LABELS = {
-  'Strategy-Pivot': 'Strategy · Pivot',
-  'Funding-Growth': 'Funding · Growth',
-  'Tech-AI-Literacy': 'Tech · AI Literacy',
-  'TacticalPlaybook': 'Tactical Playbook',
-  'Founder-Mindset': 'Founder Mindset',
+  '사업모델·가격-전략': '사업모델·가격 전략',
+  '투자유치·정부지원사업': '투자유치·정부지원사업',
+  '1인-기업-AI-활용': '1인 기업 AI 활용',
+  'MVP·PMF-실전-전술': 'MVP·PMF 실전 전술',
+  '창업자-멘탈·조직': '창업자 멘탈·조직',
   'Startup_Business': 'Startup Business',
   '에피소드': '에피소드',
 };
 
-export const CATEGORY_ORDER = ['Strategy-Pivot', 'Funding-Growth', 'TacticalPlaybook', 'Tech-AI-Literacy', 'Founder-Mindset'];
+export const CATEGORY_ORDER = ['사업모델·가격-전략', '투자유치·정부지원사업', '1인-기업-AI-활용', 'MVP·PMF-실전-전술', '창업자-멘탈·조직'];
 
 export const label = (c) => CATEGORY_LABELS[c] || c;
 

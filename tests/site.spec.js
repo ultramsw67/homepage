@@ -80,7 +80,7 @@ test('journal filters, search and reading', async ({ page }) => {
   await page.goto('/articles');
   await expect(page.locator('.post-card').first()).toBeVisible();
   await expect(page.locator('.result-count')).toContainText(String(posts.length));
-  await page.getByRole('button', { name: 'Founder Mindset', exact: true }).click();
+  await page.getByRole('button', { name: '창업자 멘탈·조직', exact: true }).click();
   const fm = posts.filter((p) => p.category === 'Founder-Mindset').length;
   await expect(page.locator('.result-count')).toContainText(String(fm));
   await page.getByRole('button', { name: /^전체/ }).click();

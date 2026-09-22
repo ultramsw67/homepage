@@ -42,7 +42,7 @@ export default function Articles() {
       <header className="page-head">
         <p className="eyebrow">글</p>
         <h1>스타트업 경영,<br />매일 <em>한 편씩.</em></h1>
-        <p className="lead">전략과 피벗, 투자와 정부지원, AI 활용, 창업자의 마음가짐까지. 네이버 블로그에 쓴 칼럼을 이곳에 모았습니다. 댓글과 원문은 <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그</a>에서 볼 수 있습니다.</p>
+        <p className="lead">사업모델·가격 전략, 투자유치·정부지원사업, 1인 기업 AI 활용, MVP·PMF 실전 전술, 창업자 멘탈·조직까지. 네이버 블로그에 쓴 칼럼을 이곳에 모았습니다. 댓글과 원문은 <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그</a>에서 볼 수 있습니다.</p>
       </header>
 
       <div className="toolbar">

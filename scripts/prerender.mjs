@@ -126,6 +126,9 @@ render({
   body: `<main class="wrap page"><h1>스타트업 경영 칼럼</h1><p>스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD)이 매일 쓰는 칼럼 ${posts.length}편입니다.</p><ul>${posts.map(postLink).join('')}</ul></main>`,
 });
 
+const CATEGORY_NAMES = { '사업모델·가격-전략': '사업모델·가격 전략', '투자유치·정부지원사업': '투자유치·정부지원사업', '1인-기업-AI-활용': '1인 기업 AI 활용', 'MVP·PMF-실전-전술': 'MVP·PMF 실전 전술', '창업자-멘탈·조직': '창업자 멘탈·조직' };
+const catName = (c) => CATEGORY_NAMES[c] || c;
+
 // 5) 글 상세
 let n = 0;
 const summaries = {};
@@ -140,7 +143,7 @@ for (const p of posts) {
   summaries[p.id] = description;
   const ld = {
     '@type': 'BlogPosting', '@id': `${url}#article`, headline: p.title, description, url,
-    mainEntityOfPage: url, datePublished: p.date, dateModified: p.date, inLanguage: 'ko', articleSection: p.category,
+    mainEntityOfPage: url, datePublished: p.date, dateModified: p.date, inLanguage: 'ko', articleSection: catName(p.category),
     image: p.thumb ? [p.thumb] : [DEFAULT_IMAGE], author: personRef, publisher: orgRef, isPartOf: { '@id': WEBSITE_ID }, isBasedOn: p.url,
   };
   render({
@@ -149,8 +152,8 @@ for (const p of posts) {
     description,
     type: 'article',
     image: p.thumb || DEFAULT_IMAGE,
-    head: `    <meta property="article:published_time" content="${p.date}" />\n    <meta property="article:author" content="${AUTHOR}" />\n    <meta property="article:section" content="${esc(p.category)}" />\n    ${graph(ld, crumbs([{ name: '칼럼', path: '/articles' }, { name: p.title, path: `/articles/${p.id}` }]))}\n`,
-    body: `<article class="wrap page reading"><header class="article-head"><p class="eyebrow">${esc(p.category)}</p><h1>${esc(p.title)}</h1><p class="muted">${fmt(p.date)} · <a href="/about">${AUTHOR}</a> (스타트업 경영 코치, ${BRAND})</p></header><div class="article-body">${full.html}</div><p><a href="${esc(p.url)}" rel="noreferrer">네이버 블로그 원문 보기</a> · <a href="/articles">글 목록</a> · <a href="/consulting">1:1 경영 상담</a></p></article>`,
+    head: `    <meta property="article:published_time" content="${p.date}" />\n    <meta property="article:author" content="${AUTHOR}" />\n    <meta property="article:section" content="${esc(catName(p.category))}" />\n    ${graph(ld, crumbs([{ name: '칼럼', path: '/articles' }, { name: p.title, path: `/articles/${p.id}` }]))}\n`,
+    body: `<article class="wrap page reading"><header class="article-head"><p class="eyebrow">${esc(catName(p.category))}</p><h1>${esc(p.title)}</h1><p class="muted">${fmt(p.date)} · <a href="/about">${AUTHOR}</a> (스타트업 경영 코치, ${BRAND})</p></header><div class="article-body">${full.html}</div><p><a href="${esc(p.url)}" rel="noreferrer">네이버 블로그 원문 보기</a> · <a href="/articles">글 목록</a> · <a href="/consulting">1:1 경영 상담</a></p></article>`,
   });
   n++;
 }
@@ -164,11 +167,10 @@ render({
 });
 
 // 7) RSS (네이버 서치어드바이저 RSS 제출용)
-const rssItems = posts.slice(0, 50).map((p) => `    <item>\n      <title>${esc(p.title)}</title>\n      <link>${SITE}/articles/${p.id}</link>\n      <guid isPermaLink="true">${SITE}/articles/${p.id}</guid>\n      <description>${esc(summaries[p.id] || p.excerpt || '')}</description>\n      <category>${esc(p.category)}</category>\n      <pubDate>${new Date(`${p.date}T09:00:00+09:00`).toUTCString()}</pubDate>\n    </item>`).join('\n');
+const rssItems = posts.slice(0, 50).map((p) => `    <item>\n      <title>${esc(p.title)}</title>\n      <link>${SITE}/articles/${p.id}</link>\n      <guid isPermaLink="true">${SITE}/articles/${p.id}</guid>\n      <description>${esc(summaries[p.id] || p.excerpt || '')}</description>\n      <category>${esc(catName(p.category))}</category>\n      <pubDate>${new Date(`${p.date}T09:00:00+09:00`).toUTCString()}</pubDate>\n    </item>`).join('\n');
 writeFileSync(join(DIST, 'rss.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n  <channel>\n    <title>${BRAND} 스타트업 경영 칼럼</title>\n    <link>${SITE}</link>\n    <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml" />\n    <description>스타트업 경영 코치 ${AUTHOR}의 칼럼</description>\n    <language>ko</language>\n    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>\n${rssItems}\n  </channel>\n</rss>\n`);
 
 // 8) llms.txt — ChatGPT·Claude·Perplexity 같은 AI 검색이 사이트를 한 번에 파악하도록 쓰는 요약 (https://llmstxt.org 형식)
-const CATEGORY_NAMES = { 'Strategy-Pivot': '전략·피벗', 'Funding-Growth': '투자·정부지원·성장', TacticalPlaybook: '실전 전술', 'Tech-AI-Literacy': 'AI 리터러시', 'Founder-Mindset': '창업자 마인드셋' };
 const byCategory = {};
 for (const p of posts) (byCategory[p.category] ||= []).push(p);
 const llms = [
