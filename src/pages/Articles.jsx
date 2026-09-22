@@ -57,9 +57,11 @@ export default function Articles() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const hit = (p) => (p.title + ' ' + (p.excerpt || '')).toLowerCase().includes(q)
-      || Boolean(bodies && bodies[p.id] && bodies[p.id].includes(q));
-    return inChannel.filter((p) => (filter === '전체' || p.category === filter) && (!q || hit(p)));
+    // 제목·요약에서 찾은 글이 본문에서만 찾은 글보다 앞에 온다 (각 묶음 안에서는 최신순 그대로)
+    const inHead = (p) => (p.title + ' ' + (p.excerpt || '')).toLowerCase().includes(q);
+    const hit = (p) => inHead(p) || Boolean(bodies && bodies[p.id] && bodies[p.id].includes(q));
+    const list = inChannel.filter((p) => (filter === '전체' || p.category === filter) && (!q || hit(p)));
+    return q ? list.sort((a, b) => Number(inHead(b)) - Number(inHead(a))) : list;
   }, [inChannel, filter, query, bodies]);
 
   function update(next) {

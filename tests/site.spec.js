@@ -207,3 +207,11 @@ test('검색 자료를 못 받아도 제목 검색은 된다', async ({ page }) 
   await page.locator('input[type=search]').first().fill('Canva');
   await expect(page.locator('.result-count')).toContainText('1편');
 });
+
+test('제목에 있는 글이 본문에만 있는 글보다 먼저 나온다', async ({ page }) => {
+  await page.goto('/articles');
+  await page.locator('input[type=search]').first().fill('Canva');
+  await expect(page.locator('.post-card').first()).toBeVisible({ timeout: 15000 });
+  await expect(page.locator('.result-count')).not.toContainText('1편');
+  await expect(page.locator('.post-card h3').first()).toContainText('Canva');
+});
