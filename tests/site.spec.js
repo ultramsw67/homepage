@@ -158,6 +158,16 @@ test('주소에 ?c= 만 넣어도 카테고리가 걸러진다', async ({ page }
   await expect(page.locator('.result-count')).toContainText(String(n));
 });
 
+test('모바일: 보고 있던 쪽을 다시 눌러도 메뉴가 닫힌다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const [path, link] of [['/articles', '글'], ['/about', '소개'], ['/consulting#contact', '상담 문의']]) {
+    await page.goto(path);
+    await page.getByRole('button', { name: '메뉴 열기' }).click();
+    await page.getByRole('navigation', { name: '주 메뉴' }).getByRole('link', { name: link, exact: link !== '상담 문의' }).click();
+    await expect(page.locator('#primary-nav.is-open')).toHaveCount(0);
+  }
+});
+
 test('모바일: 메뉴를 연 채 상담 문의를 눌러도 메뉴가 닫힌다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/consulting');
