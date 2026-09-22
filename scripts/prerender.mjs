@@ -20,6 +20,10 @@ const MOBIINSIDE = 'https://www.mobiinside.co.kr/author/ultramsw67/';
 if (!existsSync(join(DIST, 'index.html'))) { console.error('dist/index.html 이 없습니다. vite build 먼저 실행하세요.'); process.exit(1); }
 const template = readFileSync(join(DIST, 'index.html'), 'utf8');
 const posts = JSON.parse(readFileSync(join(POSTS, 'index.json'), 'utf8'));
+// 브런치 글 (public/brunch.json) — 목록 페이지에 함께 싣는다. 본문은 브런치에 있으므로 링크만
+const BRUNCH_FILE = resolve('public/brunch.json');
+const brunch = existsSync(BRUNCH_FILE) ? JSON.parse(readFileSync(BRUNCH_FILE, 'utf8')) : { posts: [], profile: {} };
+const brunchPosts = brunch.posts || [];
 
 const esc = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const fmt = (iso) => (iso ? iso.replace(/-/g, '.') : '');
@@ -78,6 +82,7 @@ function render({ path, title, description, type = 'website', image = DEFAULT_IM
 }
 
 const postLink = (p) => `<li><a href="/articles/${p.id}">${esc(p.title)}</a> <span>${fmt(p.date)}</span></li>`;
+const brunchLink = (p) => `<li><a href="${esc(p.url)}" rel="noreferrer">${esc(p.title)}</a> <span>${fmt(p.date)} · 브런치${p.series ? ` · ${esc(p.series)}` : ''}</span></li>`;
 const channelLinks = `<p><a href="${profile.blog}">네이버 블로그 「Design &amp; Breakthrough」</a> · <a href="${profile.brunch}">브런치</a> · <a href="${profile.linkedin}">링크드인</a> · <a href="${MOBIINSIDE}">모비인사이드 칼럼</a> · <a href="mailto:${profile.email}">${profile.email}</a></p>`;
 const servicesHtml = (tag = 'h3') => services.map((s) => `<section id="${s.id}"><${tag}>${s.number}. ${esc(s.title)}</${tag}><p><strong>${esc(s.tagline)}</strong> ${esc(s.description)}</p><ul>${s.outputs.map((o) => `<li>${esc(o)}</li>`).join('')}</ul></section>`).join('');
 const experienceHtml = `<ol class="timeline">${experience.map((e) => `<li><span>${esc(e.period)}</span><div><strong>${esc(e.org)}</strong> <em>${esc(e.role)}</em><p>${esc(e.desc || '')}</p></div></li>`).join('')}</ol>`;
@@ -120,10 +125,10 @@ render({
 // 4) 글 목록
 render({
   path: '/articles',
-  title: `스타트업 경영 칼럼 ${posts.length}편 | ${BRAND}`,
-  description: '스타트업 전략·피벗, 투자·정부지원, 실전 전술, AI 리터러시, 창업자 마인드셋. 매일 발행하는 스타트업 경영 칼럼.',
+  title: `스타트업 경영 칼럼 ${posts.length + brunchPosts.length}편 | ${BRAND}`,
+  description: '사업모델·가격 전략, 투자유치·정부지원사업, 1인 기업 AI 활용, MVP·PMF 실전 전술, 창업자 멘탈·조직. 네이버 블로그 칼럼과 브런치 연재를 한곳에.',
   head: `    ${graph({ '@type': 'CollectionPage', '@id': `${SITE}/articles`, name: '스타트업 경영 칼럼', url: `${SITE}/articles`, inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef, mainEntity: { '@type': 'ItemList', numberOfItems: posts.length, itemListElement: posts.slice(0, 30).map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/articles/${p.id}`, name: p.title })) } }, crumbs([{ name: '칼럼', path: '/articles' }]))}\n`,
-  body: `<main class="wrap page"><h1>스타트업 경영 칼럼</h1><p>스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD)이 매일 쓰는 칼럼 ${posts.length}편입니다.</p><ul>${posts.map(postLink).join('')}</ul></main>`,
+  body: `<main class="wrap page"><h1>스타트업 경영 칼럼</h1><p>스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD)이 쓰는 글 ${posts.length + brunchPosts.length}편입니다. 네이버 블로그 칼럼 ${posts.length}편과 브런치 글 ${brunchPosts.length}편.</p><ul>${posts.map(postLink).join('')}</ul><h2>브런치</h2><p>연재와 이야기 ${brunchPosts.length}편 — 원문은 브런치에서 읽습니다.</p><ul>${brunchPosts.map(brunchLink).join('')}</ul></main>`,
 });
 
 const CATEGORY_NAMES = { '사업모델·가격-전략': '사업모델·가격 전략', '투자유치·정부지원사업': '투자유치·정부지원사업', '1인-기업-AI-활용': '1인 기업 AI 활용', 'MVP·PMF-실전-전술': 'MVP·PMF 실전 전술', '창업자-멘탈·조직': '창업자 멘탈·조직' };
