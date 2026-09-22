@@ -1,7 +1,0 @@
-{
-  "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"sed -n 20,50p pages/Consulting.jsx | grep -n \\\"ENDPOINT\\\\|import.meta\\\\|env\\\" ; grep -rn \\\"VITE_CONTACT\\\\|ENDPOINT\\\" ../.env* ../vite.config.* 2>/dev/null | head; ls ../.env* 2>/dev/null\",...",
-  "error": "Exit code 2\n28:      const res = await fetch(ENDPOINT, {",
-  "timestamp": "2026-09-20T04:59:56.538Z",
-  "retry_count": 1
-}

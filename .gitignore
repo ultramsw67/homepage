@@ -23,3 +23,7 @@ npm-debug.log*
 /render-brand.mjs
 /.omc/
 /tmpstats-*.png
+
+# 플러그인 작업 상태 (저장소에 넣지 않음)
+src/.omc/
+.omc/
