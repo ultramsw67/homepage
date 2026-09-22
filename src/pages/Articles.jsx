@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { loadIndex, loadBrunch, toBrunchPost, label, CATEGORY_ORDER } from '../lib/posts';
 import { profile } from '../lib/site';
@@ -20,10 +20,18 @@ export default function Articles() {
   const filter = params.get('c') || '전체';
   const query = params.get('q') || '';
   const [limit, setLimit] = useState(PAGE);
+  // 검색창은 주소(?q=)가 아니라 이 상태로 그린다.
+  // 한글은 자모를 조합해 한 글자가 되는데, 주소를 거쳐 값이 돌아오면 조합이 끊겨
+  // '스타트업'이 'ㅅ스슽스타…'로 풀어져 버린다 (2026-09-22 수정).
+  const [text, setText] = useState(query);
+  const composing = useRef(false);
+  const pushed = useRef(query);
 
   useEffect(() => { loadIndex().then(setPosts).catch(() => setError(true)); }, []);
   useEffect(() => { loadBrunch().then((b) => setBrunch(b && b.posts ? b.posts.map(toBrunchPost) : [])); }, []);
   useEffect(() => { setLimit(PAGE); }, [channel, filter, query]);
+  // 뒤로 가기 등으로 주소가 밖에서 바뀔 때만 검색창을 맞춘다 (내가 넣은 값은 건드리지 않는다)
+  useEffect(() => { if (query !== pushed.current) { pushed.current = query; setText(query); } }, [query]);
 
   const blogPosts = posts || [];
   const all = useMemo(
@@ -50,9 +58,29 @@ export default function Articles() {
   }, [inChannel, channel, filter, query]);
 
   function update(next) {
-    const n = new URLSearchParams(params);
-    for (const [k, v] of Object.entries(next)) { if (v && v !== '전체') n.set(k, v); else n.delete(k); }
-    setParams(n, { replace: true });
+    setParams((prev) => {
+      const n = new URLSearchParams(prev);
+      for (const [k, v] of Object.entries(next)) { if (v && v !== '전체') n.set(k, v); else n.delete(k); }
+      return n;
+    }, { replace: true });
+  }
+
+  function pushQuery(v) {
+    pushed.current = v;
+    update({ q: v });
+  }
+
+  function onSearchChange(e) {
+    const v = e.target.value;
+    setText(v);
+    if (!composing.current) pushQuery(v);
+  }
+
+  function onCompositionEnd(e) {
+    composing.current = false;
+    const v = e.currentTarget.value;
+    setText(v);
+    pushQuery(v);
   }
 
   const count = (key) => (key === 'blog' ? blogPosts.length : key === 'brunch' ? brunch.length : all.length);
@@ -80,7 +108,14 @@ export default function Articles() {
         </div>
         <label className="search">
           <span className="sr-only">글 검색</span>
-          <input type="search" value={query} onChange={(e) => update({ q: e.target.value })} placeholder="제목·요약 검색" />
+          <input
+            type="search"
+            value={text}
+            onChange={onSearchChange}
+            onCompositionStart={() => { composing.current = true; }}
+            onCompositionEnd={onCompositionEnd}
+            placeholder="제목·요약 검색"
+          />
         </label>
       </div>
 

@@ -77,13 +77,16 @@ test('mobile menu and consultation anchor', async ({ page }) => {
 });
 
 test('journal filters, search and reading', async ({ page }) => {
+  const brunch = JSON.parse(readFileSync('public/brunch.json', 'utf8'));
   await page.goto('/articles');
   await expect(page.locator('.post-card').first()).toBeVisible();
+  await expect(page.locator('.result-count')).toContainText(String(posts.length + brunch.posts.length));
+  await page.getByRole('button', { name: /^네이버 블로그/ }).click();
   await expect(page.locator('.result-count')).toContainText(String(posts.length));
   await page.getByRole('button', { name: '창업자 멘탈·조직', exact: true }).click();
-  const fm = posts.filter((p) => p.category === 'Founder-Mindset').length;
+  const fm = posts.filter((p) => p.category === '창업자-멘탈·조직').length;
   await expect(page.locator('.result-count')).toContainText(String(fm));
-  await page.getByRole('button', { name: /^전체/ }).click();
+  await page.getByRole('button', { name: '전체', exact: true }).click();
   await page.getByRole('searchbox').fill('Canva');
   await expect(page.locator('.post-card').first()).toBeVisible();
   await page.locator('.post-card').first().click();
@@ -121,4 +124,19 @@ test('home lead card carries name, email and issue into the consulting form', as
   await expect(page.locator('#email')).toHaveValue('lead@example.com');
   await expect(page.locator('#message')).toHaveValue('첫 매출이 안 나옵니다');
   await expect(page.locator('#contact')).toBeInViewport();
+});
+
+// 2026-09-22: 한글 검색어가 조합 중에 풀려 'ㅅ스슽스타…'로 들어가던 문제 (데스크톱·모바일 모두)
+test('글 검색: 한글을 조합해 넣어도 그대로 들어간다', async ({ page, context }) => {
+  await page.goto('/articles');
+  const input = page.locator('input[type=search]').first();
+  await input.click();
+  const cdp = await context.newCDPSession(page);
+  for (const s of ['ㅅ', '스', '슽', '스타', '스탙', '스타트', '스타트ㅇ', '스타트어', '스타트업']) {
+    await cdp.send('Input.imeSetComposition', { text: s, selectionStart: s.length, selectionEnd: s.length });
+  }
+  await cdp.send('Input.insertText', { text: '스타트업' });
+  await expect(input).toHaveValue('스타트업');
+  await expect(page.locator('.result-count')).toBeVisible();
+  expect(decodeURIComponent(page.url())).toContain('q=스타트업');
 });
