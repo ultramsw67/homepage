@@ -35,7 +35,7 @@ export default function ArticleDetail() {
 
   return (
     <article className="wrap page reading">
-      <Link className="text-link" to={'/articles?c=' + encodeURIComponent(post.category)}>← {label(post.category)}</Link>
+      <Link className="text-link" to={'/articles?ch=blog&c=' + encodeURIComponent(post.category)}>← {label(post.category)}</Link>
       <header className="article-head">
         <h1>{post.title}</h1>
         <p className="meta">

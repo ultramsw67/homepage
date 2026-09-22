@@ -52,7 +52,7 @@ export default function Articles() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return inChannel.filter(
-      (p) => (channel === '전체' || filter === '전체' || p.category === filter)
+      (p) => (filter === '전체' || p.category === filter)
         && (!q || (p.title + ' ' + (p.excerpt || '')).toLowerCase().includes(q)),
     );
   }, [inChannel, channel, filter, query]);

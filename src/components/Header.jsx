@@ -3,8 +3,9 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
-  useEffect(() => { setOpen(false); }, [pathname]);
+  const { pathname, hash } = useLocation();
+  // 주소가 바뀌면 닫는다. 같은 쪽 안에서 앵커(#contact)로 움직일 때도 닫혀야 폼을 가리지 않는다.
+  useEffect(() => { setOpen(false); }, [pathname, hash]);
   return (
     <header className="site-header">
       <a className="skip-link" href="#main">본문으로 건너뛰기</a>

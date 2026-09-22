@@ -46,7 +46,7 @@ function withNaver(fn) {
     try {
       if (!window.wcs_add) window.wcs_add = {};
       window.wcs_add.wa = NAVER;
-      window.wcs.inflow(HOST);
+      window.wcs.inflow(window.location.hostname);
       fn();
     } catch {
       // 분석 스크립트 오류가 사이트 동작을 막지 않게 한다

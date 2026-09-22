@@ -140,3 +140,38 @@ test('글 검색: 한글을 조합해 넣어도 그대로 들어간다', async (
   await expect(page.locator('.result-count')).toBeVisible();
   expect(decodeURIComponent(page.url())).toContain('q=스타트업');
 });
+
+// 2026-09-22 전체 점검에서 나온 것들
+test('글에서 ← 카테고리로 돌아가면 그 분류만 보인다', async ({ page }) => {
+  await page.goto('/articles/' + first);
+  await page.locator('a.text-link').first().click();
+  await page.waitForURL('**/articles?**');
+  const cat = posts.find((p) => p.id === first).category;
+  const n = posts.filter((p) => p.category === cat).length;
+  await expect(page.locator('.result-count')).toContainText(String(n));
+  await expect(page.locator('.filters.sub')).toBeVisible();
+});
+
+test('주소에 ?c= 만 넣어도 카테고리가 걸러진다', async ({ page }) => {
+  await page.goto('/articles?c=' + encodeURIComponent('창업자-멘탈·조직'));
+  const n = posts.filter((p) => p.category === '창업자-멘탈·조직').length;
+  await expect(page.locator('.result-count')).toContainText(String(n));
+});
+
+test('모바일: 메뉴를 연 채 상담 문의를 눌러도 메뉴가 닫힌다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/consulting');
+  await page.getByRole('button', { name: '메뉴 열기' }).click();
+  await expect(page.locator('#primary-nav.is-open')).toBeVisible();
+  await page.getByRole('navigation', { name: '주 메뉴' }).getByRole('link', { name: '상담 문의' }).click();
+  await expect(page.locator('#primary-nav.is-open')).toHaveCount(0);
+});
+
+test('앵커로 이동하면 고정 헤더 바로 아래에 붙는다', async ({ page }) => {
+  for (const [path, id] of [['/consulting#strategy', 'strategy'], ['/consulting#contact', 'contact'], ['/consulting#faq', 'faq']]) {
+    await page.goto(path);
+    await page.waitForTimeout(700);
+    const top = await page.locator('#' + id).evaluate((n) => Math.round(n.getBoundingClientRect().top));
+    expect(Math.abs(top - 92)).toBeLessThan(12);
+  }
+});
