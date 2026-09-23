@@ -4,7 +4,7 @@ export const CATEGORY_LABELS = {
   '1인-기업-AI-활용': '1인 기업 AI 활용',
   'MVP·PMF-실전-전술': 'MVP·PMF 실전 전술',
   '창업자-멘탈·조직': '창업자 멘탈·조직',
-  'Startup_Business': 'Startup Business',
+  'Startup_Business': '기타',
   '에피소드': '에피소드',
 };
 

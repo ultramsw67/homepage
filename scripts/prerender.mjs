@@ -131,7 +131,7 @@ render({
   body: `<main class="wrap page"><h1>스타트업 경영 칼럼</h1><p>스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD)이 쓰는 글 ${posts.length + brunchPosts.length}편입니다. 네이버 블로그 칼럼 ${posts.length}편과 브런치 글 ${brunchPosts.length}편.</p><ul>${posts.map(postLink).join('')}</ul><h2>브런치</h2><p>연재와 이야기 ${brunchPosts.length}편 — 원문은 브런치에서 읽습니다.</p><ul>${brunchPosts.map(brunchLink).join('')}</ul></main>`,
 });
 
-const CATEGORY_NAMES = { '사업모델·가격-전략': '사업모델·가격 전략', '투자유치·정부지원사업': '투자유치·정부지원사업', '1인-기업-AI-활용': '1인 기업 AI 활용', 'MVP·PMF-실전-전술': 'MVP·PMF 실전 전술', '창업자-멘탈·조직': '창업자 멘탈·조직' };
+const CATEGORY_NAMES = { '사업모델·가격-전략': '사업모델·가격 전략', '투자유치·정부지원사업': '투자유치·정부지원사업', '1인-기업-AI-활용': '1인 기업 AI 활용', 'MVP·PMF-실전-전술': 'MVP·PMF 실전 전술', '창업자-멘탈·조직': '창업자 멘탈·조직', 'Startup_Business': '기타' };
 const catName = (c) => CATEGORY_NAMES[c] || c;
 
 // 5) 글 상세
