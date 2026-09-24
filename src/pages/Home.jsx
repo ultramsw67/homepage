@@ -9,6 +9,8 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
   const [brunchCount, setBrunchCount] = useState(0);
+  const [popular, setPopular] = useState(null);
+  useEffect(() => { fetch('/popular.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((p) => { if (p && p.title && p.href) setPopular(p); }).catch(() => {}); }, []);
   useEffect(() => { loadIndex().then(setPosts).catch(() => setPosts([])); }, []);
   useEffect(() => { loadBrunch().then((b) => setBrunchCount(b?.posts?.length || 0)); }, []);
   const latest = posts.slice(0, 3);
@@ -122,7 +124,13 @@ export default function Home() {
                 <span className="role">{profile.brand} ({profile.brandEn}) · {profile.role}</span>
               </span>
             </div>
-            <Link className="text-link" to="/articles/224095280583">첫 번째 글: 넥타이와 후드티<Arrow /></Link>
+            {/* 최근 한 달 조회수 1위 글 — 매일 09:50 대시보드 작업이 public/popular.json 을 갱신한다 (2026-09-24). 못 받으면 첫 글로 */}
+            <div className="story-pick">
+              <span className="pick-label">{popular ? '지난 한 달 가장 많이 읽힌 글' : '첫 번째 글'}</span>
+              {popular && /^https?:/.test(popular.href)
+                ? <a className="text-link" href={popular.href} target="_blank" rel="noreferrer">{popular.title}<Arrow /></a>
+                : <Link className="text-link" to={popular ? popular.href : '/articles/224095280583'}>{popular ? popular.title : '넥타이와 후드티'}<Arrow /></Link>}
+            </div>
           </div>
         </div>
       </section>
