@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { services, profile, stats, experience, process } from '../lib/site';
-import { loadIndex } from '../lib/posts';
+import { loadIndex, loadBrunch } from '../lib/posts';
 import PostCard from '../components/PostCard';
 import { Arrow, Down, Blog, Book, Linked, Mail } from '../components/Icons';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  const [brunchCount, setBrunchCount] = useState(0);
   useEffect(() => { loadIndex().then(setPosts).catch(() => setPosts([])); }, []);
+  useEffect(() => { loadBrunch().then((b) => setBrunchCount(b?.posts?.length || 0)); }, []);
   const latest = posts.slice(0, 3);
 
   // 첫 화면 카드에 적은 내용을 상담 폼으로 그대로 옮긴다.
@@ -75,7 +77,7 @@ export default function Home() {
           <div className="stats-inner">
             {stats.map((s) => (
               <div key={s.label}>
-                <strong>{s.dynamic === 'posts' ? (posts.length ? s.value.replace('{n}', posts.length) : s.fallbackValue) : s.value}</strong>
+                <strong>{s.dynamic === 'posts' ? (posts.length ? s.value.replace('{n}', posts.length + brunchCount) : s.fallbackValue) : s.value}</strong>
                 <span>{s.label}</span>
               </div>
             ))}

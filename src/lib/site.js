@@ -71,7 +71,8 @@ export const stats = [
   { value: '현대석유화학 기획실, 1993~2000', label: 'M&A와 가치평가를 맡았습니다' },
   { value: '인터랙티비 창업, 2001~2019', label: '투자를 받아 키웠고 매각했습니다' },
   { value: '초기 스타트업 20팀', label: '1:1로 자문했습니다' },
-  { value: '경영 칼럼 {n}편', fallbackValue: '경영 칼럼 200편 넘게', label: '매일 아침 블로그에 씁니다', dynamic: 'posts' },
+  // {n} = 네이버 블로그 글 + 브런치 글 합계. 매일 09:00 '발행 반영'이 두 목록을 새로 받아 배포하면 따라 바뀐다 (2026-09-24)
+  { value: '경영 칼럼 {n}편', fallbackValue: '경영 칼럼 250편 넘게', label: '네이버 블로그와 브런치에 씁니다', dynamic: 'posts' },
 ];
 
 // 상담 페이지 '자주 묻는 질문'. 사전 렌더링 본문·FAQPage 구조화 데이터·llms.txt 에도 같은 문구가 들어간다 (scripts/prerender.mjs).
