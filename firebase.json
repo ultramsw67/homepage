@@ -130,6 +130,19 @@
         ]
       },
       {
+        "source": "/dashboard{,/**}",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, nofollow, noarchive"
+          }
+        ]
+      },
+      {
         "source": "/404.html",
         "headers": [
           {
