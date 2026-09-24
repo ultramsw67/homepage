@@ -1,10 +1,10 @@
 {
- "at": "2026-09-23T00:00:40.647Z",
+ "at": "2026-09-24T00:01:03.132Z",
  "profile": {
   "url": "https://brunch.co.kr/@a3b90b2e717a467",
-  "followers": 202,
-  "articles": 39,
-  "likes": 2204
+  "followers": 203,
+  "articles": 40,
+  "likes": 2211
  },
  "series": [
   {
@@ -18,13 +18,25 @@
  ],
  "posts": [
   {
+   "no": 41,
+   "url": "https://brunch.co.kr/@a3b90b2e717a467/41",
+   "title": "아마존의 AI 쇼핑봇 차단, 항소심서 뒤집힌 이유",
+   "sub": "고객이 보낸 AI 에이전트는 무단 침입인가 대리인인가",
+   "excerpt": "고객이 보낸 AI 에이전트, 문을 열 것인가 닫을 것인가 지난 연말 미국 쇼핑몰들은 일찍이 본 적 없던 손님을 맞았습니다. 어도비(Adobe) 집계에 따르면 2025년 11~12월 연말 시즌, 생성형 AI 서비스를…",
+   "date": "2026-09-23",
+   "like": 4,
+   "comments": 0,
+   "series": null,
+   "thumb": "https://img1.kakaocdn.net/thumb/R640x0.fpng/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Fbrunch%2Fservice%2Fuser%2Ffjfy%2Fimage%2Fn0EVMHGL0jW8JCENXd5Q0V1F3dk.png"
+  },
+  {
    "no": 40,
    "url": "https://brunch.co.kr/@a3b90b2e717a467/40",
    "title": "클라나 다운라운드의 시사점",
    "sub": "456억 달러에서 67억 달러로, 상장까지 버텨낸 비결",
    "excerpt": "기업가치가 처참하게 깎이던 날부터 극적인 상장, 그리고 상장 이후 매크로 환경 변화로 주가가 조정을 겪은 2026년까지—클라나의 다운라운드 4년의 궤적을 창업자와 경영자의 시각에서 실전적으로 정리했습니다. 1. 클…",
    "date": "2026-09-17",
-   "like": 38,
+   "like": 40,
    "comments": 0,
    "series": null,
    "thumb": "https://img1.kakaocdn.net/thumb/R640x0.fpng/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Fbrunch%2Fservice%2Fuser%2Ffjfy%2Fimage%2FeWwxCwFAHkTtx6uzI2ATgQ61kVY.png"
@@ -312,7 +324,7 @@
    "sub": "[Burn Rate & Runway]",
    "excerpt": "[남은 런웨이: 12주] 자정이 넘은 강남대로는 지치지 않는 불빛들로 번뜩이고 있었다. 하지만 '스마트 로그(SmartLog)' 사무실 안의 분위기는 달랐다. 컴퓨터 팬 돌아가는 소리만이 건조하게 울리는 정적 속에…",
    "date": "2026-03-31",
-   "like": 53,
+   "like": 54,
    "comments": 4,
    "series": "런웨이 12주, 1000억의 증명",
    "thumb": "https://img1.kakaocdn.net/thumb/R640x0.fpng/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Fbrunch%2Fservice%2Fuser%2Ffjfy%2Fimage%2FaGPFRspiMmXiyBbYcnsVB5ldZb4.png"
