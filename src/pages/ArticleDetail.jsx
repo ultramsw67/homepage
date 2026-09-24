@@ -23,7 +23,7 @@ export default function ArticleDetail() {
   if (post === null) return (
     <div className="wrap page not-found">
       <p className="eyebrow">글을 찾을 수 없습니다</p>
-      <h1>주소가 바뀌었거나 삭제된 글입니다.</h1>
+      <h1>주소가 바뀌었거나 삭제된 글입니다</h1>
       <Link className="button primary" to="/articles">글 목록으로</Link>
     </div>
   );
@@ -60,7 +60,7 @@ export default function ArticleDetail() {
         {related.length > 0 && (
           <section className="related">
             <p className="eyebrow">같은 카테고리의 글</p>
-            <div className="post-grid">{related.map((p, i) => <PostCard key={p.id} post={p} index={i} />)}</div>
+            <div className="post-grid">{related.map((p) => <PostCard key={p.id} post={p} />)}</div>
           </section>
         )}
       </footer>

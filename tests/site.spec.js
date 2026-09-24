@@ -118,7 +118,7 @@ test('home lead card carries name, email and issue into the consulting form', as
   await page.locator('#leadName').fill('검증용 팀');
   await page.locator('#leadEmail').fill('lead@example.com');
   await page.locator('#leadIssue').fill('첫 매출이 안 나옵니다');
-  await page.getByRole('button', { name: '상담 폼으로 이어가기' }).click();
+  await page.getByRole('button', { name: '이어서 작성하기' }).click();
   await expect(page).toHaveURL(/consulting#contact/);
   await expect(page.locator('#name')).toHaveValue('검증용 팀');
   await expect(page.locator('#email')).toHaveValue('lead@example.com');

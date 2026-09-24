@@ -83,19 +83,19 @@ function render({ path, title, description, type = 'website', image = DEFAULT_IM
 
 const postLink = (p) => `<li><a href="/articles/${p.id}">${esc(p.title)}</a> <span>${fmt(p.date)}</span></li>`;
 const brunchLink = (p) => `<li><a href="${esc(p.url)}" rel="noreferrer">${esc(p.title)}</a> <span>${fmt(p.date)} · 브런치${p.series ? ` · ${esc(p.series)}` : ''}</span></li>`;
-const channelLinks = `<p><a href="${profile.blog}">네이버 블로그 「Design &amp; Breakthrough」</a> · <a href="${profile.brunch}">브런치</a> · <a href="${profile.linkedin}">링크드인</a> · <a href="${MOBIINSIDE}">모비인사이드 칼럼</a> · <a href="mailto:${profile.email}">${profile.email}</a></p>`;
+const channelLinks = `<p><a href="${profile.blog}">네이버 블로그 「수트와후드」</a> · <a href="${profile.brunch}">브런치</a> · <a href="${profile.linkedin}">링크드인</a> · <a href="${MOBIINSIDE}">모비인사이드 칼럼</a> · <a href="mailto:${profile.email}">${profile.email}</a></p>`;
 const servicesHtml = (tag = 'h3') => services.map((s) => `<section id="${s.id}"><${tag}>${s.number}. ${esc(s.title)}</${tag}><p><strong>${esc(s.tagline)}</strong> ${esc(s.description)}</p><ul>${s.outputs.map((o) => `<li>${esc(o)}</li>`).join('')}</ul></section>`).join('');
 const experienceHtml = `<ol class="timeline">${experience.map((e) => `<li><span>${esc(e.period)}</span><div><strong>${esc(e.org)}</strong> <em>${esc(e.role)}</em><p>${esc(e.desc || '')}</p></div></li>`).join('')}</ol>`;
 const faqHtml = `<section id="faq"><h2>자주 묻는 질문</h2><dl>${faq.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join('')}</dl></section>`;
-const statLabel = (s) => (s.dynamic === 'posts' ? s.label.replace('{n}', posts.length) : s.label);
+const statValue = (s) => (s.dynamic === 'posts' ? s.value.replace('{n}', posts.length) : s.value);
 
 // 1) 홈
 render({
   path: '/',
   title: `${BRAND} | 스타트업 경영 코치 ${AUTHOR}`,
-  description: `스타트업 경영 코치 수트와후드(SOOD) ${AUTHOR}. 현대그룹 기획실과 19년 창업·엑시트 경험으로 사업모델, 지표·PMF, 투자·정부지원, AI 활용을 코칭합니다. 스타트업 경영 칼럼 ${posts.length}편.`,
+  description: `스타트업 경영 코치 문성운(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${posts.length}편.`,
   head: `    ${graph({ '@type': 'WebSite', '@id': WEBSITE_ID, name: BRAND, alternateName: '수트와후드', url: SITE, inLanguage: 'ko', publisher: { '@id': ORG_ID } }, organization, person)}\n`,
-  body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>수트의 논리, 후드의 실행. 현대그룹 기획실에서 배운 숫자와 구조, 19년 창업과 엑시트로 배운 실행. 두 경험으로 창업자의 다음 한 수를 함께 찾습니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(s.value)}</strong> — ${esc(statLabel(s))}</li>`).join('')}</ul><h2>자문 영역</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>현대그룹 기획실에서 수천억 규모의 M&amp;A와 가치평가를 다루며 '숫자와 논리'를 배웠습니다. 그러다 안정된 수트를 벗고 후드티의 세계로 나와 IT 스타트업을 세웠습니다. 19년 동안 투자를 유치하며 회사를 키웠고, 매각(Exit)으로 결실을 맺었습니다.</p><p>지금은 그 두 경험을 합쳐 창업자를 코칭합니다. 아이디어를 비즈니스 언어로 풀지 못하거나, 데이터를 전략으로 잇지 못하는 팀에게 지표 중심의 데이터 경영을 제안합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>지나온 길</h2>${experienceHtml}<p><a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
+  body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>현대 기획실에서 숫자를 배웠고, 제 회사를 19년 운영했습니다. 지금은 초기 창업자와 마주 앉아 사업모델, 숫자, 자금 문제를 같이 봅니다. 수트와후드(SOOD)는 넥타이와 후드티를 둘 다 입어 본 사람의 자문이라는 뜻입니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(statValue(s))}</strong> — ${esc(s.label)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>1993년 현대석유화학 기획실에 들어가 M&amp;A와 가치평가를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 일이었습니다. 2001년에 넥타이를 풀고 디지털 마케팅 회사 인터랙티비를 차렸습니다. 투자를 받아 19년 동안 키웠고, 2019년에 회사를 팔았습니다.</p><p>지금은 그 두 경험을 합쳐 창업자를 코칭합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>걸어온 길</h2>${experienceHtml}<p><a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
 });
 
 // 2) 소개
@@ -105,7 +105,7 @@ render({
   description: ABOUT_DESC,
   type: 'profile',
   head: `    ${graph({ '@type': 'ProfilePage', '@id': `${SITE}/about`, url: `${SITE}/about`, name: `${AUTHOR} 소개`, inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, mainEntity: person }, organization, crumbs([{ name: '소개', path: '/about' }]))}\n`,
-  body: `<main class="wrap page"><h1>${AUTHOR} 소개</h1><p>수트와후드, ${AUTHOR}입니다. 연세대학교 화학공학을 졸업하고 현대그룹 기획실에서 커리어를 시작했습니다. 사업의 구조를 이해하고 실행의 어려움을 아는 창업가이자 스타트업 경영 코치입니다.</p><p>${AUTHOR}(수드)는 현대그룹 기획실 출신의 가치평가(Valuation) 프레임과 IT 스타트업 창업·매각(Exit) 경험을 융합해 지표 중심의 데이터 경영을 리드하는 스타트업 경영 코치입니다.</p><p>2023년부터 25만 유저 서비스의 전략 고문으로 리텐션 관리와 AI 에이전트 도입 모델을 맡았고, 지금까지 20개 팀의 사업모델·지표·투자·정부지원을 1:1로 자문했습니다. 비즈니스 모델 설계, 지표 튜닝, 신사업 타당성 시뮬레이션, 투자유치·정부지원사업, AI 에이전트 활용을 1:1로 코칭합니다.</p><p>매일 아침 네이버 블로그 「Design &amp; Breakthrough」에 스타트업 경영 칼럼을 쓰고, 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」을 펴냈으며, 모비인사이드에 「수트와 후드의 스타트업 경영」을 연재합니다.</p>${channelLinks}<h2>경력</h2>${experienceHtml}<p>연세대학교 화학공학 졸업</p><h2>자문 사례</h2><ul>${cases.map((c) => `<li><strong>${esc(c.field)}</strong> — ${esc(c.result)}</li>`).join('')}</ul><p>고객사 이름과 상세 수치는 공개하지 않습니다.</p><p><a href="/consulting">상담 안내</a> · <a href="/articles">칼럼 보기</a></p></main>`,
+  body: `<main class="wrap page"><h1>${AUTHOR} 소개</h1><p>수트와후드, ${AUTHOR}입니다. 연세대학교 화학공학을 졸업하고 현대그룹 기획실에서 커리어를 시작했습니다. 사업의 구조를 이해하고 실행의 어려움을 아는 창업가이자 스타트업 경영 코치입니다.</p><p>${AUTHOR}(수드)는 현대그룹 기획실 출신의 가치평가(Valuation) 프레임과 IT 스타트업 창업·매각(Exit) 경험을 융합해 지표 중심의 데이터 경영을 리드하는 스타트업 경영 코치입니다.</p><p>2023년부터 25만 유저 서비스의 전략 고문으로 리텐션 관리와 AI 에이전트 도입 모델을 맡았고, 지금까지 20개 팀의 사업모델·지표·투자·정부지원을 1:1로 자문했습니다. 비즈니스 모델 설계, 지표 튜닝, 신사업 타당성 시뮬레이션, 투자유치·정부지원사업, AI 에이전트 활용을 1:1로 코칭합니다.</p><p>매일 아침 네이버 블로그 「수트와후드」에 스타트업 경영 칼럼을 쓰고, 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」을 펴냈으며, 모비인사이드에 「수트와 후드의 스타트업 경영」을 연재합니다.</p>${channelLinks}<h2>경력</h2>${experienceHtml}<p>연세대학교 화학공학 졸업</p><h2>자문 사례</h2><ul>${cases.map((c) => `<li><strong>${esc(c.field)}</strong> — ${esc(c.result)}</li>`).join('')}</ul><p>고객사 이름과 상세 수치는 공개하지 않습니다.</p><p><a href="/consulting">상담 안내</a> · <a href="/articles">칼럼 보기</a></p></main>`,
 });
 
 // 3) 상담
@@ -119,7 +119,7 @@ render({
   title: `1:1 스타트업 경영 상담·자문 | ${BRAND}`,
   description: '초기 스타트업·예비창업자·1인 기업 대표를 위한 1:1 경영 코칭. 사업모델, 지표·PMF, 투자·정부지원, AI 활용을 함께 설계합니다. 첫 상담 60분.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
-  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>사업의 현재를 함께 짚고, 지금 필요한 실행을 설계합니다. 초기 스타트업 대표, 예비창업자, 1인 기업가와 일합니다.</p><h2>자문 분야</h2>${servicesHtml()}<h2>진행 방식</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>처음이라면: 첫 상담 60분, '다음 한 수 1장'</h3><p>현재 지표와 고민을 듣고 지금 가장 먼저 풀어야 할 문제 하나와 다음 4주 동안 할 일을 한 장으로 정리해 드립니다. 이후 집중 자문으로 이어갈지는 그때 정합니다.</p><p>일정과 비용은 상담 범위에 따라 협의합니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 2~3일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
+  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>초기 스타트업 대표, 예비창업자, 1인 기업가와 일합니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>비용은 할 일을 정한 뒤 말씀드립니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 2~3일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
 });
 
 // 4) 글 목록
@@ -181,14 +181,14 @@ for (const p of posts) (byCategory[p.category] ||= []).push(p);
 const llms = [
   `# ${BRAND} — 스타트업 경영 코치 ${AUTHOR}`,
   '',
-  `> 수트와후드(SOOD)는 스타트업 경영 코치 ${AUTHOR}(수드)의 1:1 경영 자문 브랜드입니다. 현대그룹 기획실에서 익힌 M&A·가치평가(Valuation)와 IT 스타트업 창업·투자 유치·매각(Exit) 경험으로, 초기 스타트업 대표·예비창업자·1인 기업가의 사업모델, 지표·PMF, 투자·정부지원, AI 활용을 코칭합니다.`,
+  `> 스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${posts.length}편.`,
   '',
   '## 기본 정보',
   `- 이름: ${AUTHOR} (수드, Sung Woon Moon)`,
   '- 역할: 스타트업 경영 코치, 수트와후드(SOOD)',
   '- 학력: 연세대학교 화학공학 졸업',
   `- 자문 실적: 초기 스타트업 20개 팀 1:1 자문 (고객사 이름과 상세 수치는 비공개)`,
-  `- 칼럼: 네이버 블로그 「Design & Breakthrough」 매일 연재, 이 사이트에 ${posts.length}편 수록. 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」, 모비인사이드 「수트와 후드의 스타트업 경영」`,
+  `- 칼럼: 네이버 블로그 「수트와후드」 매일 연재, 이 사이트에 ${posts.length}편 수록. 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」, 모비인사이드 「수트와 후드의 스타트업 경영」`,
   `- 문의: ${profile.email} · ${SITE}/consulting (보통 2~3일 안에 답장)`,
   `- 채널: [네이버 블로그](${profile.blog}) · [브런치](${profile.brunch}) · [링크드인](${profile.linkedin}) · [모비인사이드](${MOBIINSIDE})`,
   '',

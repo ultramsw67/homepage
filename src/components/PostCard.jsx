@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import { label, formatDate } from '../lib/posts';
 
 // 네이버 블로그 글은 홈페이지 안에서(/articles/:id), 브런치 글은 브런치 원문으로 연다.
-export default function PostCard({ post, index }) {
+export default function PostCard({ post }) {
   const brunch = post.channel === 'brunch';
   const inner = (
     <>
       {post.thumb ? (
         <div className="post-thumb"><img src={post.thumb} alt="" loading="lazy" referrerPolicy="no-referrer" /></div>
       ) : (
-        <div className="post-thumb post-thumb-empty" aria-hidden="true"><span>{String(index + 1).padStart(2, '0')}</span></div>
+        <div className="post-thumb post-thumb-empty" aria-hidden="true"><span>{brunch ? post.category : label(post.category)}</span></div>
       )}
       <div className="post-body">
         <p className="meta">

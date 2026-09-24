@@ -76,8 +76,8 @@ export default function Consulting() {
       <div className="wrap page">
         <header className="page-head">
           <p className="eyebrow">상담</p>
-          <h1>막연한 고민을,<br /><em>구체적인 다음 단계로.</em></h1>
-          <p className="lead">사업의 현재를 함께 짚고, 지금 필요한 실행을 설계합니다. 초기 스타트업 대표, 예비창업자, 1인 기업가와 일합니다.</p>
+          <h1>무엇을 돕는지,<br />어떻게 진행하는지</h1>
+          <p className="lead">초기 스타트업 대표, 예비창업자, 1인 기업가와 일합니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p>
           <div className="actions">
             <a className="button primary" href="#contact">첫 상담 60분 신청<Arrow /></a>
             <a className="button ghost" href="#faq">자주 묻는 질문</a>
@@ -86,8 +86,7 @@ export default function Consulting() {
 
         <section className="section" id="services">
           <div className="section-head">
-            <p className="eyebrow">자문 영역</p>
-            <h2>네 가지 축으로 함께 풉니다.</h2>
+            <h2>이런 문제를 같이 봅니다</h2>
           </div>
           {services.map((s) => (
             <article id={s.id} key={s.id} className="service-row">
@@ -104,8 +103,7 @@ export default function Consulting() {
 
         <section className="section" id="process">
           <div className="section-head">
-            <p className="eyebrow">진행 방식</p>
-            <h2>세 단계로 시작합니다.</h2>
+            <h2>상담은 이렇게 진행됩니다</h2>
           </div>
           <div className="process-grid">
             {process.map((p) => (
@@ -115,20 +113,19 @@ export default function Consulting() {
           <div className="entry-offer">
             <div>
               <p className="eyebrow">처음이라면</p>
-              <h3>첫 상담 60분, ‘다음 한 수 1장’</h3>
+              <h3>첫 상담 60분</h3>
               <p>현재 지표와 고민을 듣고 지금 가장 먼저 풀어야 할 문제 하나와 다음 4주 동안 할 일을 한 장으로 정리해 드립니다. 이후 집중 자문으로 이어갈지는 그때 정합니다.</p>
             </div>
             <div className="offer-side">
               <a className="button primary block" href="#contact">첫 상담 60분 신청<Arrow /></a>
-              <p className="small">일정과 비용은 상담 범위에 따라 협의합니다.</p>
+              <p className="small">비용은 할 일을 정한 뒤 말씀드립니다.</p>
             </div>
           </div>
         </section>
 
         <section className="section" id="faq">
           <div className="section-head">
-            <p className="eyebrow">자주 묻는 질문</p>
-            <h2>문의 전에 확인하실 내용.</h2>
+            <h2>자주 묻는 질문</h2>
           </div>
           <div className="faq-list">
             {faq.map((f, i) => (
@@ -145,8 +142,8 @@ export default function Consulting() {
         <div className="wrap contact-grid">
           <div>
             <p className="eyebrow">상담 문의</p>
-            <h2>지금 풀고 있는 문제,<br />같이 볼까요?</h2>
-            <p className="lead">정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요.</p>
+            <h2>고민을 몇 줄로 보내 주세요</h2>
+            <p className="lead">계획서가 없어도 됩니다. 지금 상황을 적어 주시면 2~3일 안에 답장드립니다.</p>
             <div className="contact-mail">
               <p className="k">이메일</p>
               <a className="contact-email" href={'mailto:' + profile.email}>{profile.email}</a>

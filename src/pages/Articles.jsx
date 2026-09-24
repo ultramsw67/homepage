@@ -105,7 +105,7 @@ export default function Articles() {
     <div className="wrap page">
       <header className="page-head">
         <p className="eyebrow">글</p>
-        <h1>스타트업 경영,<br />매일 <em>한 편씩.</em></h1>
+        <h1>스타트업 경영,<br />매일 <em>한 편씩</em></h1>
         <p className="lead">
           사업모델·가격 전략, 투자유치·정부지원사업, 1인 기업 AI 활용, MVP·PMF 실전 전술, 창업자 멘탈·조직까지.
           <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그</a>의 실전 칼럼과{' '}
@@ -155,7 +155,7 @@ export default function Articles() {
               {query && loadingBodies && <span className="search-note">본문까지 찾는 중…</span>}
               {query && !loadingBodies && channel !== 'blog' && <span className="search-note">브런치 글은 제목·소개글에서만 찾습니다</span>}
             </p>
-            <div className="post-grid">{filtered.slice(0, limit).map((p, i) => <PostCard key={p.id} post={p} index={i} />)}</div>
+            <div className="post-grid">{filtered.slice(0, limit).map((p) => <PostCard key={p.id} post={p} />)}</div>
             {limit < filtered.length && (
               <div className="more"><button type="button" className="button ghost" onClick={() => setLimit(limit + PAGE)}>더 보기 ({filtered.length - limit}편 남음)</button></div>
             )}

@@ -8,7 +8,7 @@ export default function About() {
       <header className="page-head split">
         <div>
           <p className="eyebrow">소개</p>
-          <h1>숫자로 생각하고,<br />현장에서 <em>배웁니다.</em></h1>
+          <h1>숫자로 생각하고,<br />현장에서 <em>배웁니다</em></h1>
           <p className="lead">
             수트와후드 문성운입니다. 연세대학교 화학공학을 졸업하고 현대그룹 기획실에서 일을 시작했습니다.
             사업의 구조를 이해하고 실행의 무게를 아는 창업가이자 스타트업 경영 코치입니다.
@@ -51,7 +51,7 @@ export default function About() {
       <section className="section" id="experience">
         <div className="section-head">
           <p className="eyebrow">경력</p>
-          <h2>경험은 다음 질문의 토대가 됩니다.</h2>
+          <h2>경험은 다음 질문의 토대가 됩니다</h2>
         </div>
         <ol className="timeline">
           {experience.map((e, i) => (
@@ -70,7 +70,7 @@ export default function About() {
       <section className="section">
         <div className="section-head">
           <p className="eyebrow">자문 사례</p>
-          <h2>함께 푼 문제들.</h2>
+          <h2>함께 푼 문제들</h2>
           <p className="lead">초기 스타트업과 1:1로 진행한 자문 가운데 일부를 익명으로 옮깁니다.</p>
         </div>
         <div className="case-grid">
@@ -84,7 +84,7 @@ export default function About() {
       <section className="section">
         <div className="section-head">
           <p className="eyebrow">지금 하는 일</p>
-          <h2>쓰고, 코칭합니다.</h2>
+          <h2>쓰고, 코칭합니다</h2>
         </div>
         <div className="now-grid">
           <div><strong>칼럼</strong><p>네이버 블로그 「수트와후드」와 브런치에 스타트업 전략·투자·데이터 경영 글을 정기 연재하며, 모비인사이드 필진으로도 활동 중입니다.</p><Link className="text-link" to="/articles">글 보기<Arrow /></Link></div>
