@@ -77,7 +77,7 @@ export default function Consulting() {
         <header className="page-head">
           <p className="eyebrow">상담</p>
           <h1>무엇을 돕는지,<br />어떻게 진행하는지</h1>
-          <p className="lead">초기 스타트업 대표, 예비창업자, 1인 기업가와 일합니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p>
+          <p className="lead">창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p>
           <div className="actions">
             <a className="button primary" href="#contact">첫 상담 60분 신청<Arrow /></a>
             <a className="button ghost" href="#faq">자주 묻는 질문</a>

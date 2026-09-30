@@ -37,7 +37,7 @@ const clip = (s, n = 150) => (s.length <= n ? s : `${s.slice(0, s.lastIndexOf(' 
 
 // 사람·브랜드 정보는 @id 로 한 번 정의하고 모든 페이지에서 같은 id 로 가리킨다 (AI·검색엔진이 같은 사람으로 묶게)
 const topics = ['스타트업 경영', '비즈니스 모델 설계', '지표·PMF 검증', '가치평가(Valuation)', '투자유치·IR', '정부지원사업', 'AI 에이전트 활용', '1인 기업'];
-const ABOUT_DESC = `${AUTHOR}(수드). 현대그룹 기획실 출신의 가치평가 프레임과 IT 스타트업 창업·매각 경험을 융합해 지표 중심의 데이터 경영을 코칭합니다.`;
+const ABOUT_DESC = `${AUTHOR}(수드). 현대그룹 기획실에서 익힌 가치평가 방식과 IT 스타트업 창업·매각 경험으로, 창업자가 매주 볼 숫자를 같이 정합니다.`;
 const person = {
   '@type': 'Person', '@id': PERSON_ID, name: AUTHOR, alternateName: ['수드', 'Sung Woon Moon'], jobTitle: '스타트업 경영 코치',
   description: ABOUT_DESC, url: `${SITE}/about`, image: DEFAULT_IMAGE, email: `mailto:${profile.email}`,
@@ -49,7 +49,7 @@ const person = {
 const organization = {
   '@type': 'Organization', '@id': ORG_ID, name: BRAND, alternateName: ['수트와후드', 'SOOD', 'Suit & Hood'], url: SITE,
   logo: DEFAULT_IMAGE, image: DEFAULT_IMAGE, email: profile.email,
-  description: '스타트업 경영 코치 문성운의 1:1 경영 자문 브랜드. 초기 스타트업 대표, 예비창업자, 1인 기업가의 사업모델·지표·투자·정부지원·AI 활용을 코칭합니다.',
+  description: '스타트업 경영 코치 문성운의 1:1 경영 자문 브랜드. 창업 3년 이내 대표와 1인 창업자의 사업모델·지표·투자·정부지원·AI 활용을 코칭합니다.',
   founder: { '@id': PERSON_ID }, areaServed: { '@type': 'Country', name: '대한민국' }, knowsAbout: topics,
   sameAs: [profile.blog, profile.brunch],
 };
@@ -95,7 +95,7 @@ render({
   title: `${BRAND} | 스타트업 경영 코치 ${AUTHOR}`,
   description: `스타트업 경영 코치 문성운(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${posts.length + brunchPosts.length}편.`,
   head: `    ${graph({ '@type': 'WebSite', '@id': WEBSITE_ID, name: BRAND, alternateName: '수트와후드', url: SITE, inLanguage: 'ko', publisher: { '@id': ORG_ID } }, organization, person)}\n`,
-  body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>현대 기획실에서 숫자를 배웠고, 제 회사를 19년 운영했습니다. 지금은 초기 창업자와 마주 앉아 사업모델, 숫자, 자금 문제를 같이 봅니다. 수트와후드(SOOD)는 넥타이와 후드티를 둘 다 입어 본 사람의 자문이라는 뜻입니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(statValue(s))}</strong> — ${esc(s.label)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>1993년 현대석유화학 기획실에서 첫 경력을 시작해 M&amp;A와 가치평가(Valuation)를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 자리였습니다. 2001년에는 넥타이를 풀고 IT 스타트업 인터랙티비를 창업했습니다. 투자를 유치해 회사를 키웠고 매각까지 이뤄냈습니다.</p><p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 코칭합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>걸어온 길</h2>${experienceHtml}<p><a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
+  body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>현대 기획실에서 숫자를 배웠고, 제 회사를 19년 운영했습니다. 지금은 초기 창업자와 마주 앉아 사업모델, 숫자, 자금 문제를 같이 봅니다. 수트와후드(SOOD)는 넥타이와 후드티를 둘 다 입어 본 사람의 자문이라는 뜻입니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(statValue(s))}</strong> — ${esc(s.label)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>1993년 현대석유화학 기획실에서 첫 경력을 시작해 M&amp;A와 가치평가(Valuation)를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 자리였습니다. 2001년에는 넥타이를 풀고 IT 스타트업 인터랙티비를 창업했습니다. 투자를 유치해 회사를 키웠고 매각까지 이뤄냈습니다.</p><p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 코칭합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>코치 소개</h2><p>기획실에서는 사업성을 따지는 쪽에, 창업하고 나서는 그 숫자를 맞춰야 하는 쪽에 있었습니다. <a href="/about">경력 전체 보기</a></p><p><a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
 });
 
 // 2) 소개
@@ -105,21 +105,21 @@ render({
   description: ABOUT_DESC,
   type: 'profile',
   head: `    ${graph({ '@type': 'ProfilePage', '@id': `${SITE}/about`, url: `${SITE}/about`, name: `${AUTHOR} 소개`, inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, mainEntity: person }, organization, crumbs([{ name: '소개', path: '/about' }]))}\n`,
-  body: `<main class="wrap page"><h1>${AUTHOR} 소개</h1><p>수트와후드, ${AUTHOR}입니다. 연세대학교 화학공학을 졸업하고 현대그룹 기획실에서 커리어를 시작했습니다. 사업의 구조를 이해하고 실행의 어려움을 아는 창업가이자 스타트업 경영 코치입니다.</p><p>${AUTHOR}(수드)는 현대그룹 기획실 출신의 가치평가(Valuation) 프레임과 IT 스타트업 창업·매각(Exit) 경험을 융합해 지표 중심의 데이터 경영을 리드하는 스타트업 경영 코치입니다.</p><p>2023년부터 30만 유저 서비스의 전략 고문으로 리텐션 관리와 AI 에이전트 도입 모델을 맡았고, 지금까지 20개 팀의 사업모델·지표·투자·정부지원을 1:1로 자문했습니다. 비즈니스 모델 설계, 지표 튜닝, 신사업 타당성 시뮬레이션, 투자유치·정부지원사업, AI 에이전트 활용을 1:1로 코칭합니다.</p><p>매일 아침 네이버 블로그 「수트와후드」에 스타트업 경영 칼럼을 쓰고, 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」을 펴냈으며, 모비인사이드에 「수트와 후드의 스타트업 경영」을 연재합니다.</p>${channelLinks}<h2>경력</h2>${experienceHtml}<p>연세대학교 화학공학 졸업</p><h2>자문 사례</h2><ul>${cases.map((c) => `<li><strong>${esc(c.field)}</strong> — ${esc(c.result)}</li>`).join('')}</ul><p>고객사 이름과 상세 수치는 공개하지 않습니다.</p><p><a href="/consulting">상담 안내</a> · <a href="/articles">칼럼 보기</a></p></main>`,
+  body: `<main class="wrap page"><h1>${AUTHOR} 소개</h1><p>수트와후드, ${AUTHOR}입니다. 연세대학교 화학공학을 졸업하고 현대그룹 기획실에서 커리어를 시작했습니다. 사업의 구조를 이해하고 실행의 무게를 아는 창업가이자 스타트업 경영 코치입니다.</p><p>${AUTHOR}(수드)는 현대그룹 기획실에서 익힌 가치평가(Valuation) 방식과 IT 스타트업을 창업해 매각(Exit)까지 한 경험으로, 창업자가 매주 볼 숫자를 같이 정하는 스타트업 경영 코치입니다.</p><p>2023년부터 30만 유저 서비스의 전략 고문으로 리텐션 관리와 AI 에이전트 도입 모델을 맡았고, 지금까지 20개 팀의 사업모델·지표·투자·정부지원을 1:1로 자문했습니다. 비즈니스 모델 설계, 지표 튜닝, 신사업 타당성 시뮬레이션, 투자유치·정부지원사업, AI 에이전트 활용을 1:1로 코칭합니다.</p><p>매일 아침 네이버 블로그 「수트와후드」에 스타트업 경영 칼럼을 쓰고, 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」을 펴냈으며, 모비인사이드에 「수트와 후드의 스타트업 경영」을 연재합니다.</p>${channelLinks}<h2>경력</h2>${experienceHtml}<p>연세대학교 화학공학 졸업</p><h2>자문 사례</h2><ul>${cases.map((c) => `<li><strong>${esc(c.field)}</strong> — ${esc(c.result)}</li>`).join('')}</ul><p>고객사 이름과 상세 수치는 공개하지 않습니다.</p><p><a href="/consulting">상담 안내</a> · <a href="/articles">칼럼 보기</a></p></main>`,
 });
 
 // 3) 상담
 const offerCatalog = {
   '@type': 'Service', '@id': `${SITE}/consulting#service`, name: '1:1 스타트업 경영 자문', serviceType: '스타트업 경영 코칭', url: `${SITE}/consulting`,
-  provider: { '@id': ORG_ID }, areaServed: { '@type': 'Country', name: '대한민국' }, audience: { '@type': 'Audience', audienceType: '초기 스타트업 대표, 예비창업자, 1인 기업가' },
+  provider: { '@id': ORG_ID }, areaServed: { '@type': 'Country', name: '대한민국' }, audience: { '@type': 'Audience', audienceType: '창업 3년 이내 대표, 1인 창업자' },
   hasOfferCatalog: { '@type': 'OfferCatalog', name: '자문 분야', itemListElement: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.description } })) },
 };
 render({
   path: '/consulting',
   title: `1:1 스타트업 경영 상담·자문 | ${BRAND}`,
-  description: '초기 스타트업·예비창업자·1인 기업 대표를 위한 1:1 경영 코칭. 사업모델, 지표·PMF, 투자·정부지원, AI 활용을 함께 설계합니다. 첫 상담 60분.',
+  description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 상담 60분.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
-  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>초기 스타트업 대표, 예비창업자, 1인 기업가와 일합니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>비용은 할 일을 정한 뒤 말씀드립니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 2~3일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
+  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>비용은 할 일을 정한 뒤 말씀드립니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 2~3일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
 });
 
 // 4) 글 목록

@@ -46,14 +46,16 @@ test('contact uses ultramsw67@gmail.com and no themoontech', async ({ page }) =>
   await page.goto('/');
   const home = await page.content();
   expect(home).not.toContain('themoontech');
-  // 홈의 '지나온 길' 타임라인에도 같은 경력이 표시된다
-  expect(await page.locator('.timeline').textContent()).toContain('전략 고문');
+  // 2026-09-30: 경력 목록은 소개 페이지에만 둔다. 홈은 소개 카드와 '경력 전체 보기' 링크만
+  await expect(page.locator('.timeline')).toHaveCount(0);
+  await expect(page.locator('#career a[href="/about"]')).toBeVisible();
 });
 
 test('consulting FAQ opens and answers', async ({ page }) => {
   await page.goto('/consulting#faq');
   const items = page.locator('.faq-list details');
-  await expect(items).toHaveCount(6);
+  // 2026-09-29 타깃 좁히기로 질문 2개 추가 → 8개
+  await expect(items).toHaveCount(8);
   // 2026-09-18 리디자인: 첫 항목은 기본으로 열려 있고, 나머지는 눌러서 연다
   await expect(items.first().locator('p')).toBeVisible();
   await items.nth(1).locator('summary').click();

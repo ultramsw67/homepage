@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { services, profile, stats, experience, process } from '../lib/site';
+import { services, profile, stats, process } from '../lib/site';
 import { loadIndex, loadBrunch } from '../lib/posts';
 import PostCard from '../components/PostCard';
 import { Arrow, Down, Blog, Book, Linked, Mail } from '../components/Icons';
@@ -39,7 +39,7 @@ export default function Home() {
               <Link className="button ghost" to="/consulting">어떤 일을 돕는지 보기</Link>
             </div>
             <div className="hero-meta rise d5">
-              <span>초기 스타트업 대표, 예비창업자, 1인 기업가와 일합니다</span>
+              <span>창업 3년 이내 대표, 1인 창업자와 일합니다</span>
               <span>보통 2~3일 안에 답장드립니다</span>
             </div>
             <div className="hero-links rise d5" aria-label="블로그, 브런치, 링크드인, 이메일">
@@ -138,18 +138,9 @@ export default function Home() {
       <section className="section" id="career">
         <div className="wrap">
           <div className="section-head">
-            <h2>걸어온 길</h2>
+            <h2>코치 소개</h2>
           </div>
-          <div className="career-grid">
-            <ol className="timeline">
-              {experience.map((e, i) => (
-                <li key={e.org} className={i === 0 ? 'is-now' : undefined}>
-                  <span>{e.period}</span>
-                  <strong>{e.org}</strong>
-                  <em>{e.role}</em>
-                </li>
-              ))}
-            </ol>
+          <div className="career-grid solo">
             <aside className="portrait">
               <div className="portrait-inner">
                 <span className="portrait-avatar"><img src="/sood-character.jpg" alt={profile.name} width="92" height="92" /></span>
@@ -159,7 +150,7 @@ export default function Home() {
                   <a href={profile.blog} target="_blank" rel="noreferrer"><Blog />네이버 블로그</a>
                   <a href={profile.brunch} target="_blank" rel="noreferrer"><Book />브런치</a>
                   <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linked />LinkedIn</a>
-                  <Link to="/about"><Arrow />소개 더 보기</Link>
+                  <Link to="/about"><Arrow />경력 전체 보기</Link>
                 </div>
               </div>
             </aside>

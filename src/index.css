@@ -176,6 +176,8 @@ html.js #root > .page { display: none; }
 
 /* 경력 */
 .career-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 68px); align-items: start; }
+.career-grid.solo { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
+.career-grid.solo .portrait { position: relative; top: auto; }
 .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
 .timeline::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 1px; background: var(--line); }
 .timeline li { position: relative; padding-left: clamp(24px, 3vw, 34px); padding-bottom: clamp(26px, 3vw, 32px); }
