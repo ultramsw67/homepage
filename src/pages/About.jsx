@@ -27,7 +27,7 @@ export default function About() {
 
       <section className="section prose-section">
         <p className="eyebrow">이야기</p>
-        <h2>“대기업 출신이 왜 사서 고생을?”</h2>
+        <h2>“수트의 논리와 후드의 실전, 둘 다 해봤습니다”</h2>
         <div className="prose" style={{ marginTop: 28 }}>
           <p>
             현대그룹 계열사 기획실에서 수천억 규모의 M&amp;A(인수합병), 가치평가(Valuation), 사업 타당성 분석을 맡았습니다.
