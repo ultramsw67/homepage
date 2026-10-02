@@ -8,8 +8,22 @@ const NAVER = profile.analytics?.naverId;
 const HOSTS = ['soodcoach.com', 'www.soodcoach.com'];
 const scripts = {};
 
+// 내 방문 빼기: 주소 끝에 ?internal=1 을 붙여 한 번 열면 그 브라우저는 집계하지 않는다 (?internal=0 으로 해제)
+// 이 노트북은 휴대폰 데이터로 접속해 IP 가 자주 바뀌므로 IP 제외 대신 브라우저 표시를 쓴다 (2026-10-02)
+const INTERNAL_KEY = 'sood-internal';
+function isInternal() {
+  try {
+    const flag = new URLSearchParams(window.location.search).get('internal');
+    if (flag === '1') window.localStorage.setItem(INTERNAL_KEY, '1');
+    if (flag === '0') window.localStorage.removeItem(INTERNAL_KEY);
+    return window.localStorage.getItem(INTERNAL_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
 function onSite() {
-  return typeof window !== 'undefined' && HOSTS.includes(window.location.hostname);
+  return typeof window !== 'undefined' && HOSTS.includes(window.location.hostname) && !isInternal();
 }
 
 function loadScript(src) {
