@@ -61,7 +61,7 @@ const crumbs = (items) => ({
 });
 const graph = (...nodes) => jsonld({ '@context': 'https://schema.org', '@graph': nodes });
 
-function render({ path, title, description, type = 'website', image = DEFAULT_IMAGE, head = '', body = '', file, noindex = false }) {
+function render({ path, title, description, type = 'website', image = DEFAULT_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl }) {
   const url = `${SITE}${path}`;
   let html = template
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
@@ -72,7 +72,7 @@ function render({ path, title, description, type = 'website', image = DEFAULT_IM
     .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${url}" />`)
     .replace(/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${esc(image)}" />`);
   if (noindex) html = html.replace(/<meta name="robots" content="[^"]*" \/>/, '<meta name="robots" content="noindex, follow" />');
-  const canonical = noindex ? '' : `    <link rel="canonical" href="${url}" />\n`;
+  const canonical = noindex ? '' : `    <link rel="canonical" href="${esc(canonicalUrl || url)}" />\n`;
   html = html.replace('</head>', `${canonical}    <link rel="alternate" type="text/plain" title="llms.txt" href="${SITE}/llms.txt" />\n    <meta name="twitter:title" content="${esc(title)}" />\n    <meta name="twitter:description" content="${esc(description)}" />\n    <meta name="twitter:image" content="${esc(image)}" />\n${head}  </head>`);
   html = html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
   if (file) { writeFileSync(join(DIST, file), html); return; }
@@ -148,10 +148,13 @@ for (const p of posts) {
   summaries[p.id] = description;
   const ld = {
     '@type': 'BlogPosting', '@id': `${url}#article`, headline: p.title, description, url,
-    mainEntityOfPage: url, datePublished: p.date, dateModified: p.date, inLanguage: 'ko', articleSection: catName(p.category),
+    mainEntityOfPage: p.url, datePublished: p.date, dateModified: p.date, inLanguage: 'ko', articleSection: catName(p.category),
     image: p.thumb ? [p.thumb] : [DEFAULT_IMAGE], author: personRef, publisher: orgRef, isPartOf: { '@id': WEBSITE_ID }, isBasedOn: p.url,
   };
+  // 원본 표시는 네이버 블로그 원문으로 (2026-10-02). 같은 글이 두 곳에 있어 검색엔진이 블로그를 원본으로 보므로,
+  // 홈페이지 사본은 검색 경쟁에서 빠지고 블로그 검색을 지킨다. og:url 은 홈페이지 주소 그대로 — 링크드인 공유 카드가 홈페이지로 오게
   render({
+    canonicalUrl: p.url,
     path: `/articles/${p.id}`,
     title: `${p.title} | ${BRAND}`,
     description,

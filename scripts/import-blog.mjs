@@ -144,7 +144,7 @@ const urls = [
   { u: '/articles', m: newest, f: 'daily', p: '0.9' },
   { u: '/about', m: today, f: 'monthly', p: '0.6' },
   { u: '/consulting', m: today, f: 'monthly', p: '0.6' },
-  ...posts.map((p) => ({ u: `/articles/${p.id}`, m: p.date || today, f: 'monthly', p: '0.7' })),
+  // 글 페이지는 원본 표시가 네이버 블로그라 사이트맵에 넣지 않는다 (2026-10-02, 사이트맵에는 원본 주소만)
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((x) => `  <url><loc>${SITE}${x.u}</loc><lastmod>${x.m}</lastmod><changefreq>${x.f}</changefreq><priority>${x.p}</priority></url>`).join('\n')}\n</urlset>\n`;
 writeFileSync(resolve('public/sitemap.xml'), sitemap);
