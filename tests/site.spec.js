@@ -9,7 +9,7 @@ for (const width of [390, 768, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
-    for (const path of ['/', '/about', '/consulting', '/articles', '/articles/' + first, '/missing', '/articles/missing']) {
+    for (const path of ['/', '/about', '/consulting', '/articles', '/series', '/series?s=A', '/articles/' + first, '/missing', '/articles/missing']) {
       await page.goto(path);
       await expect(page.locator('h1')).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
@@ -216,4 +216,25 @@ test('제목에 있는 글이 본문에만 있는 글보다 먼저 나온다', a
   await expect(page.locator('.post-card').first()).toBeVisible({ timeout: 15000 });
   await expect(page.locator('.result-count')).not.toContainText('1편');
   await expect(page.locator('.post-card h3').first()).toContainText('Canva');
+});
+
+test('연재: 6개 카드, 전체 보기 펼침, 연재 하나 고르기, 블로그 새 창 링크', async ({ page }) => {
+  const data = JSON.parse(readFileSync('public/series.json', 'utf8'));
+  await page.goto('/series');
+  const cards = page.locator('.series-card');
+  await expect(cards).toHaveCount(6);
+  const a = data.series[0];
+  const first = cards.first();
+  await expect(first.locator('.series-list li')).toHaveCount(3);
+  await expect(first.locator('.series-title').first()).toHaveText(a.items[a.items.length - 1].title);
+  await first.locator('.series-more').click();
+  await expect(first.locator('.series-list li')).toHaveCount(a.items.length);
+  const link = first.locator('.series-title').first();
+  await expect(link).toHaveAttribute('target', '_blank');
+  expect(await link.getAttribute('href')).toMatch(/^https:\/\/blog\.naver\.com\/ultramsw67\/\d+$/);
+  await page.locator('.series-filters button', { hasText: 'MVP' }).click();
+  await expect(page).toHaveURL(/s=B/);
+  await expect(cards).toHaveCount(1);
+  await expect(cards.first().locator('.series-list li')).toHaveCount(data.series[1].items.length);
+  await expect(page.locator('#primary-nav a[href="/series"]')).toHaveClass(/active/);
 });

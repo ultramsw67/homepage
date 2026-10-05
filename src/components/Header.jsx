@@ -21,6 +21,7 @@ export default function Header() {
         <nav id="primary-nav" className={open ? 'nav is-open' : 'nav'} aria-label="주 메뉴">
           <NavLink to="/about">소개</NavLink>
           <NavLink to="/consulting" end>자문 영역</NavLink>
+          <NavLink to="/series">연재</NavLink>
           <NavLink to="/articles">글</NavLink>
           <Link className="nav-cta" to="/consulting#contact">상담 문의</Link>
         </nav>

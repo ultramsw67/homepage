@@ -75,3 +75,15 @@ export function loadPost(id) {
   }
   return postCache.get(id);
 }
+
+// 사례 연재 6개 (public/series.json, scripts/import-series.mjs 가 vault 연재 목록에서 만든다)
+let seriesPromise;
+export function loadSeries() {
+  if (!seriesPromise) {
+    seriesPromise = fetch('/series.json', { cache: 'no-cache' }).then((r) => {
+      if (!r.ok) throw new Error('series ' + r.status);
+      return r.json();
+    }).catch((e) => { seriesPromise = undefined; throw e; });
+  }
+  return seriesPromise;
+}

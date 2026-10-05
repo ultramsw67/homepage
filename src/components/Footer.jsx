@@ -15,6 +15,7 @@ export default function Footer() {
             <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그</a>
             <a href={profile.brunch} target="_blank" rel="noreferrer">브런치</a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+            <Link to="/series">사례 연재</Link>
             <Link to="/consulting#faq">자주 묻는 질문</Link>
           </nav>
         </div>

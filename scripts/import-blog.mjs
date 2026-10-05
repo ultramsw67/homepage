@@ -142,6 +142,7 @@ const newest = posts[0]?.date || today;
 const urls = [
   { u: '/', m: newest, f: 'daily', p: '1.0' },
   { u: '/articles', m: newest, f: 'daily', p: '0.9' },
+  { u: '/series', m: newest, f: 'weekly', p: '0.8' },
   { u: '/about', m: today, f: 'monthly', p: '0.6' },
   { u: '/consulting', m: today, f: 'monthly', p: '0.6' },
   // 글 페이지는 원본 표시가 네이버 블로그라 사이트맵에 넣지 않는다 (2026-10-02, 사이트맵에는 원본 주소만)
