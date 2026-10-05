@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -11,13 +11,17 @@ import Consulting from './pages/Consulting';
 import Series from './pages/Series';
 import { trackPageview } from './lib/analytics';
 
-const TITLES = { '/': '수트의 논리, 후드의 실행', '/about': '소개', '/articles': '글', '/consulting': '자문 영역 · 상담', '/series': '연재' };
+// 사전 렌더링(scripts/prerender.mjs)의 제목과 같은 문구. 검색엔진은 JS 실행 뒤 제목을 쓰므로 어긋나면 안 된다.
+const TITLES = { '/': '수트와후드 SOOD | 스타트업 경영 코치 문성운', '/about': '문성운 소개 | 스타트업 경영 코치 · 수트와후드 SOOD', '/articles': '스타트업 경영 칼럼 | 수트와후드 SOOD', '/consulting': '1:1 스타트업 경영 상담·자문 | 수트와후드 SOOD', '/series': '사례 연재 6개 — 비즈니스 모델·MVP·피벗·1인 기업 | 수트와후드 SOOD' };
 
 function RouteEffects() {
   const { pathname, hash } = useLocation();
+  const firstLoad = useRef(true);
   useEffect(() => { trackPageview(); }, [pathname]);
   useEffect(() => {
-    if (!pathname.startsWith('/articles/')) document.title = (TITLES[pathname] || '수트와후드') + ' | 수트와후드 SOOD';
+    // 첫 화면은 사전 렌더링된 제목을 그대로 두고, 사이트 안에서 이동할 때만 바꾼다.
+    if (firstLoad.current) firstLoad.current = false;
+    else if (!pathname.startsWith('/articles/')) document.title = TITLES[pathname] || '수트와후드 SOOD';
     const frame = requestAnimationFrame(() => {
       if (hash) document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'instant', block: 'start' });
       else window.scrollTo({ top: 0, behavior: 'instant' });
