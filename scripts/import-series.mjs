@@ -4,6 +4,7 @@
 // 노트가 없으면(다른 컴퓨터·CI) 지난번 series.json 을 그대로 둔다.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const SRC = 'C:/Obsidian/tomwiki/10_블로그/블로그 운영/수드 사례 연재 목록.md';
 const OUT = resolve('public/series.json');
@@ -33,4 +34,10 @@ const data = { at: series.flatMap((s) => s.items.map((i) => i.date)).sort().pop(
 const before = existsSync(OUT) ? readFileSync(OUT, 'utf8') : '';
 const next = JSON.stringify(data);
 if (before !== next) writeFileSync(OUT, next);
+// 편 수가 바뀌면 블로그 사이드바 배너(「스타트업 사례 N편을 분석했습니다」)도 다시 그린다
+const prevTotal = before ? JSON.parse(before).total : 0;
+if (prevTotal !== total) {
+  try { execFileSync(process.execPath, [resolve('scripts/widget-series-banner.mjs')], { stdio: 'inherit', timeout: 120000 }); }
+  catch (e) { console.error('series: 배너 다시 그리기 실패 — 지난 그림 유지', e.message); }
+}
 console.log(`series: 연재 ${series.length}개 · ${total}편${before === next ? ' (변경 없음)' : ' → public/series.json'}`);
