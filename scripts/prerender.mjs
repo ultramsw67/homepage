@@ -11,7 +11,10 @@ const DIST = resolve('dist');
 const POSTS = resolve('public/posts');
 const BRAND = '수트와후드 SOOD';
 const AUTHOR = '문성운';
-const DEFAULT_IMAGE = `${SITE}/sood-character.jpg`;
+const DEFAULT_IMAGE = `${SITE}/sood-character.jpg`;   // 사람·브랜드 정보(JSON-LD)용 정사각 캐릭터
+// 공유 카드(og:image) 1200×630 — scripts/og-card.mjs 로 만든다. 카톡·링크드인 미리보기가 위아래로 잘리지 않게 (2026-10-05)
+const OG_IMAGE = `${SITE}/og-card.png`;
+const OG_ALT = '수트와후드 SOOD — 스타트업 경영 코치 문성운, soodcoach.com';
 const PERSON_ID = `${SITE}/about#person`;
 const ORG_ID = `${SITE}/#organization`;
 const WEBSITE_ID = `${SITE}/#website`;
@@ -64,7 +67,15 @@ const crumbs = (items) => ({
 });
 const graph = (...nodes) => jsonld({ '@context': 'https://schema.org', '@graph': nodes });
 
-function render({ path, title, description, type = 'website', image = DEFAULT_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl }) {
+// 크기를 아는 공유 카드일 때만 width·height 를 붙인다 (글 썸네일은 네이버 그림이라 크기를 모름)
+const ogSize = (image) => (image === OG_IMAGE
+  ? `
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="${esc(OG_ALT)}" />`
+  : '');
+
+function render({ path, title, description, type = 'website', image = OG_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl }) {
   const url = `${SITE}${path}`;
   let html = template
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
@@ -73,7 +84,7 @@ function render({ path, title, description, type = 'website', image = DEFAULT_IM
     .replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${esc(description)}" />`)
     .replace(/<meta property="og:type" content="[^"]*" \/>/, `<meta property="og:type" content="${type}" />`)
     .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${url}" />`)
-    .replace(/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${esc(image)}" />`);
+    .replace(/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${esc(image)}" />${ogSize(image)}`);
   if (noindex) html = html.replace(/<meta name="robots" content="[^"]*" \/>/, '<meta name="robots" content="noindex, follow" />');
   const canonical = noindex ? '' : `    <link rel="canonical" href="${esc(canonicalUrl || url)}" />\n`;
   html = html.replace('</head>', `${canonical}    <link rel="alternate" type="text/plain" title="llms.txt" href="${SITE}/llms.txt" />\n    <meta name="twitter:title" content="${esc(title)}" />\n    <meta name="twitter:description" content="${esc(description)}" />\n    <meta name="twitter:image" content="${esc(image)}" />\n${head}  </head>`);
@@ -165,13 +176,16 @@ for (const p of posts) {
   };
   // 원본 표시는 네이버 블로그 원문으로 (2026-10-02). 같은 글이 두 곳에 있어 검색엔진이 블로그를 원본으로 보므로,
   // 홈페이지 사본은 검색 경쟁에서 빠지고 블로그 검색을 지킨다. og:url 은 홈페이지 주소 그대로 — 링크드인 공유 카드가 홈페이지로 오게
+  // 본문이 거의 없는 글(인사·이벤트 글 등)은 검색에 내보내지 않는다 — 빈약한 페이지가 사이트 평가를 깎지 않게 (2026-10-05, check-seo.mjs 와 같은 200자 기준)
+  const thin = plain(full.html).length < 200;
   render({
+    noindex: thin,
     canonicalUrl: p.url,
     path: `/articles/${p.id}`,
     title: `${p.title} | ${BRAND}`,
     description,
     type: 'article',
-    image: p.thumb || DEFAULT_IMAGE,
+    image: p.thumb || OG_IMAGE,
     head: `    <meta property="article:published_time" content="${p.date}" />\n    <meta property="article:author" content="${AUTHOR}" />\n    <meta property="article:section" content="${esc(catName(p.category))}" />\n    ${graph(ld, crumbs([{ name: '칼럼', path: '/articles' }, { name: p.title, path: `/articles/${p.id}` }]))}\n`,
     body: `<article class="wrap page reading"><header class="article-head"><p class="eyebrow">${esc(catName(p.category))}</p><h1>${esc(p.title)}</h1><p class="muted">${fmt(p.date)} · <a href="/about">${AUTHOR}</a> (스타트업 경영 코치, ${BRAND})</p></header><div class="article-body">${full.html}</div><p><a href="${esc(p.url)}" rel="noreferrer">네이버 블로그 원문 보기</a> · <a href="/articles">글 목록</a> · <a href="/consulting">1:1 경영 상담</a></p></article>`,
   });

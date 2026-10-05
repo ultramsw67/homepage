@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/build-search.mjs && vite",
-    "build": "node scripts/build-search.mjs && vite build && node scripts/prerender.mjs",
+    "build": "node scripts/build-search.mjs && vite build && node scripts/prerender.mjs && node scripts/check-seo.mjs",
+    "seo:check": "node scripts/check-seo.mjs",
+    "og:card": "node scripts/og-card.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "import:blog": "node scripts/import-blog.mjs && node scripts/import-series.mjs",

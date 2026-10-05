@@ -118,7 +118,7 @@ export default function Home() {
           </div>
           <div className="story-sign">
             <div className="who">
-              <span className="avatar"><img src="/sood-character.jpg" alt="" width="58" height="58" /></span>
+              <span className="avatar"><img src="/sood-character-192.webp" alt="" width="58" height="58" /></span>
               <span>
                 <span className="name">{profile.name}</span>
                 <span className="role">{profile.brand} ({profile.brandEn}) · {profile.role}</span>
@@ -143,7 +143,7 @@ export default function Home() {
           <div className="career-grid solo">
             <aside className="portrait">
               <div className="portrait-inner">
-                <span className="portrait-avatar"><img src="/sood-character.jpg" alt={profile.name} width="92" height="92" /></span>
+                <span className="portrait-avatar"><img src="/sood-character-192.webp" alt={profile.name} width="92" height="92" loading="lazy" /></span>
                 <h3>{profile.name} · {profile.brand}</h3>
                 <p>기획실에서는 사업성을 따지는 쪽에, 창업하고 나서는 그 숫자를 맞춰야 하는 쪽에 있었습니다. 자료가 정리돼 있지 않아도 지금 상황부터 들려주시면 됩니다.</p>
                 <div className="portrait-links">

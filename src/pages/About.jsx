@@ -21,7 +21,7 @@ export default function About() {
           </div>
         </div>
         <figure className="portrait-photo">
-          <img src="/sood-character.jpg" alt="수트와후드 문성운의 브랜드 캐릭터" width="1020" height="1024" />
+          <img src="/sood-character-480.webp" srcSet="/sood-character-480.webp 480w, /sood-character-960.webp 960w" sizes="(max-width: 960px) 320px, 420px" alt="수트와후드 문성운의 브랜드 캐릭터" width="1020" height="1024" fetchPriority="high" />
         </figure>
       </header>
 
