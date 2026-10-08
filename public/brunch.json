@@ -1,10 +1,10 @@
 {
- "at": "2026-10-07T23:46:47.935Z",
+ "at": "2026-10-08T02:23:51.729Z",
  "profile": {
   "url": "https://brunch.co.kr/@a3b90b2e717a467",
   "followers": 209,
-  "articles": 41,
-  "likes": 2297
+  "articles": 42,
+  "likes": 2308
  },
  "series": [
   {
@@ -17,6 +17,18 @@
   }
  ],
  "posts": [
+  {
+   "no": 43,
+   "url": "https://brunch.co.kr/@a3b90b2e717a467/43",
+   "title": "AI 결과물 검토, 누가 책임질까",
+   "sub": "AI 보고서 검토 부담, 워크슬롭 줄이는 규칙 3가지",
+   "excerpt": "팀장이 월요일 아침 메일 함을 엽니다. 팀원이 보낸 시장 조사 보고서가 와 있습니다. 12쪽에 표가 여섯 개, 문장도 얼핏 매끄럽습니다. 그런데 세 쪽쯤 읽어 내려가다 보면 어딘가 이상합니다. 경쟁사 사명이 엉뚱하…",
+   "date": "2026-10-08",
+   "like": 10,
+   "comments": 0,
+   "series": null,
+   "thumb": "https://img1.kakaocdn.net/thumb/R640x0.fpng/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Fbrunch%2Fservice%2Fuser%2Ffjfy%2Fimage%2FzDpK1XyDw3WwuWdKa1rdXm6aeys.png"
+  },
   {
    "no": 42,
    "url": "https://brunch.co.kr/@a3b90b2e717a467/42",
@@ -36,7 +48,7 @@
    "sub": "고객이 보낸 AI 에이전트는 무단 침입인가 대리인인가",
    "excerpt": "고객이 보낸 AI 에이전트, 문을 열 것인가 닫을 것인가 지난 연말 미국 쇼핑몰들은 일찍이 본 적 없던 손님을 맞았습니다. 어도비(Adobe) 집계에 따르면 2025년 11~12월 연말 시즌, 생성형 AI 서비스를…",
    "date": "2026-09-23",
-   "like": 32,
+   "like": 33,
    "comments": 0,
    "series": null,
    "thumb": "https://img1.kakaocdn.net/thumb/R640x0.fpng/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Fbrunch%2Fservice%2Fuser%2Ffjfy%2Fimage%2Fn0EVMHGL0jW8JCENXd5Q0V1F3dk.png"
