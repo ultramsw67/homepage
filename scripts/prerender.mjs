@@ -14,6 +14,8 @@ const AUTHOR = '문성운';
 const DEFAULT_IMAGE = `${SITE}/sood-character.jpg`;   // 사람·브랜드 정보(JSON-LD)용 정사각 캐릭터
 // 공유 카드(og:image) 1200×630 — scripts/og-card.mjs 로 만든다. 카톡·링크드인 미리보기가 위아래로 잘리지 않게 (2026-10-05)
 const OG_IMAGE = `${SITE}/og-card.png`;
+// 3분 진단 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-check.html — 크롬 헤드리스로 찍음)
+const CHECK_OG = `${SITE}/og-check.png`;
 const OG_ALT = '수트와후드 SOOD — 스타트업 경영 코치 문성운, soodcoach.com';
 const PERSON_ID = `${SITE}/about#person`;
 const ORG_ID = `${SITE}/#organization`;
@@ -68,11 +70,11 @@ const crumbs = (items) => ({
 const graph = (...nodes) => jsonld({ '@context': 'https://schema.org', '@graph': nodes });
 
 // 크기를 아는 공유 카드일 때만 width·height 를 붙인다 (글 썸네일은 네이버 그림이라 크기를 모름)
-const ogSize = (image) => (image === OG_IMAGE
+const ogSize = (image) => (image === OG_IMAGE || image === CHECK_OG
   ? `
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="${esc(OG_ALT)}" />`
+    <meta property="og:image:alt" content="${esc(image === CHECK_OG ? "3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비, 수트와후드 SOOD" : OG_ALT)}" />`
   : '');
 
 function render({ path, title, description, type = 'website', image = OG_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl }) {
@@ -140,6 +142,7 @@ render({
 const CHECK_QS = ['내 고객이 누구인지 한 문장으로 말할 수 있나요?', '그 고객 5명 이상과 직접 이야기해 봤나요?', '고객이 지금 그 문제를 어떻게 해결하고 있는지 알고 있나요?', '고객이 그 문제에 이미 돈이나 시간을 쓰고 있나요?', '누가 얼마를 낼지 가격을 정해 봤나요?', '한 달에 나가는 돈과 버틸 수 있는 개월 수를 알고 있나요?', '고객이 직접 써 볼 수 있는 것(시제품·MVP·샘플)이 있나요?', '지난 4주 동안 매주 확인한 숫자가 하나라도 있나요?', '함께할 사람(공동창업자·외주·AI 도구)을 정했나요?', '넣을 정부지원사업이나 투자 경로를 1개 이상 정했나요?'];
 render({
   path: '/check',
+  image: CHECK_OG,
   title: `3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비 | ${BRAND}`,
   description: '고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검하는 3분 창업 준비도 진단. 아이디어와 연락처는 묻지 않고, 점수와 이번 주 할 일 하나, 2주 뒤 다시 재 보는 쪽지를 드립니다.',
   head: `    ${graph({ '@type': 'WebPage', '@id': `${SITE}/check`, url: `${SITE}/check`, name: '3분 창업 준비도 진단', inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef }, crumbs([{ name: '3분 진단', path: '/check' }]))}
