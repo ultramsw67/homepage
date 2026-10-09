@@ -216,7 +216,7 @@ html.js #root > .page { display: none; }
 .process-grid span { font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: .12em; }
 .process-grid h3 { margin-top: 14px; font-size: clamp(19px, 1.8vw, 23px); letter-spacing: -.03em; }
 .process-grid p { margin-top: 12px; font-size: 15px; color: var(--muted); line-height: 1.8; }
-.entry-offer { margin-top: clamp(28px, 3.5vw, 42px); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: var(--radius); background: var(--white); padding: clamp(28px, 3.2vw, 44px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(22px, 3vw, 44px); align-items: center; position: relative; overflow: hidden; }
+.entry-offer { margin-top: clamp(28px, 3.5vw, 42px); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 0; background: var(--white); padding: clamp(28px, 3.2vw, 44px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(22px, 3vw, 44px); align-items: center; position: relative; overflow: hidden; }
 .entry-offer .eyebrow { margin-bottom: 10px; }
 .entry-offer h3 { font-size: clamp(23px, 2.4vw, 32px); letter-spacing: -.03em; }
 .entry-offer p { margin-top: 14px; font-size: 16px; color: var(--muted); line-height: 1.85; }
@@ -366,7 +366,7 @@ html.js #root > .page { display: none; }
 .article-body .post-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 32px; }
 .article-body .post-tags span { font-size: 13px; color: var(--muted); background: var(--paper-2); padding: 3px 9px; border-radius: 100px; }
 .article-foot { margin-top: 40px; border-top: 1px solid var(--line); padding-top: 24px; }
-.article-cta { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding: clamp(22px, 2.6vw, 30px); background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: var(--radius); }
+.article-cta { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding: clamp(22px, 2.6vw, 30px); background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 0; }
 .article-cta strong { display: block; font-family: var(--sans); font-size: 19px; color: var(--ink); letter-spacing: -.03em; }
 .article-cta p { color: var(--muted); font-size: 15px; margin-top: 6px; }
 .article-cta p a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
