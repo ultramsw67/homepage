@@ -103,13 +103,15 @@ const channelLinks = `<p><a href="${profile.blog}">네이버 블로그 「수트
 const servicesHtml = (tag = 'h3') => services.map((s) => `<section id="${s.id}"><${tag}>${s.number}. ${esc(s.title)}</${tag}><p><strong>${esc(s.tagline)}</strong> ${esc(s.description)}</p><ul>${s.outputs.map((o) => `<li>${esc(o)}</li>`).join('')}</ul></section>`).join('');
 const experienceHtml = `<ol class="timeline">${experience.map((e) => `<li><span>${esc(e.period)}</span><div><strong>${esc(e.org)}</strong> <em>${esc(e.role)}</em><p>${esc(e.desc || '')}</p></div></li>`).join('')}</ol>`;
 const faqHtml = `<section id="faq"><h2>자주 묻는 질문</h2><dl>${faq.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join('')}</dl></section>`;
-const statValue = (s) => (s.dynamic === 'posts' ? s.value.replace('{n}', posts.length + brunchPosts.length) : s.value);
+// 칼럼 수 = 블로그 + 브런치 (vite.config.js 의 __COLUMN_TOTAL__ 과 같은 계산, 10/9)
+const COLUMN_TOTAL = posts.length + brunchPosts.length;
+const statValue = (s) => (s.dynamic === 'posts' ? s.value.replace('{n}', COLUMN_TOTAL) : s.value);
 
 // 1) 홈
 render({
   path: '/',
   title: `${BRAND} | 스타트업 경영 코치 ${AUTHOR}`,
-  description: `스타트업 경영 코치 문성운(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${posts.length + brunchPosts.length}편.`,
+  description: `스타트업 경영 코치 문성운(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${COLUMN_TOTAL}편.`,
   head: `    ${graph({ '@type': 'WebSite', '@id': WEBSITE_ID, name: BRAND, alternateName: '수트와후드', url: SITE, inLanguage: 'ko', publisher: { '@id': ORG_ID } }, organization, person)}\n`,
   body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>현대 기획실에서 숫자를 배웠고, 제 회사를 19년 운영했습니다. 지금은 초기 창업자와 마주 앉아 사업모델, 숫자, 자금 문제를 같이 봅니다. 수트와후드(SOOD)는 넥타이와 후드티를 둘 다 입어 본 사람의 자문이라는 뜻입니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(statValue(s))}</strong> — ${esc(s.label)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>1993년 현대석유화학 기획실에서 첫 경력을 시작해 M&amp;A와 가치평가(Valuation)를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 자리였습니다. 2001년에는 넥타이를 풀고 IT 스타트업 인터랙티비를 창업했습니다. 투자를 유치해 회사를 키웠고 매각까지 이뤄냈습니다.</p><p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 코칭합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>코치 소개</h2><p>기획실에서는 사업성을 따지는 쪽에, 창업하고 나서는 그 숫자를 맞춰야 하는 쪽에 있었습니다. <a href="/about">경력 전체 보기</a></p><p><a href="/check">3분 창업 준비도 진단</a> · <a href="/free">경영 체크표 받기</a> · <a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
 });
@@ -163,10 +165,10 @@ render({
 // 4) 글 목록
 render({
   path: '/articles',
-  title: `스타트업 경영 칼럼 ${posts.length + brunchPosts.length}편 | ${BRAND}`,
+  title: `스타트업 경영 칼럼 ${COLUMN_TOTAL}편 | ${BRAND}`,
   description: '사업모델·가격 전략, 투자유치·정부지원사업, 1인 기업 AI 활용, MVP·PMF 실전 전술, 창업자 멘탈·조직. 네이버 블로그 칼럼과 브런치 연재를 한곳에.',
   head: `    ${graph({ '@type': 'CollectionPage', '@id': `${SITE}/articles`, name: '스타트업 경영 칼럼', url: `${SITE}/articles`, inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef, mainEntity: { '@type': 'ItemList', numberOfItems: posts.length, itemListElement: posts.slice(0, 30).map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/articles/${p.id}`, name: p.title })) } }, crumbs([{ name: '칼럼', path: '/articles' }]))}\n`,
-  body: `<main class="wrap page"><h1>스타트업 경영 칼럼</h1><p>스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD)이 쓰는 글 ${posts.length + brunchPosts.length}편입니다. 네이버 블로그 칼럼 ${posts.length}편과 브런치 글 ${brunchPosts.length}편.</p><ul>${posts.map(postLink).join('')}</ul><h2>브런치</h2><p>연재와 이야기 ${brunchPosts.length}편 — 원문은 브런치에서 읽습니다.</p><ul>${brunchPosts.map(brunchLink).join('')}</ul></main>`,
+  body: `<main class="wrap page"><h1>스타트업 경영 칼럼</h1><p>스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD)이 쓰는 글 ${COLUMN_TOTAL}편입니다. 네이버 블로그 칼럼 ${posts.length}편과 브런치 글 ${brunchPosts.length}편.</p><ul>${posts.map(postLink).join('')}</ul><h2>브런치</h2><p>연재와 이야기 ${brunchPosts.length}편 — 원문은 브런치에서 읽습니다.</p><ul>${brunchPosts.map(brunchLink).join('')}</ul></main>`,
 });
 
 // 4-1) 사례 연재 (2026-10-05)
@@ -234,14 +236,14 @@ for (const p of posts) (byCategory[p.category] ||= []).push(p);
 const llms = [
   `# ${BRAND} — 스타트업 경영 코치 ${AUTHOR}`,
   '',
-  `> 스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${posts.length + brunchPosts.length}편.`,
+  `> 스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${COLUMN_TOTAL}편.`,
   '',
   '## 기본 정보',
   `- 이름: ${AUTHOR} (수드, Sung Woon Moon)`,
   '- 역할: 스타트업 경영 코치, 수트와후드(SOOD)',
   '- 학력: 연세대학교 화학공학 졸업',
   `- 자문 실적: 초기 스타트업 20개 팀 1:1 자문 (고객사 이름과 상세 수치는 비공개)`,
-  `- 칼럼: 네이버 블로그 「수트와후드」 매일 연재, 이 사이트에 ${posts.length}편 수록. 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」, 모비인사이드 「수트와 후드의 스타트업 경영」`,
+  `- 칼럼: 네이버 블로그 「수트와후드」 매일 연재, 이 사이트에 ${COLUMN_TOTAL}편 수록(블로그 ${posts.length}·브런치 ${brunchPosts.length}). 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」, 모비인사이드 「수트와 후드의 스타트업 경영」`,
   `- 문의: ${profile.email} · ${SITE}/consulting (보통 1~2일 안에 답장)`,
   `- 채널: [네이버 블로그](${profile.blog}) · [브런치](${profile.brunch}) · [링크드인](${profile.linkedin}) · [모비인사이드](${MOBIINSIDE})`,
   '',
@@ -258,7 +260,7 @@ const llms = [
   `- [홈](${SITE}/): 브랜드 소개, 자문 분야, 최근 칼럼`,
   `- [소개](${SITE}/about): ${AUTHOR}의 경력과 자문 사례`,
   `- [상담 안내](${SITE}/consulting): 자문 분야, 진행 방식, 첫 상담, 자주 묻는 질문, 문의 폼`,
-  `- [칼럼 전체 목록](${SITE}/articles): ${posts.length}편`,
+  `- [칼럼 전체 목록](${SITE}/articles): ${COLUMN_TOTAL}편`,
   `- [3분 창업 준비도 진단](${SITE}/check): 고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검, 점수와 이번 주 할 일 하나, 2주 뒤 다시 재는 쪽지`,
   `- [스타트업 경영 체크표 4종](${SITE}/free): 고객 5명 대화 노트, 주문 1건 계산서, 피치덱 12항목 체크표, PoC 착수 전 합의표 (A4 PDF)`,
   `- [사례 연재](${SITE}/series): 연재 6개 ${seriesData.total}편 (${seriesData.series.map((x) => x.name).join(' · ')})`,

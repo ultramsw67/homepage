@@ -382,3 +382,13 @@ test('바깥 링크 정리: 본문에는 채널·이메일이 반복되지 않�
   await page.goto('/articles/' + first);
   await expect(page.locator('.article-cta a[href^="mailto:"]')).toHaveCount(0);
 });
+
+// 2026-10-09: 홈 '칼럼 전체 보기' 편 수 = 블로그 + 브런치 (글 목록 페이지와 같게)
+test('칼럼 수는 어디서나 같은 값(블로그+브런치)', async ({ page }) => {
+  const total = posts.length + JSON.parse(readFileSync('public/brunch.json', 'utf8')).posts.length;
+  await page.goto('/');
+  await expect(page.locator('#columns .section-head a')).toContainText(`(${total}편)`);
+  await expect(page.locator('main')).toContainText(`경영 칼럼 ${total}편`);
+  await page.goto('/articles');
+  await expect(page.locator('.result-count')).toContainText(`${total}편`);
+});

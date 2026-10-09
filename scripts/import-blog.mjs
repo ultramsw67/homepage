@@ -34,8 +34,12 @@ function parseFrontmatter(text) {
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+// 마크다운 이스케이프(역슬래시+[ ] _ * 등)는 글자 그대로 보이게 숫자 엔티티로 바꾼다 — 10/9 요약·본문에 역슬래시가 그대로 보이던 문제
+const MD_ESC = /\\([\\`*_{}\[\]()#+\-.!|~])/g;
+const unescapeMd = (t) => t.replace(MD_ESC, (m, c) => `&#${c.charCodeAt(0)};`);
+
 function inline(s) {
-  let t = esc(s);
+  let t = unescapeMd(esc(s));
   t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   t = t.replace(/(^|[\s(])_([^_]+?)_(?=[\s).,!?]|$)/g, '$1<em>$2</em>');
   t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
@@ -60,6 +64,20 @@ function toHtml(body, title) {
       started = true;
     }
     if (line === '' || line === '__' || line === '_' || line === '\\' ) continue;
+    // 네이버 책·링크 카드: "[" 줄 ~ "](주소)" 줄 사이에 그림·제목·저자가 여러 줄로 저장된다 → 한 덩어리 링크 카드로 (10/9, 58편)
+    if (line === '[') {
+      let k = i + 1;
+      while (k < lines.length && k - i < 20 && !/^\]\(/.test(lines[k].trim())) k++;
+      const close = (lines[k] || '').trim().match(/^\]\((\S+)\)$/);
+      if (close) {
+        const inner = lines.slice(i + 1, k).map((l) => l.trim()).filter(Boolean);
+        const pic = inner.map((l) => l.match(/^!\[[^\]]*\]\((\S+?)\)$/)).find(Boolean);
+        const texts = inner.filter((l) => !/^!\[/.test(l)).map((l) => unescapeMd(esc(l)));
+        html.push(`<a class="link-card" href="${esc(close[1])}" target="_blank" rel="noreferrer">${pic ? `<img src="${esc(pic[1])}" alt="${texts[0] || ''}" loading="lazy" referrerpolicy="no-referrer" />` : ''}<span>${texts[0] ? `<strong>${texts[0]}</strong>` : ''}${texts.slice(1).map((t) => `<small>${t}</small>`).join('')}</span></a>`);
+        i = k;
+        continue;
+      }
+    }
     if (/^\*\s\*\s\*$/.test(line) || /^-{3,}$/.test(line) || /^_{3,}$/.test(line)) { html.push('<hr />'); continue; }
     const img = line.match(/^!\[([^\]]*)\]\((\S+?)\)$/);
     if (img) {
@@ -70,11 +88,11 @@ function toHtml(body, title) {
       while (j < lines.length && lines[j].trim() === '') j++;
       const next = (lines[j] || '').trim();
       if (next && next.length <= 60 && !/^!\[/.test(next) && !/^\*\s\*\s\*$/.test(next) && !/^\d+\.\s/.test(next) && !/^[가-힣]\)\s/.test(next) && !/^#/.test(next) && !/[.。!?]$/.test(next)) { caption = next; i = j; }
-      html.push(`<figure><img src="${esc(url)}" alt="${esc(caption || title)}" loading="lazy" referrerpolicy="no-referrer" />${caption ? `<figcaption>${inline(caption)}</figcaption>` : ''}</figure>`);
+      html.push(`<figure><img src="${esc(url)}" alt="${unescapeMd(esc((caption || title).replace(/\*\*/g, '')))}" loading="lazy" referrerpolicy="no-referrer" />${caption ? `<figcaption>${inline(caption)}</figcaption>` : ''}</figure>`);
       continue;
     }
     if (/^#[^\s#]/.test(line) && line.split(/\s+/).every((w) => w.startsWith('#'))) {
-      html.push(`<p class="post-tags">${line.split(/\s+/).map((w) => `<span>${esc(w)}</span>`).join(' ')}</p>`);
+      html.push(`<p class="post-tags">${line.split(/\s+/).map((w) => `<span>${unescapeMd(esc(w))}</span>`).join(' ')}</p>`);
       continue;
     }
     if (/^\d{1,2}\.\s\S/.test(line) && line.length <= 80) { html.push(`<h2>${inline(line)}</h2>`); continue; }
@@ -106,6 +124,7 @@ function excerptOf(html, quote) {
     const ps = [...html.matchAll(/<p>(.*?)<\/p>/g)].map((m) => m[1].replace(/<[^>]+>/g, '')).filter((p) => p.length > 30 && !p.startsWith('스타트업 경영 코치'));
     t = ps[0] || t;
   }
+  t = t.replace(MD_ESC, '$1').replace(/&#(\d+);/g, (m, c) => String.fromCharCode(Number(c)));
   t = t.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
   if (t.length > 110) t = t.slice(0, 108).replace(/\s+\S*$/, '') + '…';
   return t;

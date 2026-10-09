@@ -521,3 +521,10 @@ html.js #root > .page { display: none; }
 .about-channels { margin-top: 6px; }
 .about-channels a { color: var(--ink); border-bottom: 1px solid var(--line); }
 .about-channels a:hover { border-bottom-color: var(--accent); }
+/* 네이버 책·링크 카드 (글 본문, 10/9) */
+.article-body .link-card { display: flex; gap: 16px; align-items: center; margin: 24px 0; padding: 14px; border: 1px solid var(--line); background: var(--white); color: var(--ink); text-decoration: none; transition: border-color .2s var(--ease); }
+.article-body .link-card:hover { border-color: var(--ink); }
+.article-body .link-card img { width: 72px; height: auto; flex: none; margin: 0; }
+.article-body .link-card span { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.article-body .link-card strong { font-size: 15.5px; line-height: 1.45; }
+.article-body .link-card small { font-size: 13px; color: var(--muted); line-height: 1.5; }
