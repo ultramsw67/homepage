@@ -112,16 +112,23 @@ html.js #root > .page { display: none; }
 .hero-meta { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 14px; color: var(--muted); }
 .hero-meta span { display: inline-flex; align-items: center; gap: 9px; }
 .hero-meta span::before { content: ''; width: 16px; height: 1px; background: var(--accent); flex: none; }
-.hero-links { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 22px; font-size: 14px; font-weight: 600; }
-.hero-links a { color: var(--ink); display: inline-flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--accent-soft); transition: border-color .25s var(--ease), color .25s var(--ease); }
-.hero-links a:hover { border-bottom-color: var(--accent); color: var(--accent-dark); }
-.hero-links .ico { width: 13px; height: 13px; color: var(--accent); }
+.hero-meta .hero-contact { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-weight: 600; border-bottom: 1px solid var(--accent-soft); }
+.hero-meta .hero-contact:hover { border-bottom-color: var(--accent); color: var(--accent-dark); }
+.hero-meta .hero-contact .ico { width: 13px; height: 13px; color: var(--accent); }
 
-.lead-card { background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--accent); box-shadow: none; padding: clamp(24px, 2.6vw, 34px); }
-.lead-card h2 { font-size: 22px; letter-spacing: -.03em; }
-.lead-card .note { margin-top: 10px; font-size: 14px; color: var(--muted); line-height: 1.7; }
-.lead-card .button { margin-top: 22px; }
-.lead-card .foot { margin-top: 14px; font-size: 12.5px; color: var(--muted); line-height: 1.65; text-align: center; }
+/* 첫 화면 '먼저 읽어 보세요' (2026-10-09, 짧은 신청 칸 자리) */
+.pick-card { background: var(--white); border: 1px solid var(--line); border-top: 3px solid var(--accent); padding: clamp(24px, 2.6vw, 34px); }
+.pick-card h2 { font-size: 22px; letter-spacing: -.03em; }
+.pick-card .note { margin-top: 8px; font-size: 14px; color: var(--muted); line-height: 1.7; }
+.pick-list { list-style: none; margin: 18px 0 20px; padding: 0; counter-reset: pick; }
+.pick-list li { counter-increment: pick; border-top: 1px solid var(--line); }
+.pick-list li:last-child { border-bottom: 1px solid var(--line); }
+.pick-list a { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: 10px; padding: 14px 0; color: var(--ink); }
+.pick-list a::before { content: counter(pick, decimal-leading-zero); grid-row: span 2; font-size: 13px; font-weight: 700; color: var(--accent); padding-top: 2px; }
+.pick-list a:hover .pick-title { color: var(--accent-dark); }
+.pick-tag { font-size: 12.5px; color: var(--muted); }
+.pick-title { margin-top: 3px; font-size: 15.5px; font-weight: 600; line-height: 1.5; letter-spacing: -.015em; transition: color .25s var(--ease); }
+.offer-side .field:first-child { margin-top: 0; }
 
 /* 폼 필드 */
 .field { margin-top: 18px; }

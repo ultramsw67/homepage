@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { services, profile, stats, process } from '../lib/site';
+import { services, profile, stats, process, picks } from '../lib/site';
 import { loadIndex, loadBrunch } from '../lib/posts';
 import PostCard from '../components/PostCard';
-import { Arrow, Down, Blog, Book, Linked, Mail } from '../components/Icons';
+import { Arrow, Down } from '../components/Icons';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -34,41 +34,31 @@ export default function Home() {
               지금은 초기 창업자와 마주 앉아 사업모델, 숫자, 자금 문제를 같이 봅니다.
               수트와후드(SOOD)는 넥타이와 후드티를 둘 다 입어 본 사람의 자문이라는 뜻입니다.
             </p>
+            {/* 2026-10-09: 첫 화면은 글로 먼저 믿음을 주고, 상담은 뒤로 (위 메뉴 '상담 문의'·아래 상담 칸에서 바로 찾게) */}
             <div className="actions rise d4">
-              <Link className="button primary" to="/consulting#contact">첫 상담 신청하기<Arrow /></Link>
+              <Link className="button primary" to="/series">사례 연재 먼저 보기<Arrow /></Link>
               <Link className="button ghost" to="/consulting">어떤 일을 돕는지 보기</Link>
             </div>
             <div className="hero-meta rise d5">
               <span>창업 3년 이내 대표, 1인 창업자와 일합니다</span>
-              <span>보통 2~3일 안에 답장드립니다</span>
-            </div>
-            <div className="hero-links rise d5" aria-label="블로그, 브런치, 링크드인, 이메일">
-              <a href={profile.blog} target="_blank" rel="noreferrer"><Blog />네이버 블로그</a>
-              <a href={profile.brunch} target="_blank" rel="noreferrer"><Book />브런치</a>
-              <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linked />링크드인</a>
-              <a href={'mailto:' + profile.email}><Mail />{profile.email}</a>
+              <a className="hero-contact" href="#process">상담 문의는 아래에서<Down /></a>
             </div>
           </div>
 
-          <aside className="lead-card rise d6" aria-labelledby="lead-card-title">
-            <h2 id="lead-card-title">첫 상담 60분</h2>
-            <p className="note">지금 숫자와 고민을 들어 보고, 가장 먼저 풀 문제 하나와 앞으로 4주 동안 할 일을 종이 한 장에 정리해 드립니다.</p>
-            <form onSubmit={toContact}>
-              <div className="field">
-                <label htmlFor="leadName">이름</label>
-                <input id="leadName" name="leadName" type="text" autoComplete="name" maxLength="100" placeholder="이름 또는 팀 이름" />
-              </div>
-              <div className="field">
-                <label htmlFor="leadEmail">회신받을 이메일</label>
-                <input id="leadEmail" name="leadEmail" type="email" autoComplete="email" maxLength="200" placeholder="name@company.com" />
-              </div>
-              <div className="field">
-                <label htmlFor="leadIssue">지금 가장 막힌 것 한 줄</label>
-                <input id="leadIssue" name="leadIssue" type="text" maxLength="300" placeholder="지금 가장 급한 문제 하나" />
-              </div>
-              <button className="button gold block" type="submit">이어서 작성하기<Down /></button>
-            </form>
-            <p className="foot">계획서가 없어도 됩니다.<br />비용은 할 일을 정한 뒤 말씀드립니다.</p>
+          <aside className="pick-card rise d6" aria-labelledby="pick-card-title">
+            <h2 id="pick-card-title">먼저 읽어 보세요</h2>
+            <p className="note">홈페이지에서 가장 오래 읽힌 글 3편입니다.</p>
+            <ol className="pick-list">
+              {picks.map((p) => (
+                <li key={p.id}>
+                  <Link to={'/articles/' + p.id}>
+                    <span className="pick-tag">{p.tag}</span>
+                    <span className="pick-title">{p.title}</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+            <Link className="text-link" to="/articles">칼럼 전체 보기<Arrow /></Link>
           </aside>
         </div>
       </section>
@@ -147,9 +137,6 @@ export default function Home() {
                 <h3>{profile.name} · {profile.brand}</h3>
                 <p>기획실에서는 사업성을 따지는 쪽에, 창업하고 나서는 그 숫자를 맞춰야 하는 쪽에 있었습니다. 자료가 정리돼 있지 않아도 지금 상황부터 들려주시면 됩니다.</p>
                 <div className="portrait-links">
-                  <a href={profile.blog} target="_blank" rel="noreferrer"><Blog />네이버 블로그</a>
-                  <a href={profile.brunch} target="_blank" rel="noreferrer"><Book />브런치</a>
-                  <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linked />LinkedIn</a>
                   <Link to="/about"><Arrow />경력 전체 보기</Link>
                 </div>
               </div>
@@ -174,10 +161,23 @@ export default function Home() {
               <h3>첫 상담 60분</h3>
               <p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 ‘다음 한 수 1장’이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p>
             </div>
-            <div className="offer-side">
-              <Link className="button primary block" to="/consulting#contact">첫 상담 신청하기<Arrow /></Link>
-              <p className="small">비용은 할 일을 정한 뒤 말씀드립니다.</p>
-            </div>
+            {/* 2026-10-09: 첫 화면에 있던 짧은 신청 칸을 이리로 옮김 — 적은 내용은 상담 폼으로 그대로 넘어간다 */}
+            <form className="offer-side" onSubmit={toContact} aria-label="첫 상담 신청">
+              <div className="field">
+                <label htmlFor="leadName">이름</label>
+                <input id="leadName" name="leadName" type="text" autoComplete="name" maxLength="100" placeholder="이름 또는 팀 이름" />
+              </div>
+              <div className="field">
+                <label htmlFor="leadEmail">회신받을 이메일</label>
+                <input id="leadEmail" name="leadEmail" type="email" autoComplete="email" maxLength="200" placeholder="name@company.com" />
+              </div>
+              <div className="field">
+                <label htmlFor="leadIssue">지금 가장 막힌 것 한 줄</label>
+                <input id="leadIssue" name="leadIssue" type="text" maxLength="300" placeholder="지금 가장 급한 문제 하나" />
+              </div>
+              <button className="button primary block" type="submit">이어서 작성하기<Arrow /></button>
+              <p className="small">계획서가 없어도 됩니다. 비용은 할 일을 정한 뒤 말씀드립니다.</p>
+            </form>
           </div>
         </div>
       </section>

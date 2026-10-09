@@ -238,3 +238,17 @@ test('연재: 6개 카드, 전체 보기 펼침, 연재 하나 고르기, 블로
   await expect(cards.first().locator('.series-list li')).toHaveCount(data.series[1].items.length);
   await expect(page.locator('#primary-nav a[href="/series"]')).toHaveClass(/active/);
 });
+
+// 2026-10-09: 첫 화면은 글 먼저 — 신청 칸·바깥 링크는 첫 화면에 두지 않고, 상담은 메뉴와 아래 칸에서 바로 찾는다
+test('첫 화면: 먼저 읽을 글 3편, 신청 칸·바깥 링크 없음, 상담은 바로 찾기', async ({ page }) => {
+  await page.goto('/');
+  const hero = page.locator('.hero');
+  await expect(hero.locator('.pick-list li')).toHaveCount(3);
+  await expect(hero.locator('input')).toHaveCount(0);
+  await expect(hero.locator('a[href^="http"], a[href^="mailto:"]')).toHaveCount(0);
+  await expect(page.locator('.site-header .nav-cta')).toHaveAttribute('href', '/consulting#contact');
+  await hero.locator('.hero-contact').click();
+  await expect(page.locator('#leadName')).toBeInViewport();
+  await hero.locator('.pick-list a').first().click();
+  await expect(page.locator('.article-body')).toBeVisible();
+});
