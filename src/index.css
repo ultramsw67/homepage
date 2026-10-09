@@ -484,3 +484,12 @@ html.js #root > .page { display: none; }
 .series-foot a { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 1000px) { .series-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 720px) { .series-grid, .series-grid.one { grid-template-columns: 1fr; } .series-card { padding: 18px 16px 12px; } }
+
+/* 홈 「혼자 고민하는 대표에게」 — 대표님 문구 그대로 (2026-10-09). 독백은 명조체, 안내 세 줄은 평소 글씨 */
+.monologue .mono-title { font-family: 'Noto Serif KR', 'Nanum Myeongjo', 'AppleMyungjo', serif; font-weight: 700; font-size: clamp(28px, 3.4vw, 42px); letter-spacing: -.03em; line-height: 1.3; }
+.mono-body { margin-top: clamp(24px, 3vw, 36px); max-width: 34em; font-family: 'Noto Serif KR', 'Nanum Myeongjo', 'AppleMyungjo', serif; font-weight: 500; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.9; color: var(--ink); }
+.mono-body p + p { margin-top: 1.2em; }
+.mono-body .strong { font-weight: 700; }
+.mono-rule { width: 40px; height: 2px; background: var(--accent); margin: clamp(28px, 3.5vw, 40px) 0 22px; border: 0; }
+.mono-close .mono-label { font-weight: 700; color: var(--accent); }
+.mono-close p { margin-top: 4px; font-size: 17px; color: var(--ink); }

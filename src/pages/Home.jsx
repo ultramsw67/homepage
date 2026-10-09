@@ -145,6 +145,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 2026-10-09: 대표님 문구 그대로 (「홈페이지 안내 문구 최종안11」). 상담 칸 바로 위에서 '왜 같이 봐야 하나'를 잇는다 */}
+      <section className="section monologue" id="alone" aria-labelledby="alone-title">
+        <div className="wrap">
+          <p className="eyebrow">혼자 고민하는 대표에게</p>
+          <h2 id="alone-title" className="mono-title">결정은 결국 내 몫이다.</h2>
+          <div className="mono-body">
+            <p>매출은 지난달보다 늘었다.<br />그런데 월말에 통장을 열면 남은 게 없다.</p>
+            <p>가격을 올려야 할까.<br />아니면 지금이라도 방향을 바꿔야 할까.</p>
+            <p>주변에 물어보면<br />“잘하고 있어, 곧 될 거야” 하고 어깨를 두드려 준다.<br />고마운 말인데, 답은 아니다.</p>
+            <p className="strong">일을 더 하는 건 힘들지 않다.<br />이 길이 맞는지 모르는 채 달리는 게 힘들다.</p>
+            <p>오늘 밤도 혼자 엑셀을 열기 전에,<br />돈이 어디서 새는지 누군가와 같이 들여다보고 싶다.</p>
+          </div>
+          <hr className="mono-rule" />
+          <div className="mono-close">
+            <p className="mono-label">수드의 1:1 스타트업 경영 자문</p>
+            <p>스무 팀과 다음 한 수를 함께 정했습니다.<br />혼자 보던 숫자, 이제 같이 봅니다.</p>
+          </div>
+        </div>
+      </section>
+
       <section className="section band" id="process">
         <div className="wrap">
           <div className="section-head">

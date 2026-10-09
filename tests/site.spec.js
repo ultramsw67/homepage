@@ -252,3 +252,13 @@ test('첫 화면: 먼저 읽을 글 3편, 신청 칸·바깥 링크 없음, 상�
   await hero.locator('.pick-list a').first().click();
   await expect(page.locator('.article-body')).toBeVisible();
 });
+
+// 2026-10-09: 대표님 문구 「혼자 고민하는 대표에게」는 상담 칸 바로 위, 버튼 없이
+test('홈: 혼자 고민하는 대표에게 칸이 상담 진행 바로 위에 있다', async ({ page }) => {
+  await page.goto('/');
+  const alone = page.locator('#alone');
+  await expect(alone.locator('h2')).toHaveText('결정은 결국 내 몫이다.');
+  await expect(alone.locator('.mono-body p')).toHaveCount(5);
+  await expect(alone.locator('a, button')).toHaveCount(0);
+  expect(await page.evaluate(() => document.querySelector('#alone').nextElementSibling.id)).toBe('process');
+});
