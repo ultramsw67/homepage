@@ -109,7 +109,7 @@ render({
   title: `${BRAND} | 스타트업 경영 코치 ${AUTHOR}`,
   description: `스타트업 경영 코치 문성운(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${posts.length + brunchPosts.length}편.`,
   head: `    ${graph({ '@type': 'WebSite', '@id': WEBSITE_ID, name: BRAND, alternateName: '수트와후드', url: SITE, inLanguage: 'ko', publisher: { '@id': ORG_ID } }, organization, person)}\n`,
-  body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>현대 기획실에서 숫자를 배웠고, 제 회사를 19년 운영했습니다. 지금은 초기 창업자와 마주 앉아 사업모델, 숫자, 자금 문제를 같이 봅니다. 수트와후드(SOOD)는 넥타이와 후드티를 둘 다 입어 본 사람의 자문이라는 뜻입니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(statValue(s))}</strong> — ${esc(s.label)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>1993년 현대석유화학 기획실에서 첫 경력을 시작해 M&amp;A와 가치평가(Valuation)를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 자리였습니다. 2001년에는 넥타이를 풀고 IT 스타트업 인터랙티비를 창업했습니다. 투자를 유치해 회사를 키웠고 매각까지 이뤄냈습니다.</p><p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 코칭합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>코치 소개</h2><p>기획실에서는 사업성을 따지는 쪽에, 창업하고 나서는 그 숫자를 맞춰야 하는 쪽에 있었습니다. <a href="/about">경력 전체 보기</a></p><p><a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
+  body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>현대 기획실에서 숫자를 배웠고, 제 회사를 19년 운영했습니다. 지금은 초기 창업자와 마주 앉아 사업모델, 숫자, 자금 문제를 같이 봅니다. 수트와후드(SOOD)는 넥타이와 후드티를 둘 다 입어 본 사람의 자문이라는 뜻입니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(statValue(s))}</strong> — ${esc(s.label)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>1993년 현대석유화학 기획실에서 첫 경력을 시작해 M&amp;A와 가치평가(Valuation)를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 자리였습니다. 2001년에는 넥타이를 풀고 IT 스타트업 인터랙티비를 창업했습니다. 투자를 유치해 회사를 키웠고 매각까지 이뤄냈습니다.</p><p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 코칭합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>코치 소개</h2><p>기획실에서는 사업성을 따지는 쪽에, 창업하고 나서는 그 숫자를 맞춰야 하는 쪽에 있었습니다. <a href="/about">경력 전체 보기</a></p><p><a href="/check">3분 창업 준비도 진단</a> · <a href="/free">경영 체크표 받기</a> · <a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
 });
 
 // 2) 소개
@@ -134,6 +134,25 @@ render({
   description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 상담 60분.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
   body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>비용은 할 일을 정한 뒤 말씀드립니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 2~3일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
+});
+
+// 3-1) 3분 창업 준비도 진단 · 체크표 받기 (2026-10-09)
+const CHECK_QS = ['내 고객이 누구인지 한 문장으로 말할 수 있나요?', '그 고객 5명 이상과 직접 이야기해 봤나요?', '고객이 지금 그 문제를 어떻게 해결하고 있는지 알고 있나요?', '고객이 그 문제에 이미 돈이나 시간을 쓰고 있나요?', '누가 얼마를 낼지 가격을 정해 봤나요?', '한 달에 나가는 돈과 버틸 수 있는 개월 수를 알고 있나요?', '고객이 직접 써 볼 수 있는 것(시제품·MVP·샘플)이 있나요?', '지난 4주 동안 매주 확인한 숫자가 하나라도 있나요?', '함께할 사람(공동창업자·외주·AI 도구)을 정했나요?', '넣을 정부지원사업이나 투자 경로를 1개 이상 정했나요?'];
+render({
+  path: '/check',
+  title: `3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비 | ${BRAND}`,
+  description: '고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검하는 3분 창업 준비도 진단. 아이디어와 연락처는 묻지 않고, 점수와 이번 주 할 일 하나, 2주 뒤 다시 재 보는 쪽지를 드립니다.',
+  head: `    ${graph({ '@type': 'WebPage', '@id': `${SITE}/check`, url: `${SITE}/check`, name: '3분 창업 준비도 진단', inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef }, crumbs([{ name: '3분 진단', path: '/check' }]))}
+`,
+  body: `<main class="wrap page"><h1>3분 창업 준비도 진단</h1><p>질문 10개, 3분이면 끝납니다. 아이디어도, 이름·연락처도 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도 괜찮습니다. 고객·문제·돈·실행·자금과 팀, 다섯 갈래로 지금 준비가 어디쯤인지 보고, 다음 칸으로 가는 질문 하나와 이번 주 할 일을 드립니다.</p><h2>진단 질문 10개</h2><ol>${CHECK_QS.map((q) => `<li>${esc(q)}</li>`).join('')}</ol><p>답은 예·조금·아니오로 고릅니다. 결과는 씨앗·새싹·나무·열매 네 단계로 나옵니다. <a href="/free">체크표 받기</a> · <a href="/consulting">상담 안내</a></p></main>`,
+});
+render({
+  path: '/free',
+  title: `스타트업 경영 체크표 무료 — 고객 대화 노트·주문 1건 계산서 | ${BRAND}`,
+  description: '출력해서 바로 쓰는 스타트업 경영 체크표 4종. 고객 5명 대화 노트, 주문 1건 계산서(유닛 이코노믹스), 피치덱 12항목 체크표, PoC 착수 전 합의표를 A4 한 장 PDF로 받습니다.',
+  head: `    ${graph({ '@type': 'WebPage', '@id': `${SITE}/free`, url: `${SITE}/free`, name: '스타트업 경영 체크표 4종', inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef }, crumbs([{ name: '체크표 받기', path: '/free' }]))}
+`,
+  body: `<main class="wrap page"><h1>출력해서 바로 쓰는 스타트업 경영 한 장</h1><p>블로그 글에서 쓰던 표를 한 장짜리로 정리했습니다. 이메일을 적으면 바로 내려받을 수 있습니다.</p><ul><li><strong>고객 5명 대화 노트</strong> — 무엇을 묻고 무엇을 적을지 정해 둔 한 장. 다섯 명 만나면 다음 칸이 보입니다.</li><li><strong>주문 1건 계산서</strong> — 한 건 팔면 얼마 남는지, 몇 건 팔아야 본전인지 계산합니다.</li><li><strong>피치덱 12항목 체크표</strong> — 투자자가 보는 순서대로 내 덱에 빠진 항목을 찾습니다.</li><li><strong>PoC 착수 전 합의표</strong> — 기업 고객과 시범 사업 전에 서면으로 정할 6가지입니다.</li></ul><p><a href="/check">3분 준비도 진단</a> · <a href="/consulting">상담 안내</a></p></main>`,
 });
 
 // 4) 글 목록
@@ -235,6 +254,8 @@ const llms = [
   `- [소개](${SITE}/about): ${AUTHOR}의 경력과 자문 사례`,
   `- [상담 안내](${SITE}/consulting): 자문 분야, 진행 방식, 첫 상담, 자주 묻는 질문, 문의 폼`,
   `- [칼럼 전체 목록](${SITE}/articles): ${posts.length}편`,
+  `- [3분 창업 준비도 진단](${SITE}/check): 고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검, 점수와 이번 주 할 일 하나, 2주 뒤 다시 재는 쪽지`,
+  `- [스타트업 경영 체크표 4종](${SITE}/free): 고객 5명 대화 노트, 주문 1건 계산서, 피치덱 12항목 체크표, PoC 착수 전 합의표 (A4 PDF)`,
   `- [사례 연재](${SITE}/series): 연재 6개 ${seriesData.total}편 (${seriesData.series.map((x) => x.name).join(' · ')})`,
   `- [RSS](${SITE}/rss.xml)`,
   '',
@@ -249,4 +270,4 @@ const llms = [
 ].join('\n');
 writeFileSync(join(DIST, 'llms.txt'), llms);
 
-console.log(`prerendered: 5 pages + ${n} articles + 404.html, rss.xml (${Math.min(50, posts.length)} items), llms.txt (${llms.length} chars)`);
+console.log(`prerendered: 7 pages + ${n} articles + 404.html, rss.xml (${Math.min(50, posts.length)} items), llms.txt (${llms.length} chars)`);

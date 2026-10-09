@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { services, profile, process, faq } from '../lib/site';
 import { trackLead } from '../lib/analytics';
 import { Arrow, Blog, Book, Linked } from '../components/Icons';
+import { Link } from 'react-router-dom';
 
 const ENDPOINT = 'https://api.web3forms.com/submit';
 
@@ -144,6 +145,12 @@ export default function Consulting() {
             <p className="eyebrow">상담 문의</p>
             <h2>고민을 몇 줄로 보내 주세요</h2>
             <p className="lead">계획서가 없어도 됩니다. 지금 상황을 적어 주시면 2~3일 안에 답장드립니다.</p>
+            {/* 2026-10-09: 빈 칸 앞에서 막힌 사람에게 진단 먼저 — 결과가 '현재 상황과 고민' 칸에 채워져 돌아온다 */}
+            <Link className="contact-check" to="/check">
+              <b>무엇부터 적을지 모르겠다면</b>
+              <span>3분 진단을 먼저 해 보세요. 결과가 오른쪽 ‘현재 상황과 고민’ 칸에 저절로 들어갑니다.</span>
+              <em>3분 진단 <Arrow /></em>
+            </Link>
             <div className="contact-mail">
               <p className="k">이메일</p>
               <a className="contact-email" href={'mailto:' + profile.email}>{profile.email}</a>

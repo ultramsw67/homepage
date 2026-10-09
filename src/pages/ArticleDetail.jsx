@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { loadIndex, loadPost, label, formatDate } from '../lib/posts';
 import { profile } from '../lib/site';
+import { Q, CATEGORY_Q, POST_SHEET, SHEETS } from '../lib/check';
+import { trackEvent } from '../lib/analytics';
 import PostCard from '../components/PostCard';
 
 export default function ArticleDetail() {
   const { id } = useParams();
   const [post, setPost] = useState(undefined);
   const [index, setIndex] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let alive = true;
@@ -46,6 +49,25 @@ export default function ArticleDetail() {
       </header>
       <div className="article-body" dangerouslySetInnerHTML={{ __html: post.html }} />
       <footer className="article-foot">
+        {/* 2026-10-09: 글 주제에 맞는 진단 질문 하나를 글 안에서 바로 누르게 — 누르면 /check 에서 나머지 9개 */}
+        {(() => {
+          const qi = CATEGORY_Q[post.category] ?? 0;
+          const sheet = POST_SHEET[post.id];
+          const go = (v) => { trackEvent('article_check_answer', { q: qi + 1, category: post.category }); navigate(`/check?q=${qi}&v=${v}&from=article`); };
+          return (
+            <div className="article-check">
+              <p className="ac-k">이 글을 읽은 분께 질문 하나 · 3분 진단 1/10</p>
+              <p className="ac-q">{Q[qi][1]}</p>
+              <div className="ac-b">
+                <button type="button" onClick={() => go(10)}>예</button>
+                <button type="button" onClick={() => go(5)}>조금</button>
+                <button type="button" onClick={() => go(0)}>아니오</button>
+              </div>
+              <p className="ac-n">누르면 나머지 9개 질문으로 이어집니다. 3분이면 끝나고 이번 주 할 일 하나를 알려 드립니다.</p>
+              {sheet && <Link className="ac-sheet" to={`/free?pick=${sheet}`} onClick={() => trackEvent('article_to_free', { pick: sheet })}>이 글의 표, 한 장으로 받기 — {SHEETS[sheet].name} →</Link>}
+            </div>
+          );
+        })()}
         <div className="article-cta">
           <div>
             <strong>이 주제로 고민 중이라면</strong>

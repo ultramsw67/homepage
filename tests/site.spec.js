@@ -9,7 +9,7 @@ for (const width of [390, 768, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
-    for (const path of ['/', '/about', '/consulting', '/articles', '/series', '/series?s=A', '/articles/' + first, '/missing', '/articles/missing']) {
+    for (const path of ['/', '/about', '/consulting', '/articles', '/series', '/series?s=A', '/articles/' + first, '/missing', '/articles/missing', '/check', '/free']) {
       await page.goto(path);
       await expect(page.locator('h1')).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
@@ -261,4 +261,107 @@ test('홈: 혼자 고민하는 대표에게 칸이 상담 진행 바로 위에 �
   await expect(alone.locator('.mono-body p')).toHaveCount(5);
   await expect(alone.locator('a, button')).toHaveCount(0);
   expect(await page.evaluate(() => document.querySelector('#alone').nextElementSibling.id)).toBe('process');
+});
+
+// ── 2026-10-09 3분 진단·체크표 받기 ── (메일은 실제로 보내지 않는다: api.web3forms.com 을 가로챈다)
+async function fakeForms(page) {
+  const sent = [];
+  await page.route('https://api.web3forms.com/**', async (route) => { sent.push(JSON.parse(route.request().postData() || '{}')); await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' }); });
+  return sent;
+}
+
+test('3분 진단: 아이디어 단계 → 결과·빨간 펜·다음 칸 → 쪽지 봉인 → 모바일 바 D-14', async ({ page }) => {
+  const sent = await fakeForms(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await expect(page.locator('.mobile-bar .mb-check')).toHaveText('3분 진단');
+  await page.locator('.hero-check').click();
+  await expect(page).toHaveURL(/\/check$/);
+  await page.getByRole('button', { name: '진단 시작하기' }).click();
+  await page.locator('.answers button').first().click();   // 아이디어 단계
+  for (const v of ['조금', '아니오', '조금', '조금', '아니오', '예', '아니오', '아직 이릅니다', '아직 이릅니다', '아직 이릅니다']) {
+    await page.locator('.answers button', { hasText: new RegExp('^' + v) }).first().click();
+  }
+  await expect(page.locator('.check .big')).toContainText('36');
+  await expect(page.locator('.nextbar')).toContainText('고객 5명 대화');
+  await expect(page.locator('.pen .note')).toContainText('커피 다섯 잔');
+  await expect(page.locator('.check .posts a')).toHaveCount(2);
+  expect(sent.length).toBe(0);   // 로컬에서는 진단 알림 메일을 보내지 않는다
+  await page.locator('#note').fill('고객 후보 5명 만나기');
+  await page.getByRole('button', { name: '쪽지 봉인하고 열쇠 받기' }).click();
+  const url = await page.locator('.keybox .url').textContent();
+  expect(url).toMatch(/^https:\/\/soodcoach\.com\/check#k=/);
+  await page.goto('/');
+  await expect(page.locator('.mobile-bar .mb-check')).toHaveText('내 쪽지 D-14');
+  // 열쇠로 다시 오면 봉인 화면 → 할 일 끝냈다고 체크하면 일찍 열림 → 달라진 것만 다시 재기
+  await page.goto(url.replace('https://soodcoach.com', ''));
+  await expect(page.locator('.envelope .wax')).toHaveText('D-14');
+  await page.locator('.earlybox input').check();
+  await page.getByRole('button', { name: '쪽지 먼저 열기' }).click();
+  await expect(page.locator('.oldnote .hand')).toContainText('고객 후보 5명 만나기');
+  await page.getByRole('button', { name: '못 했어요' }).click();
+  await expect(page.locator('.reply')).toContainText('만나 볼 사람 이름 3개');
+  await page.getByRole('button', { name: /달라진 것만 다시 재기/ }).click();
+  await page.locator('.answers button').first().click();
+  let n = 0;
+  while (await page.locator('.answers button', { hasText: /^예$/ }).count()) { await page.locator('.answers button', { hasText: /^예$/ }).click(); n++; if (n > 12) break; }
+  expect(n).toBe(9);
+  await expect(page.locator('.delta')).toHaveText('+64점');
+  await expect(page.locator('.grow > div')).toHaveCount(2);
+});
+
+test('3분 진단: 결과에서 상담으로 가면 고민 칸이 채워지고, 한 줄 질문은 진단 상담실로 간다', async ({ page }) => {
+  const sent = await fakeForms(page);
+  await page.goto('/check');
+  await page.getByRole('button', { name: '진단 시작하기' }).click();
+  await page.locator('.answers button').nth(1).click();   // 준비 중
+  for (let i = 0; i < 10; i++) await page.locator('.answers button', { hasText: /^조금$/ }).click();
+  await expect(page.locator('.check .big')).toContainText('50');
+  await page.locator('.ask textarea').fill('시간이 없어요');
+  await page.getByRole('button', { name: '보내기' }).click();
+  await expect(page.locator('.ask .sent')).toBeVisible();
+  expect(sent[0].subject).toContain('[진단 상담실]');
+  await page.getByRole('link', { name: '이 결과로 첫 상담 60분 신청하기' }).click();
+  await expect(page.locator('#message')).toHaveValue(/준비도 진단 50점/);
+});
+
+test('글 끝 질문 하나 → 진단이 2번부터 이어지고, 표가 있는 글은 체크표로 간다', async ({ page }) => {
+  await page.goto('/articles/224428611517');   // 10/2 유닛 이코노믹스 (돈 → 가격 질문)
+  const box = page.locator('.article-check');
+  await expect(box.locator('.ac-q')).toHaveText('누가 얼마를 낼지 가격을 정해 봤나요?');
+  await expect(box.locator('.ac-sheet')).toHaveAttribute('href', '/free?pick=unit');
+  await box.getByRole('button', { name: '조금' }).click();
+  await expect(page).toHaveURL(/\/check\?q=4&v=5/);
+  await expect(page.locator('.check .progress')).toContainText('1/10');
+  await page.locator('.answers button').first().click();
+  await expect(page.locator('.check .progress')).toContainText('2/10');
+  for (let i = 0; i < 9; i++) await page.locator('.answers button', { hasText: /^예$/ }).click();
+  await expect(page.locator('.pen .q')).toContainText('가격');
+});
+
+test('체크표 받기: 진단 추천표가 먼저, 동의 필수, 접수 뒤 PDF 가 실제로 받아진다', async ({ page, request }) => {
+  const sent = await fakeForms(page);
+  await page.goto('/free?pick=deck');
+  await expect(page.locator('.card').first()).toContainText('피치덱 12항목 체크표');
+  await expect(page.locator('.card.sel')).toHaveCount(1);
+  await page.locator('#free-email').fill('test@example.com');
+  await page.getByRole('button', { name: /체크표 받기/ }).click();
+  await expect(page.locator('.hint-err')).toHaveText('동의에 체크해 주세요.');
+  await page.locator('.consent input').first().check();
+  await page.getByRole('button', { name: /체크표 받기/ }).click();
+  await expect(page.locator('.dl a')).toHaveCount(1);
+  expect(sent[0].subject).toContain('[체크표 받기]');
+  const href = await page.locator('.dl a').getAttribute('href');
+  const res = await request.get(href);
+  expect(res.status()).toBe(200);
+  expect((await res.body()).slice(0, 4).toString()).toBe('%PDF');
+});
+
+test('3분 진단 자리: 메뉴·상담 페이지에서 진단으로 간다', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.site-header .nav-check')).toHaveAttribute('href', '/check');
+  await page.goto('/consulting');
+  await expect(page.locator('a.contact-email')).toBeVisible();
+  await page.locator('.contact-check').click();
+  await expect(page).toHaveURL(/\/check$/);
 });

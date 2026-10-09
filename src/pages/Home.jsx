@@ -37,7 +37,8 @@ export default function Home() {
             {/* 2026-10-09: 첫 화면은 글로 먼저 믿음을 주고, 상담은 뒤로 (위 메뉴 '상담 문의'·아래 상담 칸에서 바로 찾게) */}
             <div className="actions rise d4">
               <Link className="button primary" to="/series">사례 연재 먼저 보기<Arrow /></Link>
-              <Link className="button ghost" to="/consulting">어떤 일을 돕는지 보기</Link>
+              {/* 2026-10-09: 두 번째 버튼 = 3분 진단 (첫 화면 6초·이탈 81% — 글보다 가벼운 첫 행동) */}
+              <Link className="button ghost hero-check" to="/check">내 창업 준비, 3분 진단<Arrow /></Link>
             </div>
             <div className="hero-meta rise d5">
               <span>창업 3년 이내 대표, 1인 창업자와 일합니다</span>

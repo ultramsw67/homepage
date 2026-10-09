@@ -81,3 +81,9 @@ export function trackLead() {
   if (GA && window.gtag) window.gtag('event', 'generate_lead', { form_name: 'consulting' });
   if (NAVER) withNaver(() => window.wcs.trans({ type: 'lead' }));
 }
+
+// 진단·체크표 같은 화면 안 행동 (check_start·check_complete·free_submit …). 실제 사이트에서만 보낸다.
+export function trackEvent(name, params = {}) {
+  if (!onSite()) return;
+  if (GA && window.gtag) window.gtag('event', name, params);
+}

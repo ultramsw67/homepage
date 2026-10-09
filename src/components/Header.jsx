@@ -23,6 +23,7 @@ export default function Header() {
           <NavLink to="/consulting" end>자문 영역</NavLink>
           <NavLink to="/series">연재</NavLink>
           <NavLink to="/articles">글</NavLink>
+          <NavLink className="nav-check" to="/check">3분 진단</NavLink>
           <Link className="nav-cta" to="/consulting#contact">상담 문의</Link>
         </nav>
       </div>
