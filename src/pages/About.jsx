@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { experience, profile, cases } from '../lib/site';
-import { Arrow, Blog, Book, Linked, Mail } from '../components/Icons';
+import { Arrow } from '../components/Icons';
 
 export default function About() {
   return (
@@ -13,12 +13,6 @@ export default function About() {
             수트와후드 문성운입니다. 연세대학교 화학공학을 졸업하고 현대그룹 기획실에서 일을 시작했습니다.
             사업의 구조를 이해하고 실행의 무게를 아는 창업가이자 스타트업 경영 코치입니다.
           </p>
-          <div className="social">
-            <a href={profile.blog} target="_blank" rel="noreferrer"><Blog />네이버 블로그</a>
-            <a href={profile.brunch} target="_blank" rel="noreferrer"><Book />브런치</a>
-            <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linked />LinkedIn</a>
-            <a href={'mailto:' + profile.email}><Mail />{profile.email}</a>
-          </div>
         </div>
         <figure className="portrait-photo">
           <img src="/sood-character-480.webp" srcSet="/sood-character-480.webp 480w, /sood-character-960.webp 960w" sizes="(max-width: 960px) 320px, 420px" alt="수트와후드 문성운의 브랜드 캐릭터" width="1020" height="1024" fetchPriority="high" />
@@ -65,6 +59,8 @@ export default function About() {
           ))}
         </ol>
         <p className="muted small" style={{ marginTop: 24 }}>연세대학교 화학공학 졸업</p>
+        {/* 2026-10-09: 채널 링크는 맨 위가 아니라 경력 아래 작은 한 줄로 (링크드인 손님의 '실제 활동' 확인용) */}
+        <p className="muted small about-channels">활동 채널 · <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그</a> · <a href={profile.brunch} target="_blank" rel="noreferrer">브런치</a> · <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></p>
       </section>
 
       <section className="section">
@@ -89,7 +85,7 @@ export default function About() {
         <div className="now-grid">
           <div><strong>칼럼</strong><p>네이버 블로그 「수트와후드」와 브런치에 스타트업 전략·투자·데이터 경영 글을 정기 연재하며, 모비인사이드 필진으로도 활동 중입니다.</p><Link className="text-link" to="/articles">글 보기<Arrow /></Link></div>
           <div><strong>1:1 자문</strong><p>창업 3년 이내 대표와 1인 창업자를 위한 사업모델·지표·자금 코칭. 정리된 계획서가 없어도 시작할 수 있습니다.</p><Link className="text-link" to="/consulting">상담 안내<Arrow /></Link></div>
-          <div><strong>콘텐츠 협업</strong><p>스타트업 경영 칼럼 기고와 콘텐츠 협업 제안을 받습니다.</p><a className="text-link" href={'mailto:' + profile.email}>메일로 제안하기<Arrow /></a></div>
+          <div><strong>콘텐츠 협업</strong><p>스타트업 경영 칼럼 기고와 콘텐츠 협업 제안을 받습니다.</p><Link className="text-link" to="/consulting#contact">상담 폼으로 제안하기<Arrow /></Link></div>
         </div>
       </section>
 

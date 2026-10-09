@@ -518,3 +518,6 @@ html.js #root > .page { display: none; }
 .contact-check span { display: block; font-size: 14.5px; color: var(--muted-on-dark); line-height: 1.6; }
 .contact-check em { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-weight: 700; color: #a9c0ff; font-size: 14.5px; }
 .contact-check em .ico { width: 13px; height: 13px; }
+.about-channels { margin-top: 6px; }
+.about-channels a { color: var(--ink); border-bottom: 1px solid var(--line); }
+.about-channels a:hover { border-bottom-color: var(--accent); }

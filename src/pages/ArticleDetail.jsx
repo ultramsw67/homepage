@@ -71,7 +71,7 @@ export default function ArticleDetail() {
         <div className="article-cta">
           <div>
             <strong>이 주제로 고민 중이라면</strong>
-            <p>첫 상담 60분에 현재 상황을 듣고 다음 한 수를 한 장으로 정리해 드립니다. <a href={'mailto:' + profile.email}>{profile.email}</a></p>
+            <p>첫 상담 60분에 현재 상황을 듣고 다음 한 수를 한 장으로 정리해 드립니다.</p>
           </div>
           <Link className="button primary" to="/consulting#contact">첫 상담 60분 신청</Link>
         </div>

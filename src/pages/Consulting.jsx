@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { services, profile, process, faq } from '../lib/site';
 import { trackLead } from '../lib/analytics';
-import { Arrow, Blog, Book, Linked } from '../components/Icons';
+import { Arrow } from '../components/Icons';
 import { Link } from 'react-router-dom';
 
 const ENDPOINT = 'https://api.web3forms.com/submit';
@@ -156,11 +156,6 @@ export default function Consulting() {
               <a className="contact-email" href={'mailto:' + profile.email}>{profile.email}</a>
               <p>보통 1~2일 안에 답장드립니다.</p>
             </div>
-            <div className="contact-social">
-              <a href={profile.blog} target="_blank" rel="noreferrer"><Blog />네이버 블로그</a>
-              <a href={profile.brunch} target="_blank" rel="noreferrer"><Book />브런치</a>
-              <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linked />LinkedIn</a>
-            </div>
           </div>
           <form className="form-card" onSubmit={contact} ref={formRef}>
             <h3>상담 요청</h3>
@@ -190,7 +185,7 @@ export default function Consulting() {
               {profile.formKey ? (state.phase === 'sending' ? '보내는 중…' : '상담 요청 보내기') : '상담 메일 작성하기'}
               <Arrow />
             </button>
-            <p className="small">{profile.formKey ? `보내기를 누르면 ${profile.email} 로 바로 전달됩니다. 입력한 이메일로 답장드립니다.` : '입력 내용으로 메일 앱이 열립니다. 사이트는 내용을 저장하지 않습니다.'}</p>
+            <p className="small">{profile.formKey ? '보내기를 누르면 수드에게 바로 전달됩니다. 입력한 이메일로 답장드립니다.' : '입력 내용으로 메일 앱이 열립니다. 사이트는 내용을 저장하지 않습니다.'}</p>
             <p role="status" className="form-status">
               {state.text}
               {state.phase === 'error' && state.fallback && <> <a href={state.fallback}>메일 앱으로 보내기 →</a></>}

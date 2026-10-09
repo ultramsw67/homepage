@@ -365,3 +365,20 @@ test('3분 진단 자리: 메뉴·상담 페이지에서 진단으로 간다', a
   await page.locator('.contact-check').click();
   await expect(page).toHaveURL(/\/check$/);
 });
+
+// 2026-10-09: 바깥 채널(블로그·브런치·링크드인)·이메일은 바닥글 한 곳. 이메일은 상담 페이지에만, 소개는 경력 아래 작은 한 줄만
+test('바깥 링크 정리: 본문에는 채널·이메일이 반복되지 않는다', async ({ page }) => {
+  const outside = 'main a[href*="blog.naver.com/ultramsw67"]:not(.article-head a), main a[href*="brunch.co.kr"], main a[href*="linkedin.com"], main a[href^="mailto:"]';
+  await page.goto('/');
+  await expect(page.locator(outside)).toHaveCount(0);
+  await expect(page.locator('footer a[href^="mailto:"]')).toHaveCount(1);
+  await page.goto('/consulting');
+  await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(1);
+  await expect(page.locator('main a[href*="brunch.co.kr"], main a[href*="linkedin.com"]')).toHaveCount(0);
+  await page.goto('/about');
+  await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(0);
+  await expect(page.locator('main a[href*="linkedin.com"]')).toHaveCount(1);
+  await expect(page.locator('.about-channels a')).toHaveCount(3);
+  await page.goto('/articles/' + first);
+  await expect(page.locator('.article-cta a[href^="mailto:"]')).toHaveCount(0);
+});

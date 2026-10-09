@@ -216,11 +216,6 @@ export default function Home() {
           ) : (
             <p className="muted">글을 불러오는 중입니다.</p>
           )}
-          <div className="channels">
-            <a href={profile.blog} target="_blank" rel="noreferrer"><strong>네이버 블로그</strong><span>수트와후드 · 원문과 댓글</span></a>
-            <a href={profile.brunch} target="_blank" rel="noreferrer"><strong>브런치</strong><span>방구석 데이터 경영 · 연재</span></a>
-            <a href={profile.linkedin} target="_blank" rel="noreferrer"><strong>LinkedIn</strong><span>경력과 소식</span></a>
-          </div>
         </div>
       </section>
 
@@ -230,9 +225,9 @@ export default function Home() {
             <h2>고민을 몇 줄로 보내 주세요</h2>
             <p>계획서가 없어도 됩니다. 지금 상황을 적어 주시면 1~2일 안에 답장드립니다.</p>
           </div>
+          {/* 2026-10-09: 바깥 채널·이메일은 바닥글 한 곳, 이메일 주소는 상담 페이지에만 */}
           <div className="actions">
             <Link className="button primary" to="/consulting#contact">첫 상담 신청하기<Arrow /></Link>
-            <a className="button ghost" href={'mailto:' + profile.email}>{profile.email}</a>
           </div>
         </div>
       </section>
