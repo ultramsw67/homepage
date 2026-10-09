@@ -1,6 +1,7 @@
 // 네이버 블로그 사이드바 「3분 진단」 질문형 위젯 (2026-10-09)
 // 배너가 먼저 진단 첫 질문을 건다 → [예][조금][아니오] 를 누르면 그 답을 들고 /check 로 가서 나머지 9개를 잇는다.
 // 네이버 위젯은 그림+링크만 되므로 그림 5조각(질문·버튼 3·아래 띠)을 따로 찍고, 위젯 코드에서 조각마다 링크를 건다.
+// 글꼴: 홈페이지와 같은 Pretendard (10/9 대표님 "홈페이지와 같게")
 // 사용: node scripts/widget-check-quiz.mjs → public/widget-check/*.png (가로 170px, 3배 해상도) + 위젯 코드 출력
 import { chromium } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
@@ -9,19 +10,19 @@ import { resolve } from 'node:path';
 const OUT = resolve('public/widget-check');
 mkdirSync(OUT, { recursive: true });
 const Q = 1;   // 2번 질문: 고객 5명 이상과 직접 이야기해 봤나요? (블로그 독자 대부분이 '아니오'·'조금' — 바로 다음 칸이 보이는 질문)
-const VER = '20261009c';
+const VER = '20261009d';
 const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&family=Noto+Sans+KR:wght@500;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
 *{box-sizing:border-box;margin:0;padding:0}
-body{width:170px;background:#fff;font-family:'Noto Sans KR',sans-serif;-webkit-font-smoothing:antialiased}
+body{width:170px;background:#fff;font-family:'Pretendard Variable',Pretendard,sans-serif;letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
 #q{width:170px;height:214px;position:relative;background:linear-gradient(170deg,#1f4bb8,#173a8f);color:#fff;padding:16px 14px 0;text-align:left}
 #q .k{display:flex;justify-content:space-between;align-items:center}
 #q .k .tag{display:inline-block;background:#fff;color:#1f4bb8;font-size:15px;font-weight:800;letter-spacing:-.01em;padding:4px 9px 5px;border-radius:3px;box-shadow:0 0 0 2px #d3b071}
 #q .k b{font-weight:700;color:rgba(255,255,255,.75);font-size:10.5px}
 #q .bar{height:2px;background:rgba(255,255,255,.18);margin:11px 0 12px}
 #q .bar i{display:block;width:10%;height:100%;background:#d3b071}
-#q .t{font-family:'Noto Serif KR',serif;font-weight:700;font-size:19px;line-height:1.36;letter-spacing:-.04em}
+#q .t{font-weight:800;font-size:19.5px;line-height:1.38;letter-spacing:-.035em}
 #q .t em{font-style:normal;color:#d3b071}
 #q .s{position:absolute;left:14px;right:14px;bottom:12px;font-size:10px;font-weight:500;color:rgba(255,255,255,.78);line-height:1.45}
 .row{display:flex;width:170px}
