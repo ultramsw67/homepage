@@ -1,5 +1,6 @@
 // 네이버 블로그 사이드바 위젯 배너(가로 170px 규격, 3배 해상도 510×759) 생성
 // 사용: node scripts/widget-banner.mjs  → public/sood-widget.png
+// 2026-10-09: 링크가 상담 → 소개(/about)로 바뀌어 문구도 '어떤 코치인지 보기'로
 // 홈페이지 브랜드 토큰(src/index.css: navy #0b1f3a, brass #b8924a, Noto Serif KR) 사용. Chrome 헤드리스로 렌더.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,8 +47,8 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:var(--navy)}
   <div class="rule"></div>
   <div class="eyebrow">스타트업 경영 코치</div>
   <div class="head">수트의 논리,<br>후드의 실행.</div>
-  <div class="axes">사업모델 · 지표 · 투자유치<br><b>1인 기업</b> 첫 매출까지</div>
-  <div class="cta">지금 뭘 먼저 해야 할까? <span>→</span></div>
+  <div class="axes">현대 기획실 · 창업 19년<br><b>스타트업 20팀</b> 1:1 자문</div>
+  <div class="cta">어떤 코치인지 보기 <span>→</span></div>
   <div class="url">soodcoach.com</div>
 </div></body></html>`;
 
