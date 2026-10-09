@@ -211,7 +211,7 @@ export default function Check() {
   const preset = useMemo(() => {
     const p = new URLSearchParams(search);
     const q = Number(p.get('q')), v = Number(p.get('v'));
-    return Number.isInteger(q) && q >= 0 && q < 10 && [0, 5, 10].includes(v) && p.has('q') ? { q, v, from: p.get('from') || 'article' } : null;
+    return Number.isInteger(q) && q >= 0 && q < 10 && [0, 5, 10].includes(v) && p.has('q') ? { q, v, from: p.get('from') === 'widget' ? 'widget' : 'article' } : null;
   }, [search]);
   const urlKey = useMemo(() => (hash.startsWith('#k=') ? dec(hash.slice(3)) : null), [hash]);
   const savedKey = useMemo(() => loadKey(), []);
@@ -243,7 +243,7 @@ export default function Check() {
       if (s.pos < s.order.length - 1) return { ...s, ans, pos: s.pos + 1 };
       const { total, axis } = calc(ans);
       trackEvent('check_complete', { score_band: LEVELS[level(total)][0], weak: weakAxis(axis), stage: STAGE_SHORT[s.stage], early_skip: ans.filter((x) => x === -1).length, from: s.from || 'check' });
-      alertOwner({ ans, stage: s.stage, from: s.from === 'article' ? '글 끝 질문' : '진단 페이지' });
+      alertOwner({ ans, stage: s.stage, from: { article: '글 끝 질문', widget: '블로그 위젯 질문' }[s.from] || '진단 페이지' });
       return { ...s, ans, step: 'result' };
     });
   }
@@ -392,7 +392,7 @@ export default function Check() {
           <div className="progress"><span>시작 전 한 가지</span><div className="bar"><i style={{ width: `${answered * 10}%` }} /></div><span>{answered}/10</span></div>
           <span className="qtag">지금 단계</span>
           <h1 className="qtext">지금 어느 단계인가요?</h1>
-          {preset && <p className="small muted mb">글에서 고른 답(‘{ansLabel(preset.v)}’)은 그대로 이어 갑니다.</p>}
+          {preset && <p className="small muted mb">{preset.from === 'widget' ? '블로그에서' : '글에서'} 고른 답(‘{ansLabel(preset.v)}’)은 그대로 이어 갑니다.</p>}
           <div className="answers">{STAGES.map((s, k) => <button type="button" key={s} onClick={() => pickStage(k)}>{s}</button>)}</div>
           <p className="small muted mt">단계마다 묻는 기준이 다릅니다. 아이디어 단계라면 아직 이른 질문은 점수에서 뺍니다.</p>
           <div className="qnav"><button type="button" className="textlink" onClick={() => setS({ ...S, step: 'start' })}>← 처음으로</button><span /></div>
