@@ -2,6 +2,7 @@
 // 배너가 먼저 진단 첫 질문을 건다 → [예][조금][아니오] 를 누르면 그 답을 들고 /check 로 가서 나머지 9개를 잇는다.
 // 네이버 위젯은 그림+링크만 되므로 그림 5조각(질문·버튼 3·아래 띠)을 따로 찍고, 위젯 코드에서 조각마다 링크를 건다.
 // 글꼴: 홈페이지와 같은 Pretendard (10/9 대표님 "홈페이지와 같게")
+// 글자 크기 등위 (연재 위젯과 같음, 10/9): 라벨 14 · 제목 19.5 · 설명 11 · 버튼 14.5 · 보조 10.5 (화면 px)
 // 사용: node scripts/widget-check-quiz.mjs → public/widget-check/*.png (가로 170px, 3배 해상도) + 위젯 코드 출력
 import { chromium } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
@@ -10,7 +11,7 @@ import { resolve } from 'node:path';
 const OUT = resolve('public/widget-check');
 mkdirSync(OUT, { recursive: true });
 const Q = 1;   // 2번 질문: 고객 5명 이상과 직접 이야기해 봤나요? (블로그 독자 대부분이 '아니오'·'조금' — 바로 다음 칸이 보이는 질문)
-const VER = '20261009d';
+const VER = '20261009e';
 const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
@@ -18,19 +19,19 @@ const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8">
 body{width:170px;background:#fff;font-family:'Pretendard Variable',Pretendard,sans-serif;letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
 #q{width:170px;height:214px;position:relative;background:linear-gradient(170deg,#1f4bb8,#173a8f);color:#fff;padding:16px 14px 0;text-align:left}
 #q .k{display:flex;justify-content:space-between;align-items:center}
-#q .k .tag{display:inline-block;background:#fff;color:#1f4bb8;font-size:15px;font-weight:800;letter-spacing:-.01em;padding:4px 9px 5px;border-radius:3px;box-shadow:0 0 0 2px #d3b071}
+#q .k .tag{display:inline-block;background:#fff;color:#1f4bb8;font-size:14px;font-weight:800;letter-spacing:-.01em;padding:4px 9px 5px;border-radius:3px;box-shadow:0 0 0 2px #d3b071}
 #q .k b{font-weight:700;color:rgba(255,255,255,.75);font-size:10.5px}
 #q .bar{height:2px;background:rgba(255,255,255,.18);margin:11px 0 12px}
 #q .bar i{display:block;width:10%;height:100%;background:#d3b071}
 #q .t{font-weight:800;font-size:19.5px;line-height:1.38;letter-spacing:-.035em}
 #q .t em{font-style:normal;color:#d3b071}
-#q .s{position:absolute;left:14px;right:14px;bottom:12px;font-size:10px;font-weight:500;color:rgba(255,255,255,.78);line-height:1.45}
+#q .s{position:absolute;left:14px;right:14px;bottom:12px;font-size:11px;font-weight:500;color:rgba(255,255,255,.8);line-height:1.5}
 .row{display:flex;width:170px}
 .b{height:46px;display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:800;letter-spacing:-.02em;background:#173a8f;color:#fff;border-top:1px solid rgba(255,255,255,.22)}
 .b span{display:flex;align-items:center;justify-content:center;width:calc(100% - 8px);height:34px;background:#fff;color:#0b1f3a;border-radius:3px}
 #y{width:57px;padding-left:4px}#m{width:56px}#n{width:57px;padding-right:4px}
 #y span{width:calc(100% - 4px)}#n span{width:calc(100% - 4px)}
-#f{width:170px;height:34px;background:#173a8f;color:rgba(255,255,255,.85);font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:4px}
+#f{width:170px;height:34px;background:#173a8f;color:rgba(255,255,255,.85);font-size:10.5px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:4px}
 #f b{color:#fff;font-weight:700}
 </style></head><body>
 <div id="q"><div class="k"><span class="tag">3분 진단</span><b>1 / 10</b></div><div class="bar"><i></i></div>
