@@ -263,7 +263,7 @@ export default function Check() {
 
   const qBox = (qi, prevAns, onPick, onBack, stage, progress, label) => (
     <div className="rise" key={qi}>
-      <div className="progress"><span>{label}</span><div className="bar"><i style={{ width: `${progress}%` }} /></div><span>{Math.round(progress / 10)}/10</span></div>
+      <div className="progress"><span>{label}</span><div className="bar"><i style={{ transform: `scaleX(${progress / 100})` }} /></div><span>{Math.round(progress / 10)}/10</span></div>
       <span className="qtag">{qi + 1}. {Q[qi][0]}{prevAns !== undefined ? ` · 2주 전 답: ${ansLabel(prevAns)}` : ''}</span>
       <h2 className="qtext">{Q[qi][1]}</h2>
       <div className="answers">
@@ -389,7 +389,7 @@ export default function Check() {
       )}
       {S.step === 'stage' && (
         <div className="rise">
-          <div className="progress"><span>시작 전 한 가지</span><div className="bar"><i style={{ width: `${answered * 10}%` }} /></div><span>{answered}/10</span></div>
+          <div className="progress"><span>시작 전 한 가지</span><div className="bar"><i style={{ transform: `scaleX(${answered / 10})` }} /></div><span>{answered}/10</span></div>
           <span className="qtag">지금 단계</span>
           <h1 className="qtext">지금 어느 단계인가요?</h1>
           {preset && <p className="small muted mb">{preset.from === 'widget' ? '블로그에서' : '글에서'} 고른 답(‘{ansLabel(preset.v)}’)은 그대로 이어 갑니다.</p>}
