@@ -178,7 +178,7 @@ export default function Home() {
           <div className="entry-offer">
             <div>
               <p className="eyebrow">처음이라면</p>
-              <h3>첫 상담 60분</h3>
+              <h3>첫 상담 60분 · 무료</h3>
               <p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 ‘다음 한 수 1장’이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p>
             </div>
             {/* 2026-10-09: 첫 화면에 있던 짧은 신청 칸을 이리로 옮김 — 적은 내용은 상담 폼으로 그대로 넘어간다 */}
@@ -196,7 +196,7 @@ export default function Home() {
                 <input id="leadIssue" name="leadIssue" type="text" maxLength="300" placeholder="지금 가장 급한 문제 하나" />
               </div>
               <button className="button primary block" type="submit">이어서 작성하기<Arrow /></button>
-              <p className="small">계획서가 없어도 됩니다. 비용은 할 일을 정한 뒤 말씀드립니다.</p>
+              <p className="small">계획서가 없어도 됩니다. 첫 상담은 무료입니다.</p>
             </form>
           </div>
         </div>
@@ -226,7 +226,7 @@ export default function Home() {
           </div>
           {/* 2026-10-09: 바깥 채널·이메일은 바닥글 한 곳, 이메일 주소는 상담 페이지에만 */}
           <div className="actions">
-            <Link className="button primary" to="/consulting#contact">첫 상담 신청하기<Arrow /></Link>
+            <Link className="button primary" to="/consulting#contact">무료 첫 상담 신청하기<Arrow /></Link>
           </div>
         </div>
       </section>

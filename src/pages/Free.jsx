@@ -89,8 +89,8 @@ export default function Free() {
             {picked.map((k) => <a key={k} href={SHEETS[k].file} download onClick={() => trackEvent('free_download', { file: k })}>{SHEETS[k].name}<span>PDF · 1쪽</span></a>)}
           </div>
           <div className="next">
-            <p>다 채웠는데 어디서 막히는지 모르겠다면, 이 표를 들고 첫 상담 60분을 신청하세요.</p>
-            <Link className="button primary" to="/consulting#contact" onClick={() => trackEvent('free_to_consult')}>첫 상담 신청하기</Link>
+            <p>다 채웠는데 어디서 막히는지 모르겠다면, 이 표를 들고 무료 첫 상담 60분을 신청하세요.</p>
+            <Link className="button primary" to="/consulting#contact" onClick={() => trackEvent('free_to_consult')}>무료 첫 상담 신청하기</Link>
             {!fromCheck && <p className="alt"><Link className="textlink" to="/check">3분 준비도 진단도 해 보기 →</Link></p>}
           </div>
         </div>

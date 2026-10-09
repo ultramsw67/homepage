@@ -321,7 +321,7 @@ test('3분 진단: 결과에서 상담으로 가면 고민 칸이 채워지고, 
   await page.getByRole('button', { name: '보내기' }).click();
   await expect(page.locator('.ask .sent')).toBeVisible();
   expect(sent[0].subject).toContain('[진단 상담실]');
-  await page.getByRole('link', { name: '이 결과로 첫 상담 60분 신청하기' }).click();
+  await page.getByRole('link', { name: '이 결과로 무료 첫 상담 60분 신청하기' }).click();
   await expect(page.locator('#message')).toHaveValue(/준비도 진단 50점/);
 });
 

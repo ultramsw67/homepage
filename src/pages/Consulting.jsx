@@ -80,7 +80,7 @@ export default function Consulting() {
           <h1>무엇을 돕는지,<br />어떻게 진행하는지</h1>
           <p className="lead">창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p>
           <div className="actions">
-            <a className="button primary" href="#contact">첫 상담 60분 신청<Arrow /></a>
+            <a className="button primary" href="#contact">무료 첫 상담 60분 신청<Arrow /></a>
             <a className="button ghost" href="#faq">자주 묻는 질문</a>
           </div>
         </header>
@@ -114,12 +114,12 @@ export default function Consulting() {
           <div className="entry-offer">
             <div>
               <p className="eyebrow">처음이라면</p>
-              <h3>첫 상담 60분</h3>
+              <h3>첫 상담 60분 · 무료</h3>
               <p>현재 지표와 고민을 듣고 지금 가장 먼저 풀어야 할 문제 하나와 다음 4주 동안 할 일을 한 장으로 정리해 드립니다. 이후 집중 자문으로 이어갈지는 그때 정합니다.</p>
             </div>
             <div className="offer-side">
-              <a className="button primary block" href="#contact">첫 상담 60분 신청<Arrow /></a>
-              <p className="small">비용은 할 일을 정한 뒤 말씀드립니다.</p>
+              <a className="button primary block" href="#contact">무료 첫 상담 60분 신청<Arrow /></a>
+              <p className="small">첫 상담은 무료입니다. 이어서 자문을 하실 때만 비용을 정합니다.</p>
             </div>
           </div>
         </section>

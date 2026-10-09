@@ -130,14 +130,14 @@ render({
 const offerCatalog = {
   '@type': 'Service', '@id': `${SITE}/consulting#service`, name: '1:1 스타트업 경영 자문', serviceType: '스타트업 경영 코칭', url: `${SITE}/consulting`,
   provider: { '@id': ORG_ID }, areaServed: { '@type': 'Country', name: '대한민국' }, audience: { '@type': 'Audience', audienceType: '창업 3년 이내 대표, 1인 창업자' },
-  hasOfferCatalog: { '@type': 'OfferCatalog', name: '자문 분야', itemListElement: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.description } })) },
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: '자문 분야', itemListElement: [{ '@type': 'Offer', name: '첫 상담 60분', price: '0', priceCurrency: 'KRW', description: '현재 숫자와 고민을 듣고 먼저 풀 문제 하나와 4주 할 일을 한 장으로 정리 (무료)' }, ...services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.description } }))] },
 };
 render({
   path: '/consulting',
   title: `1:1 스타트업 경영 상담·자문 | ${BRAND}`,
-  description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 상담 60분.',
+  description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 상담 60분 무료.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
-  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>비용은 할 일을 정한 뒤 말씀드립니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 1~2일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
+  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분 · 무료</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>첫 상담은 무료입니다. 이어서 자문을 하실 때만 비용을 정합니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 1~2일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
 });
 
 // 3-1) 3분 창업 준비도 진단 · 체크표 받기 (2026-10-09)
@@ -259,7 +259,7 @@ const llms = [
   '## 주요 페이지',
   `- [홈](${SITE}/): 브랜드 소개, 자문 분야, 최근 칼럼`,
   `- [소개](${SITE}/about): ${AUTHOR}의 경력과 자문 사례`,
-  `- [상담 안내](${SITE}/consulting): 자문 분야, 진행 방식, 첫 상담, 자주 묻는 질문, 문의 폼`,
+  `- [상담 안내](${SITE}/consulting): 자문 분야, 진행 방식, 첫 상담(60분 무료), 자주 묻는 질문, 문의 폼`,
   `- [칼럼 전체 목록](${SITE}/articles): ${COLUMN_TOTAL}편`,
   `- [3분 창업 준비도 진단](${SITE}/check): 고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검, 점수와 이번 주 할 일 하나, 2주 뒤 다시 재는 쪽지`,
   `- [스타트업 경영 체크표 4종](${SITE}/free): 고객 5명 대화 노트, 주문 1건 계산서, 피치덱 12항목 체크표, PoC 착수 전 합의표 (A4 PDF)`,

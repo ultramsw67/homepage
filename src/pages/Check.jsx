@@ -354,7 +354,7 @@ export default function Check() {
               </div>
               <div className="mt"><Result ans={R.ans} stage={R.stage} prevAxis={before.axis} titles={titles} /></div>
               <Letter base={{ v: 1, st: R.stage, a: R.ans.slice(), q: ns ? ns.i : -1, h: hist }} />
-              <div className="minor"><Link className="text-link" to="/consulting#contact" state={{ message: `준비도 진단 ${before.total}→${after.total}점 · 단계: ${STAGE_SHORT[R.stage]}\n` }}>이 결과로 첫 상담 60분 신청하기<Arrow /></Link></div>
+              <div className="minor"><Link className="text-link" to="/consulting#contact" state={{ message: `준비도 진단 ${before.total}→${after.total}점 · 단계: ${STAGE_SHORT[R.stage]}\n` }}>이 결과로 무료 첫 상담 60분 신청하기<Arrow /></Link></div>
             </div>
           );
         })()}
@@ -411,8 +411,8 @@ export default function Check() {
               <div><p className="step">작은 걸음 · 이메일 1개</p>
                 <Link className="button gold block" to={`/free?pick=${pick}`} state={{ stage: S.stage, total, lv }} onClick={() => trackEvent('check_to_free', { pick })}>이 결과에 맞는 한 장 받기 — {SHEETS[pick].name}</Link></div>
               <div><p className="step">중간 걸음 · 이름 없이 한 줄</p><Ask total={total} lv={lv} stage={S.stage} /></div>
-              <div><p className="step">큰 걸음 · 60분</p>
-                <Link className="button ghost block" to="/consulting#contact" state={{ message: memo }} onClick={() => trackEvent('check_to_consult')}>이 결과로 첫 상담 60분 신청하기</Link></div>
+              <div><p className="step">큰 걸음 · 60분 · 무료</p>
+                <Link className="button ghost block" to="/consulting#contact" state={{ message: memo }} onClick={() => trackEvent('check_to_consult')}>이 결과로 무료 첫 상담 60분 신청하기</Link></div>
             </div>
             <div className="minor"><button type="button" className="textlink" onClick={() => setS({ step: 'start', stage: null, ans: Array(10).fill(null), order: [], pos: 0 })}>처음부터 다시 하기</button></div>
           </div>
