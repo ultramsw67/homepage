@@ -16,6 +16,8 @@ const DEFAULT_IMAGE = `${SITE}/sood-character.jpg`;   // 사람·브랜드 정�
 const OG_IMAGE = `${SITE}/og-card.png`;
 // 3분 진단 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-check.html — 크롬 헤드리스로 찍음)
 const CHECK_OG = `${SITE}/og-check.png`;
+// 상담 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-consulting.html — 황동 바탕·첫 상담 60분·한 장 체크표)
+const CONSULT_OG = `${SITE}/og-consulting.png`;
 const OG_ALT = '수트와후드 SOOD — 스타트업 경영 코치 문성운, soodcoach.com';
 const PERSON_ID = `${SITE}/about#person`;
 const ORG_ID = `${SITE}/#organization`;
@@ -70,11 +72,11 @@ const crumbs = (items) => ({
 const graph = (...nodes) => jsonld({ '@context': 'https://schema.org', '@graph': nodes });
 
 // 크기를 아는 공유 카드일 때만 width·height 를 붙인다 (글 썸네일은 네이버 그림이라 크기를 모름)
-const ogSize = (image) => (image === OG_IMAGE || image === CHECK_OG
+const ogSize = (image) => (image === OG_IMAGE || image === CHECK_OG || image === CONSULT_OG
   ? `
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="${esc(image === CHECK_OG ? "3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비, 수트와후드 SOOD" : OG_ALT)}" />`
+    <meta property="og:image:alt" content="${esc(image === CHECK_OG ? "3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비, 수트와후드 SOOD" : image === CONSULT_OG ? "첫 상담 60분 — 할 일을 종이 한 장으로, 수트와후드 SOOD 1:1 스타트업 경영 자문" : OG_ALT)}" />`
   : '');
 
 function render({ path, title, description, type = 'website', image = OG_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl, ogUrl }) {
@@ -134,6 +136,8 @@ const offerCatalog = {
 };
 render({
   path: '/consulting',
+  image: CONSULT_OG,
+  ogUrl: `${SITE}/consulting?card=b`, // 네이버 링크 카드가 새 그림을 읽게 (canonical 은 /consulting 그대로)
   title: `1:1 스타트업 경영 상담·자문 | ${BRAND}`,
   description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 상담 60분 무료.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
