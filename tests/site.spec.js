@@ -279,7 +279,12 @@ test('3분 진단: 아이디어 단계 → 결과·빨간 펜·다음 칸 → �
   await expect(page).toHaveURL(/\/check$/);
   await page.getByRole('button', { name: '진단 시작하기' }).click();
   await page.locator('.answers button').first().click();   // 아이디어 단계
-  for (const v of ['조금', '아니오', '조금', '조금', '아니오', '예', '아니오', '아직 이릅니다', '아직 이릅니다', '아직 이릅니다']) {
+  for (const [k, v] of ['조금', '아니오', '조금', '조금', '아니오', '예', '아니오', '아직 이릅니다', '아직 이릅니다', '아직 이릅니다'].entries()) {
+    if (k === 7) {   // 8번 '숫자' 질문: 무엇을 숫자로 치는지 보조 문구가 붙는다 (10/10)
+      await expect(page.locator('.qtext')).toContainText('매주 적어 두었나요');
+      await expect(page.locator('.qhint')).toContainText('그냥 본 숫자는 빼고');
+      await page.screenshot({ path: 'tmp/check-q8-mobile.png' });
+    } else await expect(page.locator('.qhint')).toHaveCount(0);
     await page.locator('.answers button', { hasText: new RegExp('^' + v) }).first().click();
   }
   await expect(page.locator('.check .zone')).toContainText('씨앗 구간');

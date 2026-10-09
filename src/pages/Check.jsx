@@ -269,7 +269,8 @@ export default function Check() {
     <div className="rise" key={qi}>
       <div className="progress"><span>{label}</span><div className="bar"><i style={{ transform: `scaleX(${progress / 100})` }} /></div><span>{Math.round(progress / 10)}/10</span></div>
       <span className="qtag">{qi + 1}. {Q[qi][0]}{prevAns !== undefined ? ` · 1주 전 답: ${ansLabel(prevAns)}` : ''}</span>
-      <h2 className="qtext">{Q[qi][1]}</h2>
+      <h2 className={'qtext' + (Q[qi][2] ? ' has-hint' : '')}>{Q[qi][1]}</h2>
+      {Q[qi][2] && <p className="qhint">{Q[qi][2]}</p>}
       <div className="answers">
         {[['예', 10], ['조금', 5], ['아니오', 0]].map(([l, v]) => <button type="button" key={v} onClick={() => onPick(v)}>{l}</button>)}
         {stage === 0 && EARLY.includes(qi) && <button type="button" className="early" onClick={() => onPick(-1)}>아직 이릅니다<span className="sub">결과에서 뺍니다</span></button>}
