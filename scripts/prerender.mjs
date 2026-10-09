@@ -77,7 +77,7 @@ const ogSize = (image) => (image === OG_IMAGE || image === CHECK_OG
     <meta property="og:image:alt" content="${esc(image === CHECK_OG ? "3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비, 수트와후드 SOOD" : OG_ALT)}" />`
   : '');
 
-function render({ path, title, description, type = 'website', image = OG_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl }) {
+function render({ path, title, description, type = 'website', image = OG_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl, ogUrl }) {
   const url = `${SITE}${path}`;
   let html = template
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
@@ -85,7 +85,7 @@ function render({ path, title, description, type = 'website', image = OG_IMAGE, 
     .replace(/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${esc(title)}" />`)
     .replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${esc(description)}" />`)
     .replace(/<meta property="og:type" content="[^"]*" \/>/, `<meta property="og:type" content="${type}" />`)
-    .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${url}" />`)
+    .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${esc(ogUrl || url)}" />`)
     .replace(/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${esc(image)}" />${ogSize(image)}`);
   if (noindex) html = html.replace(/<meta name="robots" content="[^"]*" \/>/, '<meta name="robots" content="noindex, follow" />');
   const canonical = noindex ? '' : `    <link rel="canonical" href="${esc(canonicalUrl || url)}" />\n`;
@@ -143,6 +143,8 @@ const CHECK_QS = ['내 고객이 누구인지 한 문장으로 말할 수 있나
 render({
   path: '/check',
   image: CHECK_OG,
+  // 네이버 링크 카드는 og:url 을 열쇠로 옛 그림을 기억한다 → 그림을 바꿀 때 ?card= 값을 바꿔 새로 읽게 한다 (canonical 은 /check 그대로, 2026-10-09)
+  ogUrl: `${SITE}/check?card=b`,
   title: `3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비 | ${BRAND}`,
   description: '고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검하는 3분 창업 준비도 진단. 아이디어와 연락처는 묻지 않고, 점수와 이번 주 할 일 하나, 2주 뒤 다시 재 보는 쪽지를 드립니다.',
   head: `    ${graph({ '@type': 'WebPage', '@id': `${SITE}/check`, url: `${SITE}/check`, name: '3분 창업 준비도 진단', inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef }, crumbs([{ name: '3분 진단', path: '/check' }]))}
