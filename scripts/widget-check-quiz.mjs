@@ -9,16 +9,17 @@ import { resolve } from 'node:path';
 const OUT = resolve('public/widget-check');
 mkdirSync(OUT, { recursive: true });
 const Q = 1;   // 2번 질문: 고객 5명 이상과 직접 이야기해 봤나요? (블로그 독자 대부분이 '아니오'·'조금' — 바로 다음 칸이 보이는 질문)
-const VER = '20261009b';
+const VER = '20261009c';
 const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&family=Noto+Sans+KR:wght@500;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 body{width:170px;background:#fff;font-family:'Noto Sans KR',sans-serif;-webkit-font-smoothing:antialiased}
-#q{width:170px;height:206px;position:relative;background:linear-gradient(170deg,#1f4bb8,#173a8f);color:#fff;padding:16px 14px 0;text-align:left}
-#q .k{display:flex;justify-content:space-between;align-items:center;font-size:9.5px;font-weight:800;letter-spacing:.14em;color:#d3b071}
-#q .k b{font-weight:700;letter-spacing:0;color:rgba(255,255,255,.7);font-size:9.5px}
-#q .bar{height:2px;background:rgba(255,255,255,.18);margin:8px 0 14px}
+#q{width:170px;height:214px;position:relative;background:linear-gradient(170deg,#1f4bb8,#173a8f);color:#fff;padding:16px 14px 0;text-align:left}
+#q .k{display:flex;justify-content:space-between;align-items:center}
+#q .k .tag{display:inline-block;background:#fff;color:#1f4bb8;font-size:15px;font-weight:800;letter-spacing:-.01em;padding:4px 9px 5px;border-radius:3px;box-shadow:0 0 0 2px #d3b071}
+#q .k b{font-weight:700;color:rgba(255,255,255,.75);font-size:10.5px}
+#q .bar{height:2px;background:rgba(255,255,255,.18);margin:11px 0 12px}
 #q .bar i{display:block;width:10%;height:100%;background:#d3b071}
 #q .t{font-family:'Noto Serif KR',serif;font-weight:700;font-size:19px;line-height:1.36;letter-spacing:-.04em}
 #q .t em{font-style:normal;color:#d3b071}
@@ -31,7 +32,7 @@ body{width:170px;background:#fff;font-family:'Noto Sans KR',sans-serif;-webkit-f
 #f{width:170px;height:34px;background:#173a8f;color:rgba(255,255,255,.85);font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:4px}
 #f b{color:#fff;font-weight:700}
 </style></head><body>
-<div id="q"><div class="k">3분 진단 <b>1 / 10</b></div><div class="bar"><i></i></div>
+<div id="q"><div class="k"><span class="tag">3분 진단</span><b>1 / 10</b></div><div class="bar"><i></i></div>
 <div class="t">내 고객 <em>5명</em>과<br>직접 이야기해<br>봤나요?</div>
 <div class="s">아래에서 하나 누르면<br>나머지 9개로 이어집니다</div></div>
 <div class="row"><div class="b" id="y"><span>예</span></div><div class="b" id="m"><span>조금</span></div><div class="b" id="n"><span>아니오</span></div></div>
