@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  Q, SHORT, EARLY, TODO, SMALL, PEN, AXES, STAGES, STAGE_SHORT, LEVELS, VERDICT, POSTS, SHEETS, SEAL_DAYS,
+  Q, SHORT, EARLY, TODO, SMALL, PEN, AXES, STAGES, STAGE_SHORT, LEVELS, ZONES, VERDICT, POSTS, SHEETS, SEAL_DAYS,
   calc, level, weakAxis, nextStep, sheetFor, dec, keyUrl, saveKey, loadKey, enc, addDays, isoDate, md, daysPassed, daysLeft,
   icsText, gcalUrl, download, plantSvg,
 } from '../lib/check';
@@ -41,6 +41,19 @@ function Plant({ lv, size = 84 }) {
   return <span className="plant" style={{ width: size, height: size }} aria-label={LEVELS[lv][0]} role="img" dangerouslySetInnerHTML={{ __html: plantSvg(lv, size) }} />;
 }
 
+// 씨앗·새싹·나무·열매 4칸 길 — 지금 구간에 「지금 여기」
+function Road({ lv }) {
+  return (
+    <div className="road" role="list" aria-label="준비 구간">
+      {LEVELS.map(([name], k) => (
+        <div role="listitem" key={name} className={'st' + (k === lv ? ' on' : k < lv ? ' past' : '')} aria-current={k === lv ? 'step' : undefined}>
+          <span aria-hidden="true"><Plant lv={k} size={36} /></span>{name}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Radar({ scores, prev }) {
   const cx = 170, cy = 160, R = 112, n = 5;
   const pt = (k, r) => { const a = -Math.PI / 2 + (k * 2 * Math.PI) / n; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
@@ -48,13 +61,18 @@ function Radar({ scores, prev }) {
   const poly = (sc) => sc.map((s, k) => pt(k, (R * (s || 0)) / 20).join(',')).join(' ');
   const wk = AXES.indexOf(weakAxis(scores));
   return (
-    <svg className="radar" viewBox="0 0 340 330" role="img" aria-label="갈래별 점수 오각형 그래프">
+    <svg className="radar" viewBox="0 0 340 330" role="img" aria-label={`갈래별 준비 모양 — ${AXES[wk]}이 가장 비어 있음`}>
       {[0.25, 0.5, 0.75, 1].map((f) => <polygon key={f} points={ring(f)} fill="none" stroke="#e4e2dd" />)}
       {AXES.map((_, k) => { const [x, y] = pt(k, R); return <line key={k} x1={cx} y1={cy} x2={x} y2={y} stroke="#e4e2dd" />; })}
       {prev && <polygon points={poly(prev)} fill="rgba(0,0,0,.05)" stroke="#9a9a9a" strokeWidth="1.5" strokeDasharray="4 3" />}
       <polygon points={poly(scores)} fill="rgba(31,75,184,.16)" stroke="#1f4bb8" strokeWidth="2" />
-      {scores.map((s, k) => { if (s == null) return null; const [x, y] = pt(k, (R * s) / 20); return <circle key={k} cx={x} cy={y} r="4" fill={k === wk ? '#1f4bb8' : '#111'} />; })}
-      {AXES.map((a, k) => { const [x, y] = pt(k, R + 26); const s = scores[k]; return <text key={a} x={x} y={y} textAnchor="middle" dominantBaseline="middle" fontSize="13" fontWeight={k === wk ? 800 : 600} fill={s == null ? '#9a9a9a' : k === wk ? '#1f4bb8' : '#111'}>{a} {s == null ? '나중' : s}</text>; })}
+      {scores.map((s, k) => { if (s == null) return null; const [x, y] = pt(k, (R * s) / 20); return <circle key={k} cx={x} cy={y} r="4" fill={k === wk ? '#d43c2f' : '#1f4bb8'} />; })}
+      {AXES.map((a, k) => {
+        const [x, y] = pt(k, R + 26); const s = scores[k];
+        return <text key={a} x={x} y={y} textAnchor="middle" dominantBaseline="middle" fontSize="14" fontWeight={k === wk ? 800 : 600} fill={s == null ? '#8a8a8a' : k === wk ? '#d43c2f' : '#111'}>
+          {a}{s == null ? ' · 나중' : ''}{k === wk && <tspan x={x} dy="17" fontSize="12.5">여기부터</tspan>}
+        </text>;
+      })}
     </svg>
   );
 }
@@ -67,24 +85,26 @@ function Result({ ans, stage, prevAxis, titles }) {
   const have = ans.map((v, i) => (v === 10 ? SHORT[i] : null)).filter(Boolean);
   const skipped = ans.filter((v) => v === -1).length;
   const axisName = qi >= 0 ? Q[qi][0] : weakAxis(axis);
-  const lo = LEVELS[lv][1], hi = lv < 3 ? ns?.nextAt ?? 100 : 100;
   return (
     <>
+      <Road lv={lv} />
       <div className="score-top">
         <div>
-          <div className="lvname"><Plant lv={lv} /><div><b>{LEVELS[lv][0]} 단계</b><div className="big">{total}<small>/ 100점</small></div></div></div>
+          <p className="zone">{LEVELS[lv][0]} 구간 — {ZONES[lv][0]}</p>
+          <p className="zdesc">{ZONES[lv][1]}</p>
           <p className="verdict">{VERDICT[stage][lv]}</p>
           <div className="have">
-            {have.length ? <><p>이미 갖춘 것 {have.length}개</p><div className="chips">{have.map((h) => <span className="chip" key={h}>{h}</span>)}</div></> : <p>‘조금’이라고 답했다면 이미 시작한 겁니다.</p>}
+            {have.length ? <><p>이미 갖춘 것</p><div className="chips">{have.map((h) => <span className="chip" key={h}>{h}</span>)}</div></> : <p>‘조금’이라고 답했다면 이미 시작한 겁니다.</p>}
           </div>
-          {skipped > 0 && <p className="small muted">아직 이른 질문 {skipped}개는 점수에서 뺐습니다.</p>}
+          {skipped > 0 && <p className="small muted">아직 이른 질문 {skipped}개는 결과에서 뺐습니다.</p>}
           <div className="nextbar">
             {ns ? <>
-              <div className="lab"><span>{LEVELS[lv][0]} {total}점</span><span>{lv < 3 ? `${LEVELS[lv + 1][0]} ${ns.nextAt}점` : '100점'}</span></div>
-              <div className="track"><i style={{ width: `${Math.min(100, ((total - lo) / Math.max(1, hi - lo)) * 100)}%` }} /></div>
-              <p>{ns.up
-                ? <>‘{SHORT[ns.i]}’ 하나만 ‘예’가 되면 <b>{ns.t2}점, {LEVELS[level(ns.t2)][0]}</b>입니다.</>
-                : <>‘{SHORT[ns.i]}’ 하나만 ‘예’가 되면 {ns.t2}점입니다.{lv < 3 && ` ${LEVELS[lv + 1][0]}까지 ${ns.nextAt - total}점 남았습니다.`}</>}</p>
+              <p className="lab">{lv < 3 ? `다음 구간(${LEVELS[lv + 1][0]})으로 가는 가장 가까운 길` : '남은 칸 하나'}</p>
+              <p>{lv === 3
+                ? <>‘{SHORT[ns.i]}’까지 채우면 모든 칸이 찹니다.</>
+                : ns.up
+                  ? <>‘{SHORT[ns.i]}’ 하나만 채우면 <b>{LEVELS[level(ns.t2)][0]} 구간</b>에 닿습니다.</>
+                  : <>‘{SHORT[ns.i]}’를 채우면 {LEVELS[lv + 1][0]} 구간에 가까워집니다.</>}</p>
             </> : <p>모든 질문에 ‘예’입니다. 1주 뒤에 다시 재 보세요.</p>}
           </div>
         </div>
@@ -92,7 +112,7 @@ function Result({ ans, stage, prevAxis, titles }) {
           <Radar scores={axis} prev={prevAxis} />
           {prevAxis
             ? <div className="legend"><span><i className="was" />1주 전</span><span><i className="now" />오늘</span></div>
-            : <p className="small muted center">갈래마다 20점 만점</p>}
+            : <p className="small muted center">넓게 퍼진 쪽이 준비된 갈래이고, 빨간 글씨가 가장 비어 있는 곳입니다</p>}
         </div>
       </div>
       {qi >= 0 && (
@@ -251,7 +271,7 @@ export default function Check() {
       <h2 className="qtext">{Q[qi][1]}</h2>
       <div className="answers">
         {[['예', 10], ['조금', 5], ['아니오', 0]].map(([l, v]) => <button type="button" key={v} onClick={() => onPick(v)}>{l}</button>)}
-        {stage === 0 && EARLY.includes(qi) && <button type="button" className="early" onClick={() => onPick(-1)}>아직 이릅니다<span className="sub">점수에서 뺍니다</span></button>}
+        {stage === 0 && EARLY.includes(qi) && <button type="button" className="early" onClick={() => onPick(-1)}>아직 이릅니다<span className="sub">결과에서 뺍니다</span></button>}
       </div>
       {onBack && <div className="qnav"><button type="button" className="textlink" onClick={onBack}>← 뒤로</button><span className="small muted">누르면 바로 다음으로 넘어갑니다</span></div>}
     </div>
@@ -285,7 +305,7 @@ export default function Check() {
             <div className="envelope open" />
             <div className="oldnote">
               <div className="hand">{k.n ? `“${k.n}”` : `이번 주 할 일: ${TODO[qi0]}`}</div>
-              <div className="meta">{k.d.replace(/-/g, '.')} · 그때 {LEVELS[level(before.total)][0]} {before.total}점{k.b ? ` · 해내면 나에게: ${k.b}` : ''}</div>
+              <div className="meta">{k.d.replace(/-/g, '.')} · 그때 {LEVELS[level(before.total)][0]} 구간{k.b ? ` · 해내면 나에게: ${k.b}` : ''}</div>
             </div>
             <h2 className="kept-q">{k.n ? '이 한 줄, 해냈나요?' : '이 할 일, 해 봤나요?'}</h2>
             <div className="kept">
@@ -322,22 +342,25 @@ export default function Check() {
         )}
         {R.step === 'q' && qBox(R.order[R.pos], k.a[R.order[R.pos]], reAnswer, null, R.stage, ((R.pos + 1) / R.order.length) * 100, '달라진 것만')}
         {R.step === 'result' && (() => {
-          const after = calc(R.ans), d = after.total - before.total;
+          const after = calc(R.ans), lb = level(before.total), la = level(after.total);
+          const more = R.ans.filter((v) => v === 10).length - k.a.filter((v) => v === 10).length;
           const hist = [...(k.h || []), { d: k.d, s: before.total }];
           const ns = nextStep(R.ans, R.stage);
           return (
             <div className="rise">
               <p className="eyebrow">다시 잰 결과 · {hist.length + 1}번째</p>
               <h1 className="sr-only">다시 잰 결과</h1>
-              <div className="deltarow"><span className={'delta' + (d > 0 ? ' up' : '')}>{d > 0 ? '+' : ''}{d}점</span><span className="muted">{before.total}점 → {after.total}점</span></div>
-              <p className="strong">{d > 0 ? '1주 전보다 채운 칸이 늘었습니다. 회색 점선이 1주 전입니다.' : d === 0 ? '점수는 그대로입니다. 아래 이번 주 할 일 하나만 해 보세요.' : '점수가 내려갔습니다. 고객을 직접 만나 보면 ‘예’라고 생각했던 답이 ‘조금’으로 바뀌는 일이 흔합니다. 잘못한 게 아닙니다.'}</p>
+              <div className="move"><span>{LEVELS[lb][0]}</span><span className="arrow">→</span><span className={la > lb ? 'up' : ''}>{LEVELS[la][0]}</span></div>
+              <p className="strong">{la > lb ? `${la - lb === 1 ? '한' : la - lb === 2 ? '두' : '세'} 구간 올라왔습니다. 회색 점선이 1주 전입니다.`
+                : la === lb ? `아직 ${LEVELS[la][0]} 구간입니다. ${more > 0 ? `채운 칸이 ${more}개 늘었습니다.` : '채운 칸은 그대로입니다. 아래 이번 주 할 일 하나만 해 보세요.'}`
+                : `${LEVELS[la][0]} 구간으로 다시 왔습니다. 고객을 만나 보면 ‘예’라고 생각했던 답이 ‘조금’으로 바뀌는 일이 흔합니다. 잘못한 게 아닙니다.`}</p>
               <div className="grow">
-                {hist.map((h) => <div key={h.d + h.s}><Plant lv={level(h.s)} size={56} />{md(new Date(h.d + 'T00:00:00'))}<br />{h.s}점</div>)}
-                <div><Plant lv={level(after.total)} size={56} /><b>오늘</b><br />{after.total}점</div>
+                {hist.map((h) => <div key={h.d + h.s}><Plant lv={level(h.s)} size={56} />{md(new Date(h.d + 'T00:00:00'))}<br />{LEVELS[level(h.s)][0]}</div>)}
+                <div><Plant lv={level(after.total)} size={56} /><b>오늘</b><br />{LEVELS[la][0]}</div>
               </div>
               <div className="mt"><Result ans={R.ans} stage={R.stage} prevAxis={before.axis} titles={titles} /></div>
               <Letter base={{ v: 1, st: R.stage, a: R.ans.slice(), q: ns ? ns.i : -1, h: hist }} />
-              <div className="minor"><Link className="text-link" to="/consulting#contact" state={{ message: `준비도 진단 ${before.total}→${after.total}점 · 단계: ${STAGE_SHORT[R.stage]}\n` }}>이 결과로 무료 첫 상담 60분 신청하기<Arrow /></Link></div>
+              <div className="minor"><Link className="text-link" to="/consulting#contact" state={{ message: `준비도 진단 ${LEVELS[level(before.total)][0]} → ${LEVELS[level(after.total)][0]} 구간 · 단계: ${STAGE_SHORT[R.stage]}\n` }}>이 결과로 무료 첫 상담 60분 신청하기<Arrow /></Link></div>
             </div>
           );
         })()}
@@ -350,7 +373,7 @@ export default function Check() {
   const lv = level(total);
   const ns = S.step === 'result' ? nextStep(S.ans, S.stage) : null;
   const pick = S.step === 'result' ? sheetFor(ns ? Q[ns.i][0] : weakAxis(axis), S.stage) : null;
-  const memo = S.step === 'result' ? `준비도 진단 ${total}점(${LEVELS[lv][0]}) · 다음 칸 질문: ${ns ? SHORT[ns.i] : '-'} · 단계: ${STAGE_SHORT[S.stage]}\n` : '';
+  const memo = S.step === 'result' ? `준비도 진단 ${LEVELS[lv][0]} 구간 · 다음 칸 질문: ${ns ? SHORT[ns.i] : '-'} · 단계: ${STAGE_SHORT[S.stage]}\n` : '';
   const answered = S.ans.filter((v) => v != null).length;
   return (
     <div className="wrap page check"><div className="narrowcol">
@@ -361,7 +384,7 @@ export default function Check() {
           <p className="lead">질문 10개, 3분이면 끝납니다. 아이디어도, 이름·연락처도 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도 괜찮습니다. 그 단계에 맞춰 봅니다.</p>
           <div className="facts"><span className="chip">질문 10개</span><span className="chip">약 3분</span><span className="chip">연락처 없음</span><span className="chip">이번 주 할 일 1개</span><span className="chip">1주 뒤 다시 재 보기</span></div>
           <button type="button" className="button primary" onClick={start}>진단 시작하기<Arrow /></button>
-          <p className="small muted privacy">결과 요약(점수·단계)만 이름 없이 수드에게 전달됩니다. 1주 뒤의 나에게 쓰는 한 줄은 이 기기와 내 캘린더에만 남습니다.</p>
+          <p className="small muted privacy">결과 요약만 이름 없이 수드에게 전달됩니다. 1주 뒤의 나에게 쓰는 한 줄은 이 기기와 내 캘린더에만 남습니다.</p>
           {savedKey && (
             <div className="saved">
               <span>지난 진단이 있습니다 · {daysLeft(savedKey) > 0 ? `다시 재는 날까지 ${daysLeft(savedKey)}일` : '오늘 다시 잴 수 있습니다'}</span>
@@ -377,7 +400,7 @@ export default function Check() {
           <h1 className="qtext">지금 어느 단계인가요?</h1>
           {preset && <p className="small muted mb">{preset.from === 'widget' ? '블로그에서' : '글에서'} 고른 답(‘{ansLabel(preset.v)}’)은 그대로 이어 갑니다.</p>}
           <div className="answers">{STAGES.map((s, k) => <button type="button" key={s} onClick={() => pickStage(k)}>{s}</button>)}</div>
-          <p className="small muted mt">단계마다 묻는 기준이 다릅니다. 아이디어 단계라면 아직 이른 질문은 점수에서 뺍니다.</p>
+          <p className="small muted mt">단계마다 묻는 기준이 다릅니다. 아이디어 단계라면 아직 이른 질문은 결과에서 뺍니다.</p>
           <div className="qnav"><button type="button" className="textlink" onClick={() => setS({ ...S, step: 'start' })}>← 처음으로</button><span /></div>
         </div>
       )}
@@ -391,9 +414,9 @@ export default function Check() {
           <div className="blk">
             <h2>이 결과로 할 수 있는 것</h2>
             <div className="ladder">
-              <div><p className="step">① 표 한 장 받기 · 이메일 없이 바로</p>
-                <p className="small muted">{SHEETS[pick].desc}</p>
-                <a className="button gold block" href={SHEETS[pick].file} download onClick={() => trackEvent('check_sheet_download', { pick })}>「{SHEETS[pick].name}」 PDF 받기</a></div>
+              <div><p className="step">① 빈 양식 받기 — 직접 채우는 표 한 장</p>
+                <p className="small muted">{SHEETS[pick].desc} 이메일 없이 바로 받습니다.</p>
+                <a className="button gold block" href={SHEETS[pick].file} download onClick={() => trackEvent('check_sheet_download', { pick })}>「{SHEETS[pick].name}」 빈 양식 PDF 받기</a></div>
               <div><p className="step">② 수드에게 막힌 것 물어보기</p><Ask total={total} lv={lv} stage={S.stage} /></div>
               <div><p className="step">③ 직접 상담 받기 · 60분 무료</p>
                 <Link className="button ghost block" to="/consulting#contact" state={{ message: memo }} onClick={() => trackEvent('check_to_consult')}>이 결과로 무료 첫 상담 60분 신청하기</Link></div>

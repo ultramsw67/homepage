@@ -282,7 +282,9 @@ test('3분 진단: 아이디어 단계 → 결과·빨간 펜·다음 칸 → �
   for (const v of ['조금', '아니오', '조금', '조금', '아니오', '예', '아니오', '아직 이릅니다', '아직 이릅니다', '아직 이릅니다']) {
     await page.locator('.answers button', { hasText: new RegExp('^' + v) }).first().click();
   }
-  await expect(page.locator('.check .big')).toContainText('36');
+  await expect(page.locator('.check .zone')).toContainText('씨앗 구간');
+  await expect(page.locator('.check .road .st.on')).toContainText('씨앗');
+  await expect(page.locator('.check .score-top')).not.toContainText('점');
   await expect(page.locator('.nextbar')).toContainText('고객 5명 대화');
   await expect(page.locator('.pen .note')).toContainText('직접 만나서');
   await expect(page.locator('.check .posts a')).toHaveCount(2);
@@ -313,7 +315,7 @@ test('3분 진단: 아이디어 단계 → 결과·빨간 펜·다음 칸 → �
   let n = 0;
   while (await page.locator('.answers button', { hasText: /^예$/ }).count()) { await page.locator('.answers button', { hasText: /^예$/ }).click(); n++; if (n > 12) break; }
   expect(n).toBe(9);
-  await expect(page.locator('.delta')).toHaveText('+64점');
+  await expect(page.locator('.move')).toHaveText('씨앗→열매');
   await expect(page.locator('.grow > div')).toHaveCount(2);
 });
 
@@ -323,13 +325,13 @@ test('3분 진단: 결과에서 상담으로 가면 고민 칸이 채워지고, 
   await page.getByRole('button', { name: '진단 시작하기' }).click();
   await page.locator('.answers button').nth(1).click();   // 준비 중
   for (let i = 0; i < 10; i++) await page.locator('.answers button', { hasText: /^조금$/ }).click();
-  await expect(page.locator('.check .big')).toContainText('50');
+  await expect(page.locator('.check .zone')).toContainText('새싹 구간');
   await page.locator('.ask textarea').fill('시간이 없어요');
   await page.getByRole('button', { name: '보내기' }).click();
   await expect(page.locator('.ask .sent')).toBeVisible();
   expect(sent[0].subject).toContain('[진단 상담실]');
   await page.getByRole('link', { name: '이 결과로 무료 첫 상담 60분 신청하기' }).click();
-  await expect(page.locator('#message')).toHaveValue(/준비도 진단 50점/);
+  await expect(page.locator('#message')).toHaveValue(/준비도 진단 새싹 구간/);
 });
 
 test('글 끝 질문 하나 → 진단이 2번부터 이어지고, 표가 있는 글은 체크표로 간다', async ({ page }) => {
