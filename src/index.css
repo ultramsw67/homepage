@@ -219,12 +219,17 @@ html.js #root > .page { display: none; }
 .process-grid span { font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: .12em; }
 .process-grid h3 { margin-top: 14px; font-size: clamp(19px, 1.8vw, 23px); letter-spacing: -.03em; }
 .process-grid p { margin-top: 12px; font-size: 15px; color: var(--muted); line-height: 1.8; }
-.entry-offer { margin-top: clamp(28px, 3.5vw, 42px); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 0; background: var(--white); padding: clamp(28px, 3.2vw, 44px); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(22px, 3vw, 44px); align-items: center; position: relative; overflow: hidden; }
+.entry-offer { margin-top: clamp(28px, 3.5vw, 42px); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 0; background: var(--white); padding: clamp(24px, 2.6vw, 36px) clamp(24px, 3vw, 44px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 400px); gap: clamp(24px, 4vw, 56px); align-items: center; position: relative; overflow: hidden; }
 .entry-offer .eyebrow { margin-bottom: 10px; }
 .entry-offer h3 { font-size: clamp(23px, 2.4vw, 32px); letter-spacing: -.03em; }
 .entry-offer p { margin-top: 14px; font-size: 16px; color: var(--muted); line-height: 1.85; }
-.offer-side { display: flex; flex-direction: column; gap: 12px; }
-.offer-side .small { text-align: center; color: var(--muted); }
+.offer-side { display: flex; flex-direction: column; gap: 10px; }
+/* 2026-10-09: 칸 위 여백(18px)과 gap 이 겹쳐 폼이 길어지던 것 정리 */
+.offer-side .field { margin-top: 0; }
+.offer-side .field label { margin-bottom: 5px; }
+.offer-side .field input { padding: 10px 13px; line-height: 1.4; }
+.offer-side .button.block { margin-top: 4px; padding: 13px 24px; }
+.entry-offer .offer-side .small { margin-top: 0; font-size: 13px; line-height: 1.6; text-align: center; color: var(--muted); }
 
 /* 자문 사례 */
 .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
