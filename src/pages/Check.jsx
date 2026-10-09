@@ -59,9 +59,10 @@ function Radar({ scores, prev }) {
   const pt = (k, r) => { const a = -Math.PI / 2 + (k * 2 * Math.PI) / n; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
   const ring = (f) => AXES.map((_, k) => pt(k, R * f).join(',')).join(' ');
   const poly = (sc) => sc.map((s, k) => pt(k, (R * (s || 0)) / 20).join(',')).join(' ');
-  const wk = AXES.indexOf(weakAxis(scores));
+  // 모든 갈래가 다 찼으면 '여기부터' 표시를 하지 않는다
+  const wk = scores.some((s) => s != null && s < 20) ? AXES.indexOf(weakAxis(scores)) : -1;
   return (
-    <svg className="radar" viewBox="0 0 340 330" role="img" aria-label={`갈래별 준비 모양 — ${AXES[wk]}이 가장 비어 있음`}>
+    <svg className="radar" viewBox="0 0 340 330" role="img" aria-label={wk >= 0 ? `갈래별 준비 모양 — ${AXES[wk]} 갈래가 가장 비어 있음` : '갈래별 준비 모양 — 모든 갈래가 채워짐'}>
       {[0.25, 0.5, 0.75, 1].map((f) => <polygon key={f} points={ring(f)} fill="none" stroke="#e4e2dd" />)}
       {AXES.map((_, k) => { const [x, y] = pt(k, R); return <line key={k} x1={cx} y1={cy} x2={x} y2={y} stroke="#e4e2dd" />; })}
       {prev && <polygon points={poly(prev)} fill="rgba(0,0,0,.05)" stroke="#9a9a9a" strokeWidth="1.5" strokeDasharray="4 3" />}
@@ -112,14 +113,14 @@ function Result({ ans, stage, prevAxis, titles }) {
           <Radar scores={axis} prev={prevAxis} />
           {prevAxis
             ? <div className="legend"><span><i className="was" />1주 전</span><span><i className="now" />오늘</span></div>
-            : <p className="small muted center">넓게 퍼진 쪽이 준비된 갈래이고, 빨간 글씨가 가장 비어 있는 곳입니다</p>}
+            : <p className="small muted center">{axis.some((v) => v != null && v < 20) ? '넓게 퍼진 쪽이 준비된 갈래이고, 빨간 글씨가 가장 비어 있는 곳입니다' : '다섯 갈래가 모두 채워졌습니다'}</p>}
         </div>
       </div>
       {qi >= 0 && (
         <div className="blk">
           <h2>수드의 빨간 펜</h2>
           <div className="pen">
-            <span className="why">점수를 올리기 가장 쉬운 질문</span>
+            <span className="why">가장 먼저 채울 질문</span>
             <div className="q">{qi + 1}. {Q[qi][1]}</div>
             <div className="myans">내 답 <em>{ansLabel(ans[qi])}</em></div>
             <div className="note">{PEN[qi]}</div>
