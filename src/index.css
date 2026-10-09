@@ -512,7 +512,7 @@ html.js #root > .page { display: none; }
 .article-check .ac-n { color: var(--muted); font-size: 14px; margin-top: 12px; }
 .article-check .ac-sheet { display: inline-block; margin-top: 12px; font-weight: 600; font-size: 15px; border-bottom: 1px solid var(--accent-soft); }
 .article-check .ac-sheet:hover { border-bottom-color: var(--accent); }
-.contact-check { display: block; margin-top: 28px; padding: 18px 20px; border: 1px solid rgba(255, 255, 255, .22); border-left: 3px solid #7fa2ff; color: var(--paper); transition: border-color .2s var(--ease), background .2s var(--ease); }
+.contact-check { display: block; margin-top: 28px; padding: 18px 20px; border: 1px solid rgba(255, 255, 255, .22); border-top: 3px solid #7fa2ff; color: var(--paper); transition: border-color .2s var(--ease), background .2s var(--ease); }
 .contact-check:hover { background: rgba(255, 255, 255, .05); border-color: rgba(255, 255, 255, .4); }
 .contact-check b { display: block; font-size: 16.5px; margin-bottom: 4px; }
 .contact-check span { display: block; font-size: 14.5px; color: var(--muted-on-dark); line-height: 1.6; }
