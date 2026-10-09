@@ -270,7 +270,7 @@ async function fakeForms(page) {
   return sent;
 }
 
-test('3분 진단: 아이디어 단계 → 결과·빨간 펜·다음 칸 → 쪽지 봉인 → 모바일 바 D-14', async ({ page }) => {
+test('3분 진단: 아이디어 단계 → 결과·빨간 펜·다음 칸 → 구글 캘린더 1주 뒤 알림 → 모바일 바 D-7', async ({ page }) => {
   const sent = await fakeForms(page);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
@@ -284,20 +284,27 @@ test('3분 진단: 아이디어 단계 → 결과·빨간 펜·다음 칸 → �
   }
   await expect(page.locator('.check .big')).toContainText('36');
   await expect(page.locator('.nextbar')).toContainText('고객 5명 대화');
-  await expect(page.locator('.pen .note')).toContainText('커피 다섯 잔');
+  await expect(page.locator('.pen .note')).toContainText('직접 만나서');
   await expect(page.locator('.check .posts a')).toHaveCount(2);
+  // 다음 단계: 표 한 장은 이메일 없이 바로 PDF
+  await expect(page.locator('.ladder a[download]')).toHaveAttribute('href', '/sheets/sood-customer-talk-note.pdf');
   expect(sent.length).toBe(0);   // 로컬에서는 진단 알림 메일을 보내지 않는다
   await page.locator('#note').fill('고객 후보 5명 만나기');
-  await page.getByRole('button', { name: '쪽지 봉인하고 열쇠 받기' }).click();
-  const url = await page.locator('.keybox .url').textContent();
-  expect(url).toMatch(/^https:\/\/soodcoach\.com\/check#k=/);
+  const gcal = page.getByRole('link', { name: '구글 캘린더에 넣기' });
+  const href = await gcal.getAttribute('href');
+  expect(href).toMatch(/^https:\/\/calendar\.google\.com\/calendar\/render\?action=TEMPLATE/);
+  const p = new URL(href).searchParams;
+  expect(p.get('ctz')).toBe('Asia/Seoul');
+  expect(p.get('dates')).toMatch(/^\d{8}T090000\/\d{8}T091500$/);
+  const url = p.get('details').match(/https:\/\/soodcoach\.com\/check#k=\S+/)[0];
+  await page.getByRole('button', { name: '링크만 복사하기' }).click();   // 새 창을 열지 않고 이 기기에 저장
   await page.goto('/');
-  await expect(page.locator('.mobile-bar .mb-check')).toHaveText('내 쪽지 D-14');
-  // 열쇠로 다시 오면 봉인 화면 → 할 일 끝냈다고 체크하면 일찍 열림 → 달라진 것만 다시 재기
+  await expect(page.locator('.mobile-bar .mb-check')).toHaveText('다시 재기 D-7');
+  // 캘린더 링크로 일찍 오면 남은 날 화면 → 할 일 끝냈다고 체크하면 지금 다시 재기 → 달라진 것만 다시 재기
   await page.goto(url.replace('https://soodcoach.com', ''));
-  await expect(page.locator('.envelope .wax')).toHaveText('D-14');
+  await expect(page.locator('.envelope .wax')).toHaveText('D-7');
   await page.locator('.earlybox input').check();
-  await page.getByRole('button', { name: '쪽지 먼저 열기' }).click();
+  await page.getByRole('button', { name: '지금 다시 재기' }).click();
   await expect(page.locator('.oldnote .hand')).toContainText('고객 후보 5명 만나기');
   await page.getByRole('button', { name: '못 했어요' }).click();
   await expect(page.locator('.reply')).toContainText('만나 볼 사람 이름 3개');

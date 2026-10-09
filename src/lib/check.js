@@ -1,5 +1,6 @@
 // 3분 창업 준비도 진단(/check)·체크표 받기(/free) — 문항·문구·점수 계산 (2026-10-09, 시안 2안 확정판)
-// 답은 서버에 보내지 않는다. 쪽지를 봉인하면 '열쇠'(주소 # 뒤)와 이 기기(localStorage)에만 남는다.
+// 답은 서버에 보내지 않는다. 1주 뒤 한 줄을 쓰면 다시 재기 링크(주소 # 뒤)·구글 캘린더 일정·이 기기(localStorage)에만 남는다.
+// 2026-10-09 오후: 봉인 2주 → 1주, 쪽지 받기는 구글 캘린더 버튼 하나로, 다음 걸음은 PDF 바로 받기로 쉽게
 
 export const Q = [
   ['고객', '내 고객이 누구인지 한 문장으로 말할 수 있나요?'],
@@ -23,7 +24,7 @@ export const TODO = [
   '고객이 이 문제에 쓰는 돈과 시간을 한 줄씩 적어 보세요.',
   '가격 하나를 정해 고객 1명에게 말해 보고 그때 반응을 적어 두세요.',
   '통장 잔고를 한 달 지출로 나눠 버틸 수 있는 개월 수를 적어 보세요.',
-  '2주 안에 보여 줄 수 있는 가장 작은 것을 정하세요. 화면 그림 한 장도 됩니다.',
+  '1주 안에 보여 줄 수 있는 가장 작은 것을 정하세요. 화면 그림 한 장도 됩니다.',
   '매주 볼 숫자 하나를 정하고 월요일마다 적으세요.',
   '내가 못 하는 일 하나와, 그 일을 맡길 사람이나 도구를 적어 보세요.',
   '올해 넣을 지원사업 1개를 골라 마감일을 달력에 적으세요.',
@@ -43,16 +44,16 @@ export const SMALL = [
 ];
 // 수드의 빨간 펜 — 여백에 다는 손글씨 한 줄
 export const PEN = [
-  '‘모든 사람’은 고객이 아닙니다. 지난주에 이 일로 돈 쓴 사람 한 명이면 충분합니다.',
-  '설문 100장보다 커피 다섯 잔이 낫습니다. 이번 주 한 잔부터요.',
-  '고객이 지금 쓰는 엑셀과 단톡방이 진짜 경쟁자입니다.',
-  '이미 돈을 쓰는 문제여야 팔립니다. 영수증이 있는 문제를 찾으세요.',
-  '가격은 나중에 정하는 게 아니라 고객에게 물어보는 겁니다. 숫자 하나만 말해 보세요.',
-  '잔고 ÷ 한 달 지출. 이 숫자가 모든 결정의 마감일입니다.',
-  '만들기 전에 보여 줄 수 있는 것부터. 그림 한 장도 시제품입니다.',
-  '숫자는 하나면 됩니다. 같은 요일에 적기만 하세요.',
-  '혼자여도 괜찮습니다. 내가 못 하는 일 하나만 적어 두세요.',
-  '마감일을 달력에 적는 순간 준비가 시작됩니다.',
+  '고객을 ‘모든 사람’으로 잡으면 너무 넓습니다. 지난주에 이 일로 돈을 쓴 사람 한 명을 적어 보세요.',
+  '설문보다 직접 만나서 듣는 게 빠릅니다. 이번 주에 한 명만 만나 보세요.',
+  '고객은 지금도 엑셀이나 단톡방으로 어떻게든 해결하고 있습니다. 그 방법을 경쟁 상대로 보세요.',
+  '돈이나 시간을 이미 쓰는 문제가 잘 팔립니다. 고객이 무엇에 얼마를 쓰는지 물어보세요.',
+  '가격은 혼자 고민하기보다 고객에게 말해 보고 반응을 보는 게 정확합니다.',
+  '잔고를 한 달 지출로 나누면 버틸 개월 수가 나옵니다. 계획은 그 숫자부터 세우세요.',
+  '완성품이 없어도 됩니다. 화면 그림 한 장만 있어도 고객 반응을 볼 수 있습니다.',
+  '숫자는 하나만 정해서 매주 같은 요일에 적어 두세요.',
+  '혼자 시작해도 됩니다. 내가 못 하는 일 하나만 먼저 적어 두세요.',
+  '공고 마감은 금방 옵니다. 넣을 사업 하나를 골라 마감일부터 달력에 적으세요.',
 ];
 export const AXES = ['고객', '문제', '돈', '실행', '자금·팀'];
 // 단계마다 먼저 볼 갈래 — 아이디어 단계는 시제품보다 고객부터
@@ -61,9 +62,9 @@ export const STAGES = ['아이디어만 있다 (회사 다니며 고민 중 포�
 export const STAGE_SHORT = ['아이디어', '준비 중', '출시·매출'];
 export const LEVELS = [['씨앗', 0, 39], ['새싹', 40, 69], ['나무', 70, 89], ['열매', 90, 100]];
 export const VERDICT = [
-  ['지금이 방향을 가장 싸게 바꿀 수 있는 때입니다. 고객 한 명부터 만나 보세요.', '생각이 꽤 정리돼 있습니다. 이제 고객에게 직접 확인하세요.', '아이디어 단계치고 준비가 탄탄합니다. 작은 시제품으로 넘어가세요.', '이 정도면 바로 시작해도 됩니다. 남은 건 첫 고객입니다.'],
-  ['만들기 전에 고객과 가격부터 확인하면 돈을 아낄 수 있습니다.', '방향은 있습니다. 숫자로 확인할 차례입니다.', '지원사업·투자 심사를 준비해도 되는 단계입니다.', '준비는 충분합니다. 출시 날짜를 정하세요.'],
-  ['팔고 있다면 이미 큰 출발입니다. 이제 근거를 채우세요. 지금 고객부터 다시 만나 보세요.', '매출이 나기 시작했습니다. 매주 볼 숫자 하나를 정하세요.', '검증은 됐습니다. 이제 속도와 자금이 문제입니다.', '성장 준비가 됐습니다. 투자나 지원사업으로 속도를 내세요.'],
+  ['지금은 방향을 바꾸기 쉽습니다. 고객 한 명부터 만나 보세요.', '생각은 꽤 정리돼 있습니다. 이제 고객에게 직접 물어보세요.', '아이디어 단계치고 준비가 많이 돼 있습니다. 작은 시제품을 만들어 보세요.', '바로 시작해도 되는 상태입니다. 이제 첫 고객을 찾으세요.'],
+  ['만들기 전에 고객과 가격부터 확인하면 돈을 덜 씁니다.', '방향은 잡혀 있습니다. 이제 숫자로 확인해 보세요.', '지원사업이나 투자 심사를 준비해도 되는 상태입니다.', '준비는 충분합니다. 출시 날짜를 정하세요.'],
+  ['이미 팔고 있다면 잘 시작한 겁니다. 지금 고객을 다시 만나 왜 샀는지 물어보세요.', '매출이 나기 시작했습니다. 매주 볼 숫자 하나를 정하세요.', '팔리는 건 확인됐습니다. 이제 속도와 자금을 챙기세요.', '키울 준비가 됐습니다. 투자나 지원사업으로 속도를 내 보세요.'],
 ];
 // 갈래별 같이 읽을 글 (홈페이지 글 id)
 export const POSTS = {
@@ -81,7 +82,7 @@ export const SHEETS = {
 };
 export const MAIN_SHEETS = ['talk', 'unit'];
 export const MORE_SHEETS = ['deck', 'poc'];
-export const SEAL_DAYS = 14;
+export const SEAL_DAYS = 7;
 
 export function sheetFor(axis, stage) {
   if (axis === '고객' || axis === '문제') return 'talk';
@@ -131,7 +132,7 @@ export function nextStep(ans, stage) {
   return { ...cands[0], lv, total, nextAt: lv < 3 ? LEVELS[lv + 1][1] : 100 };
 }
 
-// 열쇠: 답·쪽지를 주소(# 뒤)에만 담는다. # 뒤는 서버로 보내지지 않는다.
+// 다시 재기 링크: 답·한 줄을 주소(# 뒤)에만 담는다. # 뒤는 서버로 보내지지 않는다.
 export const enc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 export function dec(s) {
   try {
@@ -142,7 +143,7 @@ export function dec(s) {
 export const keyUrl = (k) => `https://soodcoach.com/check#k=${enc(k)}`;
 
 const STORE = 'sood-check-key';
-export function saveKey(k) { try { window.localStorage.setItem(STORE, enc(k)); window.dispatchEvent(new Event('sood-check-key')); } catch { /* 저장 못 해도 열쇠 링크는 남는다 */ } }
+export function saveKey(k) { try { window.localStorage.setItem(STORE, enc(k)); window.dispatchEvent(new Event('sood-check-key')); } catch { /* 저장 못 해도 캘린더 일정의 링크는 남는다 */ } }
 export function loadKey() { try { const s = window.localStorage.getItem(STORE); return s ? dec(s) : null; } catch { return null; } }
 
 export const addDays = (iso, n) => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return d; };
@@ -154,15 +155,23 @@ export function daysPassed(k) {
 }
 export const daysLeft = (k) => SEAL_DAYS - daysPassed(k);
 
-// 달력 파일 (.ics) — 쪽지 열리는 날 아침 9시 알림
+// 1주 뒤 아침 9시 일정 — 구글 캘린더 버튼과 .ics(아이폰·아웃룩)가 같은 내용을 쓴다
+const EV_TITLE = '[수드] 3분 진단 다시 재 보기';
+const evDetails = (k) => `이번 주 할 일: ${TODO[k.q >= 0 ? k.q : 0]}\n아래 링크를 누르면 1주 전에 쓴 한 줄이 열리고, 달라진 것만 다시 잽니다.\n${keyUrl(k)}`;
+export function gcalUrl(k) {
+  const ymd = isoDate(addDays(k.d, SEAL_DAYS)).replace(/-/g, '');
+  const p = new URLSearchParams({ action: 'TEMPLATE', text: EV_TITLE, dates: `${ymd}T090000/${ymd}T091500`, ctz: 'Asia/Seoul', details: evDetails(k) });
+  return 'https://calendar.google.com/calendar/render?' + p.toString();
+}
 export function icsText(k) {
   const ymd = isoDate(addDays(k.d, SEAL_DAYS)).replace(/-/g, '');
   const now = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
   const fold = (l) => { const out = []; while (l.length > 24) { out.push(l.slice(0, 24)); l = l.slice(24); } out.push(l); return out.join('\r\n '); };
+  // 한국 시각 9시 = 협정세계시 0시
   return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//SOOD//check//KO', 'BEGIN:VEVENT',
-    `UID:${Date.now()}@soodcoach.com`, `DTSTAMP:${now}`, `DTSTART;VALUE=DATE:${ymd}`,
-    fold('SUMMARY:2주 전 나에게 쓴 쪽지가 열렸습니다'), fold(`DESCRIPTION:열쇠 링크 ${keyUrl(k)}`), fold(`URL:${keyUrl(k)}`),
-    'BEGIN:VALARM', 'TRIGGER:PT9H', 'ACTION:DISPLAY', 'DESCRIPTION:쪽지 열기', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    `UID:${Date.now()}@soodcoach.com`, `DTSTAMP:${now}`, `DTSTART:${ymd}T000000Z`, `DTEND:${ymd}T001500Z`,
+    fold('SUMMARY:' + EV_TITLE), fold('DESCRIPTION:' + evDetails(k).replace(/,/g, '\\,').replace(/\n/g, '\\n')), fold(`URL:${keyUrl(k)}`),
+    'BEGIN:VALARM', 'TRIGGER:-PT0M', 'ACTION:DISPLAY', 'DESCRIPTION:3분 진단 다시 재 보기', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
 }
 
 export function download(name, blob) {
@@ -172,7 +181,7 @@ export function download(name, blob) {
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
 
-// 식물 그림 (씨앗·새싹·나무·열매) — SVG 문자열 (잠금화면 그림에도 쓴다)
+// 식물 그림 (씨앗·새싹·나무·열매) — SVG 문자열
 export function plantSvg(lv, size = 100) {
   const soil = '<path d="M10 82 Q50 74 90 82 L90 92 L10 92Z" fill="#c9b79c"/>';
   const g = [
@@ -182,44 +191,4 @@ export function plantSvg(lv, size = 100) {
     '<rect x="46" y="50" width="8" height="32" fill="#8a5a2b"/><circle cx="50" cy="38" r="24" fill="#5c9c45"/><circle cx="36" cy="44" r="13" fill="#6aa84f"/><circle cx="64" cy="44" r="13" fill="#6aa84f"/><circle cx="42" cy="30" r="4.5" fill="#e0433a"/><circle cx="58" cy="36" r="4.5" fill="#e0433a"/><circle cx="48" cy="48" r="4.5" fill="#e0433a"/><circle cx="66" cy="50" r="4" fill="#e0433a"/>',
   ][lv];
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="${size}" height="${size}">${soil}${g}</svg>`;
-}
-
-// 잠금화면 한 장 (1080×2340 PNG). 위쪽은 시계 자리라 비운다.
-export async function wallpaperBlob(k) {
-  try { await document.fonts.ready; } catch { /* 글꼴을 못 기다려도 그린다 */ }
-  const W = 1080, H = 2340;
-  const c = document.createElement('canvas'); c.width = W; c.height = H;
-  const x = c.getContext('2d');
-  const gr = x.createLinearGradient(0, 0, 0, H);
-  gr.addColorStop(0, '#1f2a44'); gr.addColorStop(0.45, '#24365f'); gr.addColorStop(1, '#f5f4f1');
-  x.fillStyle = gr; x.fillRect(0, 0, W, H);
-  const font = (w, s) => { x.font = `${w} ${s}px 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif`; };
-  const start = new Date(k.d + 'T00:00:00'), end = addDays(k.d, 6), open = addDays(k.d, SEAL_DAYS);
-  x.textAlign = 'center';
-  x.fillStyle = 'rgba(255,255,255,.75)'; font(600, 40);
-  x.fillText(`이번 주 할 일 · ${md(start)} ~ ${md(end)}`, W / 2, 930);
-  x.fillStyle = '#fff'; font(800, 74);
-  const lines = []; let cur = '';
-  TODO[k.q >= 0 ? k.q : 0].split(' ').forEach((wd) => {
-    const t = cur ? cur + ' ' + wd : wd;
-    if (x.measureText(t).width > 880) { lines.push(cur); cur = wd; } else cur = t;
-  });
-  lines.push(cur);
-  lines.forEach((l, i) => x.fillText(l, W / 2, 1060 + i * 104));
-  const lv = level(calc(k.a).total);
-  await new Promise((res) => {
-    const im = new Image();
-    im.onload = () => { x.drawImage(im, W / 2 - 150, 1120 + lines.length * 104, 300, 300); res(); };
-    im.onerror = res;
-    im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(plantSvg(lv, 300));
-  });
-  x.fillStyle = '#1f2a44'; font(700, 44);
-  x.fillText(`${open.getMonth() + 1}월 ${open.getDate()}일, 2주 전 쪽지가 열립니다`, W / 2, H - 330);
-  x.fillStyle = '#5f5f5f'; font(500, 34);
-  x.fillText('soodcoach.com/check · 할 일을 끝내면 먼저 열 수 있습니다', W / 2, H - 266);
-  x.fillStyle = '#111'; font(800, 40);
-  x.fillText('SOOD', W / 2, H - 170);
-  const url = c.toDataURL('image/png');
-  const blob = await new Promise((res) => c.toBlob(res, 'image/png'));
-  return { url, blob };
 }

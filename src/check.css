@@ -85,18 +85,14 @@
 .check .letter-form textarea, .check .letter-form input, .check .ask textarea, .check .ask input { width: 100%; border: 1px solid var(--line); padding: 12px 14px; font-size: 16px; background: #fff; border-radius: 0; resize: vertical; }
 .check .letter-form textarea:focus, .check .letter-form input:focus, .check .ask textarea:focus, .check .ask input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
 .check .letter-form .button { margin-top: 16px; }
-.check .keybox { border: 1px solid var(--accent); background: rgba(31, 75, 184, .07); padding: 18px; }
-.check .keybox .url { font-family: ui-monospace, Consolas, monospace; font-size: 12px; background: #fff; border: 1px solid var(--line); padding: 8px 10px; word-break: break-all; margin: 8px 0 12px; max-height: 58px; overflow: hidden; }
-.check .keybox .acts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.check .keybox .acts button { background: #fff; border: 1px solid var(--line); padding: 12px 8px; font-weight: 600; font-size: 14.5px; line-height: 1.35; }
-.check .keybox .acts button:hover { border-color: var(--ink); }
-.check .keybox .acts small { display: block; font-weight: 500; font-size: 12.5px; color: var(--muted); }
-.check .wall-prev { margin-top: 14px; text-align: center; }
-.check .wall-prev img { width: 180px; border: 6px solid #1a1a1a; border-radius: 22px; margin: 0 auto 6px; }
 
 /* 다음 걸음 */
 .check .ladder { display: grid; gap: 14px; }
-.check .ladder .step { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+.check .ladder .step { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.check .ladder .step + .small { margin-bottom: 8px; }
+.check .letter-form .button + p { margin-top: 8px; }
+.check .letter-form .alt-cal { margin-top: 12px; }
+.check .letter-form .sent { margin-top: 10px; font-weight: 600; color: var(--accent); }
 .check .ask { border: 1px solid var(--line); padding: 18px; background: #fff; }
 .check .ask > .small { margin: 4px 0 10px; }
 .check .ask .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 8px; }
@@ -183,8 +179,7 @@
 
 @media (max-width: 720px) {
   .check .score-top { grid-template-columns: 1fr; }
-  .check .keybox .acts { grid-template-columns: 1fr; }
-  .check .ask .row { grid-template-columns: 1fr; }
+    .check .ask .row { grid-template-columns: 1fr; }
   .check .posts a { flex-wrap: wrap; gap: 6px 12px; }
   .check .posts .t { flex-basis: 100%; order: 3; }
   .free-page .cards { grid-template-columns: 1fr; }

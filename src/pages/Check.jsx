@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Q, SHORT, EARLY, TODO, SMALL, PEN, AXES, STAGES, STAGE_SHORT, LEVELS, VERDICT, POSTS, SHEETS, SEAL_DAYS,
   calc, level, weakAxis, nextStep, sheetFor, dec, keyUrl, saveKey, loadKey, enc, addDays, isoDate, md, daysPassed, daysLeft,
-  icsText, download, plantSvg, wallpaperBlob,
+  icsText, gcalUrl, download, plantSvg,
 } from '../lib/check';
 import { loadIndex } from '../lib/posts';
 import { trackEvent } from '../lib/analytics';
@@ -75,7 +75,7 @@ function Result({ ans, stage, prevAxis, titles }) {
           <div className="lvname"><Plant lv={lv} /><div><b>{LEVELS[lv][0]} 단계</b><div className="big">{total}<small>/ 100점</small></div></div></div>
           <p className="verdict">{VERDICT[stage][lv]}</p>
           <div className="have">
-            {have.length ? <><p>이미 갖춘 것 {have.length}개</p><div className="chips">{have.map((h) => <span className="chip" key={h}>{h}</span>)}</div></> : <p>‘조금’이라고 답한 것도 이미 시작한 겁니다.</p>}
+            {have.length ? <><p>이미 갖춘 것 {have.length}개</p><div className="chips">{have.map((h) => <span className="chip" key={h}>{h}</span>)}</div></> : <p>‘조금’이라고 답했다면 이미 시작한 겁니다.</p>}
           </div>
           {skipped > 0 && <p className="small muted">아직 이른 질문 {skipped}개는 점수에서 뺐습니다.</p>}
           <div className="nextbar">
@@ -85,13 +85,13 @@ function Result({ ans, stage, prevAxis, titles }) {
               <p>{ns.up
                 ? <>‘{SHORT[ns.i]}’ 하나만 ‘예’가 되면 <b>{ns.t2}점, {LEVELS[level(ns.t2)][0]}</b>입니다.</>
                 : <>‘{SHORT[ns.i]}’ 하나만 ‘예’가 되면 {ns.t2}점입니다.{lv < 3 && ` ${LEVELS[lv + 1][0]}까지 ${ns.nextAt - total}점 남았습니다.`}</>}</p>
-            </> : <p>모든 질문에 ‘예’입니다. 2주 뒤에도 그대로인지 다시 재 보세요.</p>}
+            </> : <p>모든 질문에 ‘예’입니다. 1주 뒤에 다시 재 보세요.</p>}
           </div>
         </div>
         <div>
           <Radar scores={axis} prev={prevAxis} />
           {prevAxis
-            ? <div className="legend"><span><i className="was" />2주 전</span><span><i className="now" />오늘</span></div>
+            ? <div className="legend"><span><i className="was" />1주 전</span><span><i className="now" />오늘</span></div>
             : <p className="small muted center">갈래마다 20점 만점</p>}
         </div>
       </div>
@@ -99,7 +99,7 @@ function Result({ ans, stage, prevAxis, titles }) {
         <div className="blk">
           <h2>수드의 빨간 펜</h2>
           <div className="pen">
-            <span className="why">다음 칸으로 가는 질문</span>
+            <span className="why">점수를 올리기 가장 쉬운 질문</span>
             <div className="q">{qi + 1}. {Q[qi][1]}</div>
             <div className="myans">내 답 <em>{ansLabel(ans[qi])}</em></div>
             <div className="note">{PEN[qi]}</div>
@@ -124,49 +124,33 @@ function Result({ ans, stage, prevAxis, titles }) {
   );
 }
 
+// 1주 뒤 알림 — 구글 캘린더 버튼 하나 (2026-10-09 「쪽지 받기가 어려워」 → 봉인·열쇠·잠금화면 정리)
 function Letter({ base }) {
   const [note, setNote] = useState('');
-  const [bet, setBet] = useState('');
-  const [key, setKey] = useState(null);
-  const [wall, setWall] = useState('');
+  const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
-  const due = md(addDays(isoDate(new Date()), SEAL_DAYS));
-  function seal() {
-    const k = { ...base, n: note.trim() || '고객 후보 5명을 만나고 가격을 한 번 말해 봤다', b: bet.trim(), d: isoDate(new Date()) };
-    setKey(k); saveKey(k);
-    trackEvent('check_letter_seal', { has_bet: !!bet.trim(), round: (k.h || []).length });
-  }
-  async function makeWall() {
-    const { url, blob } = await wallpaperBlob(key);
-    setWall(url);
-    download('이번 주 할 일 잠금화면.png', blob);
-    trackEvent('check_wallpaper');
-  }
+  const today = isoDate(new Date());
+  const due = md(addDays(today, SEAL_DAYS));
+  const key = { ...base, n: note.trim(), d: today };
+  const keep = (how) => { saveKey(key); setDone(true); trackEvent('check_calendar', { how, has_note: !!note.trim(), round: (key.h || []).length }); };
   return (
     <div className="blk">
-      <h2>2주 뒤의 나에게 쪽지 한 장</h2>
-      <p className="muted mb">쪽지는 2주 동안 봉인됩니다. {due}에 열립니다. 할 일을 먼저 끝내면 그 전에 열 수 있습니다. 쪽지와 답은 이 링크와 이 기기에만 남고, 수드도 볼 수 없습니다.</p>
-      {!key ? (
-        <div className="letter-form">
-          <label htmlFor="note">2주 뒤 나는 이렇게 돼 있을 겁니다</label>
-          <textarea id="note" rows="2" maxLength="80" value={note} onChange={(e) => setNote(e.target.value)} placeholder="예) 고객 후보 5명을 만나고 가격을 한 번 말해 봤다" />
-          <label htmlFor="bet">해내면 나에게 주는 것 <span className="small muted">(선택)</span></label>
-          <input type="text" id="bet" maxLength="30" value={bet} onChange={(e) => setBet(e.target.value)} placeholder="예) 혼자 가는 좋은 점심 한 끼" />
-          <button type="button" className="button gold block" onClick={seal}>쪽지 봉인하고 열쇠 받기</button>
-        </div>
-      ) : (
-        <div className="keybox">
-          <b>열쇠가 만들어졌습니다</b>
-          <p className="small muted">이 주소를 다시 열면 쪽지와 오늘 결과가 그대로 나옵니다. 이 기기에서는 아래 바에 남은 날이 보입니다.</p>
-          <div className="url">{keyUrl(key)}</div>
-          <div className="acts">
-            <button type="button" onClick={() => { navigator.clipboard?.writeText(keyUrl(key)).catch(() => {}); setCopied(true); trackEvent('check_key_copy'); }}>{copied ? '복사했습니다' : '열쇠 링크 복사'}<small>카톡 ‘나와의 채팅’에 붙여 두세요</small></button>
-            <button type="button" onClick={() => { download('쪽지 열리는 날.ics', new Blob([icsText(key)], { type: 'text/calendar' })); trackEvent('check_key_ics'); }}>달력에 넣기<small>{due} 아침에 알림</small></button>
-            <button type="button" onClick={makeWall}>잠금화면 한 장<small>일주일 동안 할 일이 보입니다</small></button>
-          </div>
-          {wall && <div className="wall-prev"><img src={wall} alt="잠금화면 미리보기" /><p className="small muted">위쪽은 시계 자리라 비워 뒀습니다</p></div>}
-        </div>
-      )}
+      <h2>1주 뒤 다시 재 보기 알림</h2>
+      <p className="muted mb">구글 캘린더에 {due} 아침 9시 일정을 넣어 드립니다. 그날 일정 속 링크를 누르면 오늘 결과가 열리고, 달라진 것만 다시 잴 수 있습니다.</p>
+      <div className="letter-form">
+        <label htmlFor="note">1주 뒤의 나에게 한 줄 <span className="small muted">(선택)</span></label>
+        <input type="text" id="note" maxLength="60" value={note} onChange={(e) => setNote(e.target.value)} placeholder="예) 고객 후보 3명을 만나 봤다" />
+        <a className="button gold block" href={gcalUrl(key)} target="_blank" rel="noopener noreferrer" onClick={() => keep('google')}>구글 캘린더에 넣기</a>
+        {done
+          ? <p className="sent">캘린더 창에서 「저장」을 누르면 끝입니다. {due} 아침 9시에 알림이 옵니다.</p>
+          : <p className="small muted">구글 캘린더가 열리면 「저장」만 누르세요.</p>}
+        <p className="small muted alt-cal">
+          <button type="button" className="textlink" onClick={() => { download('3분 진단 다시 재 보기.ics', new Blob([icsText(key)], { type: 'text/calendar' })); keep('ics'); }}>아이폰·아웃룩 달력에 넣기</button>
+          {' · '}
+          <button type="button" className="textlink" onClick={() => { navigator.clipboard?.writeText(keyUrl(key)).catch(() => {}); setCopied(true); keep('copy'); }}>{copied ? '링크를 복사했습니다' : '링크만 복사하기'}</button>
+        </p>
+        <p className="small muted">쓴 한 줄과 답은 내 캘린더와 이 기기에만 남습니다. 수드는 볼 수 없습니다.</p>
+      </div>
     </div>
   );
 }
@@ -187,8 +171,7 @@ function Ask({ total, lv, stage }) {
   }
   return (
     <div className="ask">
-      <b>수드에게 막힌 것 한 줄</b>
-      <p className="small muted">이름과 회사를 빼고, 블로그 「진단 상담실」 글로 답합니다. 비슷한 고민이 있는 분들도 같이 읽습니다.</p>
+      <p className="small muted">이름 없이 받습니다. 답은 이름과 회사를 빼고 블로그 「진단 상담실」 글로 올립니다.</p>
       {phase === 'sent' ? <p className="sent">받았습니다. 답 글이 올라오면 블로그 「진단 상담실」에서 보실 수 있습니다.</p> : <>
         <textarea rows="2" maxLength="300" value={q} onChange={(e) => setQ(e.target.value)} aria-label="막힌 것 한 줄" placeholder="예) 직장 다니면서 고객 인터뷰할 시간을 어떻게 내야 할까요?" />
         <div className="row">
@@ -219,7 +202,7 @@ export default function Check() {
   const [S, setS] = useState(() => ({ step: 'start', stage: null, ans: Array(10).fill(null), order: [], pos: 0 }));
   const [R, setR] = useState({ step: 'none' });   // 다시 온 날 흐름
 
-  // 열쇠 링크로 들어왔으면 '다시 온 날'로
+  // 다시 재기 링크(캘린더 일정)로 들어왔으면 '다시 온 날'로
   useEffect(() => {
     if (!urlKey) return;
     setR({ step: daysLeft(urlKey) > 0 ? 'sealed' : 'letter', key: urlKey, early: false });
@@ -256,7 +239,7 @@ export default function Check() {
       if (r.pos < r.order.length - 1) return { ...r, ans, pos: r.pos + 1 };
       const before = calc(r.key.a), after = calc(ans);
       trackEvent('return_complete', { delta: after.total - before.total, band_from: LEVELS[level(before.total)][0], band_to: LEVELS[level(after.total)][0], kept: r.kept });
-      alertOwner({ ans, stage: r.stage, from: '2주 뒤 열쇠 링크', prev: before });
+      alertOwner({ ans, stage: r.stage, from: '1주 뒤 다시 재기 링크', prev: before });
       return { ...r, ans, step: 'result' };
     });
   }
@@ -264,7 +247,7 @@ export default function Check() {
   const qBox = (qi, prevAns, onPick, onBack, stage, progress, label) => (
     <div className="rise" key={qi}>
       <div className="progress"><span>{label}</span><div className="bar"><i style={{ transform: `scaleX(${progress / 100})` }} /></div><span>{Math.round(progress / 10)}/10</span></div>
-      <span className="qtag">{qi + 1}. {Q[qi][0]}{prevAns !== undefined ? ` · 2주 전 답: ${ansLabel(prevAns)}` : ''}</span>
+      <span className="qtag">{qi + 1}. {Q[qi][0]}{prevAns !== undefined ? ` · 1주 전 답: ${ansLabel(prevAns)}` : ''}</span>
       <h2 className="qtext">{Q[qi][1]}</h2>
       <div className="answers">
         {[['예', 10], ['조금', 5], ['아니오', 0]].map(([l, v]) => <button type="button" key={v} onClick={() => onPick(v)}>{l}</button>)}
@@ -285,38 +268,38 @@ export default function Check() {
           <div className="seal rise">
             <p className="eyebrow">다시 오셨네요</p>
             <div className="envelope"><span className="wax">D-{left}</span></div>
-            <h1>쪽지는 {left}일 뒤에 열립니다</h1>
-            <p className="lead">그 전에 열 수 있는 방법이 하나 있습니다. 이번 주 할 일을 끝내는 겁니다.</p>
+            <h1>다시 재는 날까지 {left}일 남았습니다</h1>
+            <p className="lead">이번 주 할 일을 벌써 끝냈다면 지금 다시 재도 됩니다.</p>
             <div className="todo left">이번 주 할 일 — {TODO[qi0]}</div>
             <div className="earlybox">
               <label><input type="checkbox" className="box" checked={!!R.did} onChange={(e) => setR({ ...R, did: e.target.checked })} /> 할 일을 끝냈습니다</label>
-              <button type="button" className="button primary block" disabled={!R.did} onClick={() => { setR({ ...R, step: 'letter', early: true }); trackEvent('return_open_early'); }}>쪽지 먼저 열기</button>
+              <button type="button" className="button primary block" disabled={!R.did} onClick={() => { setR({ ...R, step: 'letter', early: true }); trackEvent('return_open_early'); }}>지금 다시 재기</button>
             </div>
-            <p className="small muted">아직이라면 괜찮습니다. 달력 알림이 {md(addDays(k.d, SEAL_DAYS))}에 다시 불러 드립니다.</p>
+            <p className="small muted">아직이라면 {md(addDays(k.d, SEAL_DAYS))} 아침 9시 캘린더 알림을 기다리세요.</p>
           </div>
         )}
         {R.step === 'letter' && (
           <div className="seal rise">
-            <p className="eyebrow">{R.early ? '할 일을 먼저 끝낸 분께 · 일찍 열림' : `${passed}일 전의 내가 보낸 쪽지`}</p>
-            <h1 className="sr-only">2주 전 나에게 쓴 쪽지</h1>
+            <p className="eyebrow">{R.early ? '할 일을 먼저 끝내셨네요' : `${passed}일 전에 쓴 한 줄`}</p>
+            <h1 className="sr-only">1주 전 나에게 쓴 한 줄</h1>
             <div className="envelope open" />
             <div className="oldnote">
-              <div className="hand">“{k.n}”</div>
-              <div className="meta">{k.d.replace(/-/g, '.')} 봉인 · 그때 {LEVELS[level(before.total)][0]} {before.total}점{k.b ? ` · 해내면 나에게: ${k.b}` : ''}</div>
+              <div className="hand">{k.n ? `“${k.n}”` : `이번 주 할 일: ${TODO[qi0]}`}</div>
+              <div className="meta">{k.d.replace(/-/g, '.')} · 그때 {LEVELS[level(before.total)][0]} {before.total}점{k.b ? ` · 해내면 나에게: ${k.b}` : ''}</div>
             </div>
-            <h2 className="kept-q">이 쪽지, 지켰나요?</h2>
+            <h2 className="kept-q">{k.n ? '이 한 줄, 해냈나요?' : '이 할 일, 해 봤나요?'}</h2>
             <div className="kept">
-              {[[2, '지켰어요'], [1, '절반쯤요'], [0, '못 했어요']].map(([v, l]) => <button type="button" key={v} disabled={R.kept != null} className={R.kept === v ? 'on' : ''} onClick={() => { setR({ ...R, kept: v }); trackEvent('return_kept', { kept: ['못함', '절반', '지킴'][v] }); }}>{l}</button>)}
+              {[[2, '했어요'], [1, '절반쯤요'], [0, '못 했어요']].map(([v, l]) => <button type="button" key={v} disabled={R.kept != null} className={R.kept === v ? 'on' : ''} onClick={() => { setR({ ...R, kept: v }); trackEvent('return_kept', { kept: ['못함', '절반', '지킴'][v] }); }}>{l}</button>)}
             </div>
             {R.kept != null && (
               <div className="reply">
-                {R.kept === 0 && <>괜찮습니다. {R.early ? '이번 주 할 일은 끝냈으니 이미 한 칸 움직였습니다.' : '2주 뒤에 이 쪽지를 다시 열었다면 아직 놓지 않았습니다.'}<br />할 일을 더 작게 쪼갰습니다. <b>{SMALL[qi0]}</b></>}
-                {R.kept === 1 && '절반이면 충분히 움직인 겁니다. 2주 전에는 0이었으니까요.'}
-                {R.kept === 2 && <>약속을 지켰습니다.{k.b ? <> 이제 「{k.b}」 받으세요.</> : ''}</>}
+                {R.kept === 0 && <>괜찮습니다. 이번 주는 더 작은 일부터 해 보세요.<br /><b>{SMALL[qi0]}</b></>}
+                {R.kept === 1 && '절반만 했어도 지난주보다 나아진 겁니다.'}
+                {R.kept === 2 && <>잘하셨습니다.{k.b ? <> 이제 「{k.b}」 받으세요.</> : ''}</>}
                 <div className="stamps">
                   <span className="stamp">{(k.h || []).length + 1}번째<small>다시 온 날</small></span>
-                  {R.early && <span className="stamp">일찍 연 사람<small>할 일 먼저 끝냄</small></span>}
-                  {R.kept === 2 && <span className="stamp">약속 지킴<small>{md(new Date())}</small></span>}
+                  {R.early && <span className="stamp">일찍 옴<small>할 일 먼저 끝냄</small></span>}
+                  {R.kept === 2 && <span className="stamp">해냄<small>{md(new Date())}</small></span>}
                 </div>
                 <p className="strong">이제 달라진 것만 다시 재 보세요. ‘예’였던 질문은 건너뛰고 {k.a.filter((v) => v !== 10).length}개만 묻습니다.</p>
                 <button type="button" className="button gold" onClick={() => setR({ ...R, step: 'stage', ans: k.a.slice(), stage: k.st })}>달라진 것만 다시 재기<Arrow /></button>
@@ -327,7 +310,7 @@ export default function Check() {
         {R.step === 'stage' && (
           <div className="rise">
             <span className="qtag">지금 단계</span>
-            <h1 className="qtext">2주 사이 단계가 바뀌었나요?</h1>
+            <h1 className="qtext">1주 사이 단계가 바뀌었나요?</h1>
             <div className="answers">
               {STAGES.map((s, i) => <button type="button" key={s} className={k.st === i ? 'picked' : ''} onClick={() => {
                 const order = k.a.map((_, j) => j).filter((j) => k.a[j] !== 10);
@@ -347,7 +330,7 @@ export default function Check() {
               <p className="eyebrow">다시 잰 결과 · {hist.length + 1}번째</p>
               <h1 className="sr-only">다시 잰 결과</h1>
               <div className="deltarow"><span className={'delta' + (d > 0 ? ' up' : '')}>{d > 0 ? '+' : ''}{d}점</span><span className="muted">{before.total}점 → {after.total}점</span></div>
-              <p className="strong">{d > 0 ? '2주 동안 오각형이 이만큼 넓어졌습니다.' : d === 0 ? '점수는 같습니다. 그래도 어디서 막혔는지는 2주 전보다 분명해졌습니다. 오늘 고른 할 일이 그 자리입니다.' : '점수가 내려갔습니다. 실제로 고객을 만나 보면 ‘예’였던 답이 ‘조금’으로 바뀌는 일이 많습니다. 내려간 게 아니라 더 정확해진 겁니다.'}</p>
+              <p className="strong">{d > 0 ? '1주 전보다 채운 칸이 늘었습니다. 회색 점선이 1주 전입니다.' : d === 0 ? '점수는 그대로입니다. 아래 이번 주 할 일 하나만 해 보세요.' : '점수가 내려갔습니다. 고객을 직접 만나 보면 ‘예’라고 생각했던 답이 ‘조금’으로 바뀌는 일이 흔합니다. 잘못한 게 아닙니다.'}</p>
               <div className="grow">
                 {hist.map((h) => <div key={h.d + h.s}><Plant lv={level(h.s)} size={56} />{md(new Date(h.d + 'T00:00:00'))}<br />{h.s}점</div>)}
                 <div><Plant lv={level(after.total)} size={56} /><b>오늘</b><br />{after.total}점</div>
@@ -376,13 +359,13 @@ export default function Check() {
           <p className="eyebrow">3분 창업 준비도 진단</p>
           <h1>내 창업 준비,<br />지금 어디쯤일까요?</h1>
           <p className="lead">질문 10개, 3분이면 끝납니다. 아이디어도, 이름·연락처도 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도 괜찮습니다. 그 단계에 맞춰 봅니다.</p>
-          <div className="facts"><span className="chip">질문 10개</span><span className="chip">약 3분</span><span className="chip">연락처 없음</span><span className="chip">이번 주 할 일 1개</span><span className="chip">2주 뒤 다시 재 보기</span></div>
+          <div className="facts"><span className="chip">질문 10개</span><span className="chip">약 3분</span><span className="chip">연락처 없음</span><span className="chip">이번 주 할 일 1개</span><span className="chip">1주 뒤 다시 재 보기</span></div>
           <button type="button" className="button primary" onClick={start}>진단 시작하기<Arrow /></button>
-          <p className="small muted privacy">결과 요약(점수·단계)만 이름 없이 수드에게 전달됩니다. 쪽지를 쓰면 그 내용은 이 기기와 열쇠 링크에만 남습니다.</p>
+          <p className="small muted privacy">결과 요약(점수·단계)만 이름 없이 수드에게 전달됩니다. 1주 뒤의 나에게 쓰는 한 줄은 이 기기와 내 캘린더에만 남습니다.</p>
           {savedKey && (
             <div className="saved">
-              <span>봉인한 쪽지가 있습니다 · {daysLeft(savedKey) > 0 ? `D-${daysLeft(savedKey)}` : '오늘 열 수 있습니다'}</span>
-              <button type="button" className="textlink" onClick={() => navigate('/check#k=' + enc(savedKey))}>쪽지 보러 가기 →</button>
+              <span>지난 진단이 있습니다 · {daysLeft(savedKey) > 0 ? `다시 재는 날까지 ${daysLeft(savedKey)}일` : '오늘 다시 잴 수 있습니다'}</span>
+              <button type="button" className="textlink" onClick={() => navigate('/check#k=' + enc(savedKey))}>지난 결과 보기 →</button>
             </div>
           )}
         </div>
@@ -406,12 +389,13 @@ export default function Check() {
           <Result ans={S.ans} stage={S.stage} titles={titles} />
           <Letter base={{ v: 1, st: S.stage, a: S.ans.slice(), q: ns ? ns.i : -1, h: [] }} />
           <div className="blk">
-            <h2>다음 걸음</h2>
+            <h2>이 결과로 할 수 있는 것</h2>
             <div className="ladder">
-              <div><p className="step">작은 걸음 · 이메일 1개</p>
-                <Link className="button gold block" to={`/free?pick=${pick}`} state={{ stage: S.stage, total, lv }} onClick={() => trackEvent('check_to_free', { pick })}>이 결과에 맞는 한 장 받기 — {SHEETS[pick].name}</Link></div>
-              <div><p className="step">중간 걸음 · 이름 없이 한 줄</p><Ask total={total} lv={lv} stage={S.stage} /></div>
-              <div><p className="step">큰 걸음 · 60분 · 무료</p>
+              <div><p className="step">① 표 한 장 받기 · 이메일 없이 바로</p>
+                <p className="small muted">{SHEETS[pick].desc}</p>
+                <a className="button gold block" href={SHEETS[pick].file} download onClick={() => trackEvent('check_sheet_download', { pick })}>「{SHEETS[pick].name}」 PDF 받기</a></div>
+              <div><p className="step">② 수드에게 막힌 것 물어보기</p><Ask total={total} lv={lv} stage={S.stage} /></div>
+              <div><p className="step">③ 직접 상담 받기 · 60분 무료</p>
                 <Link className="button ghost block" to="/consulting#contact" state={{ message: memo }} onClick={() => trackEvent('check_to_consult')}>이 결과로 무료 첫 상담 60분 신청하기</Link></div>
             </div>
             <div className="minor"><button type="button" className="textlink" onClick={() => setS({ step: 'start', stage: null, ans: Array(10).fill(null), order: [], pos: 0 })}>처음부터 다시 하기</button></div>
