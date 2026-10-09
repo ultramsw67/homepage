@@ -8,10 +8,10 @@ export default function About() {
       <header className="page-head split">
         <div>
           <p className="eyebrow">소개</p>
-          <h1>숫자로 생각하고,<br />현장에서 <em>배웁니다</em></h1>
+          <h1>솔루션도, 플랫폼도<br />대표로 <em>키워봤습니다</em></h1>
           <p className="lead">
-            수트와후드 문성운입니다. 연세대학교 화학공학을 졸업하고 현대그룹 기획실에서 일을 시작했습니다.
-            사업의 구조를 이해하고 실행의 무게를 아는 창업가이자 스타트업 경영 코치입니다.
+            수트와후드 문성운입니다. 마케팅 솔루션과 광고 플랫폼 사업을 창업해 투자 유치와 성장을 거쳐 매각까지 이끌었습니다.
+            벤처 생태계에서 대표가 언제, 무엇을 결정해야 하는지 현장에서 배웠습니다. 이제 그 결정의 순간 곁에 서는 스타트업 경영 코치입니다.
           </p>
         </div>
         <figure className="portrait-photo">
