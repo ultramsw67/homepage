@@ -63,7 +63,7 @@ export default function Consulting() {
       if (res.ok && json.success !== false) {
         form.reset();
         trackLead();
-        setState({ phase: 'sent', text: '접수됐습니다. 보통 2~3일 안에 회신 이메일로 답장드립니다.' });
+        setState({ phase: 'sent', text: '접수됐습니다. 보통 1~2일 안에 회신 이메일로 답장드립니다.' });
       } else {
         throw new Error(json.message || res.statusText);
       }
@@ -144,7 +144,7 @@ export default function Consulting() {
           <div>
             <p className="eyebrow">상담 문의</p>
             <h2>고민을 몇 줄로 보내 주세요</h2>
-            <p className="lead">계획서가 없어도 됩니다. 지금 상황을 적어 주시면 2~3일 안에 답장드립니다.</p>
+            <p className="lead">계획서가 없어도 됩니다. 지금 상황을 적어 주시면 1~2일 안에 답장드립니다.</p>
             {/* 2026-10-09: 빈 칸 앞에서 막힌 사람에게 진단 먼저 — 결과가 '현재 상황과 고민' 칸에 채워져 돌아온다 */}
             <Link className="contact-check" to="/check">
               <b>무엇부터 적을지 모르겠다면</b>
@@ -154,7 +154,7 @@ export default function Consulting() {
             <div className="contact-mail">
               <p className="k">이메일</p>
               <a className="contact-email" href={'mailto:' + profile.email}>{profile.email}</a>
-              <p>보통 2~3일 안에 답장드립니다.</p>
+              <p>보통 1~2일 안에 답장드립니다.</p>
             </div>
             <div className="contact-social">
               <a href={profile.blog} target="_blank" rel="noreferrer"><Blog />네이버 블로그</a>

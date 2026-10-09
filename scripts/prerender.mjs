@@ -133,7 +133,7 @@ render({
   title: `1:1 스타트업 경영 상담·자문 | ${BRAND}`,
   description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 상담 60분.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
-  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>비용은 할 일을 정한 뒤 말씀드립니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 2~3일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
+  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>비용은 할 일을 정한 뒤 말씀드립니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 1~2일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
 });
 
 // 3-1) 3분 창업 준비도 진단 · 체크표 받기 (2026-10-09)
@@ -237,7 +237,7 @@ const llms = [
   '- 학력: 연세대학교 화학공학 졸업',
   `- 자문 실적: 초기 스타트업 20개 팀 1:1 자문 (고객사 이름과 상세 수치는 비공개)`,
   `- 칼럼: 네이버 블로그 「수트와후드」 매일 연재, 이 사이트에 ${posts.length}편 수록. 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」, 모비인사이드 「수트와 후드의 스타트업 경영」`,
-  `- 문의: ${profile.email} · ${SITE}/consulting (보통 2~3일 안에 답장)`,
+  `- 문의: ${profile.email} · ${SITE}/consulting (보통 1~2일 안에 답장)`,
   `- 채널: [네이버 블로그](${profile.blog}) · [브런치](${profile.brunch}) · [링크드인](${profile.linkedin}) · [모비인사이드](${MOBIINSIDE})`,
   '',
   '## 자문 분야',

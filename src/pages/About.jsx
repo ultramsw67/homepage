@@ -96,7 +96,7 @@ export default function About() {
       <div className="inline-cta">
         <div>
           <h2>지금 풀고 싶은 문제가 있나요?</h2>
-          <p style={{ marginTop: 8 }}>정리된 계획서가 없어도 괜찮습니다. 보통 2~3일 안에 답장드립니다.</p>
+          <p style={{ marginTop: 8 }}>정리된 계획서가 없어도 괜찮습니다. 보통 1~2일 안에 답장드립니다.</p>
         </div>
         <Link to="/consulting#contact" className="button primary">첫 상담 60분 신청<Arrow /></Link>
       </div>

@@ -228,7 +228,7 @@ export default function Home() {
         <div className="wrap cta-inner">
           <div>
             <h2>고민을 몇 줄로 보내 주세요</h2>
-            <p>계획서가 없어도 됩니다. 지금 상황을 적어 주시면 2~3일 안에 답장드립니다.</p>
+            <p>계획서가 없어도 됩니다. 지금 상황을 적어 주시면 1~2일 안에 답장드립니다.</p>
           </div>
           <div className="actions">
             <Link className="button primary" to="/consulting#contact">첫 상담 신청하기<Arrow /></Link>
