@@ -271,6 +271,18 @@ html.js #root > .page { display: none; }
 .page-head h1 { font-size: clamp(36px, 4.8vw, 60px); line-height: 1.15; margin: 8px 0 22px; letter-spacing: -.03em; font-weight: 700; }
 .page-head.split { display: grid; grid-template-columns: 1.3fr .7fr; gap: 56px; align-items: center; }
 .portrait-photo img { border-radius: var(--radius); border: 1px solid var(--line); } /* 2026-10-09: 프로필 그림은 컬러 그대로 (흑백 효과 제거) */
+/* 소개 — 숫자 카드 4장 (2026-10-09 D안) */
+.career-cards { background: var(--paper-2); padding: 28px 26px 26px; }
+.career-cards figcaption { font-size: 22px; font-weight: 800; letter-spacing: -.01em; line-height: 1.35; margin-bottom: 18px; }
+.career-cards figcaption span { display: block; font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px; letter-spacing: 0; }
+.career-cards ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.career-cards li { background: var(--white); border: 1px solid var(--line); padding: 16px 16px 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 132px; }
+.career-cards b { font-size: 42px; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+.career-cards b small { font-size: 18px; letter-spacing: 0; margin-left: 2px; }
+.career-cards li span { font-size: 14px; font-weight: 600; line-height: 1.45; color: #333; }
+.career-cards li.hi { background: var(--accent); border-color: var(--accent); }
+.career-cards li.hi b, .career-cards li.hi span { color: var(--white); }
+.career-cards li.go b { color: #8a6526; }
 .social { display: flex; gap: 10px 22px; flex-wrap: wrap; margin-top: 24px; font-size: 14px; font-weight: 600; }
 .social a { display: inline-flex; align-items: center; gap: 7px; color: var(--ink); border-bottom: 1px solid var(--accent-soft); transition: border-color .25s var(--ease); }
 .social a:hover { border-bottom-color: var(--accent); }
@@ -419,6 +431,7 @@ html.js #root > .page { display: none; }
   .post-grid, .reading .related .post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .page-head.split { grid-template-columns: 1fr; gap: 24px; }
   .portrait-photo { max-width: 320px; }
+  .career-cards { max-width: 460px; }
   .service-row { grid-template-columns: 40px 1fr; }
   .service-row ul { grid-column: 2; }
   .cta-inner, .inline-cta, .section-head.row { flex-direction: column; align-items: flex-start; }

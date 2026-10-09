@@ -14,8 +14,15 @@ export default function About() {
             벤처 생태계에서 대표가 언제, 무엇을 결정해야 하는지 현장에서 배웠습니다. 이제 그 결정의 순간 곁에 서는 스타트업 경영 코치입니다.
           </p>
         </div>
-        <figure className="portrait-photo">
-          <img src="/sood-character-480.webp" srcSet="/sood-character-480.webp 480w, /sood-character-960.webp 960w" sizes="(max-width: 960px) 320px, 420px" alt="수트와후드 문성운의 브랜드 캐릭터" width="1020" height="1024" fetchPriority="high" />
+        {/* 2026-10-09: 캐릭터 그림 대신 숫자 카드 4장 (D안, 'Exit' → '매각'). 그림이 아니라 글자라 휴대폰에서도 선명하다 */}
+        <figure className="career-cards" aria-label="숫자로 보는 경력">
+          <figcaption><span>숫자로 보는 경력</span>대표 자리에서 직접 겪은 것들</figcaption>
+          <ul>
+            <li className="hi"><b>19<small>년</small></b><span>창업한 회사를<br />대표로 경영</span></li>
+            <li><b>매각</b><span>투자 유치를 거쳐<br />매각까지 완주</span></li>
+            <li><b>30<small>만</small></b><span>유저 30만 명<br />서비스의 전략 고문</span></li>
+            <li className="go"><b>20<small>개 팀</small></b><span>스타트업<br />1:1 자문</span></li>
+          </ul>
         </figure>
       </header>
 
