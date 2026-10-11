@@ -407,3 +407,15 @@ test('칼럼 수는 어디서나 같은 값(블로그+브런치)', async ({ page
   await page.goto('/articles');
   await expect(page.locator('.result-count')).toContainText(`${total}편`);
 });
+
+// 2026-10-11: 블로그 공지글은 글 목록·검색·칼럼 수에 넣지 않는다 (scripts/blog-notices.json)
+test('블로그 공지글은 홈페이지 글에 없다', async ({ page }) => {
+  const notices = JSON.parse(readFileSync('scripts/blog-notices.json', 'utf8'));
+  const search = readFileSync('public/search.json', 'utf8');
+  for (const n of notices) {
+    expect(posts.some((p) => p.id === n.logNo)).toBeFalsy();
+    expect(search.includes(n.logNo)).toBeFalsy();
+  }
+  await page.goto('/articles');
+  for (const n of notices) await expect(page.locator(`a[href$="/articles/${n.logNo}"]`)).toHaveCount(0);
+});

@@ -130,13 +130,35 @@ function excerptOf(html, quote) {
   return t;
 }
 
+// 블로그 공지글은 홈페이지 글 목록·칼럼 수에서 뺀다 (2026-10-11 대표님 지시 "앞으로도 그렇게")
+// 네이버 공지 목록을 읽어 scripts/blog-notices.json 에 쌓는다 — 한 번 공지였던 글은 공지를 내려도 계속 뺀다.
+// 다시 넣고 싶은 글은 이 파일에서 지운다. 네이버를 못 읽으면 저장된 목록만 쓴다.
+const NOTICE_FILE = resolve('scripts/blog-notices.json');
+const notices = existsSync(NOTICE_FILE) ? JSON.parse(readFileSync(NOTICE_FILE, 'utf8')) : [];
+try {
+  const res = await fetch('https://m.blog.naver.com/api/blogs/ultramsw67/notice-post-list', {
+    headers: { 'User-Agent': 'Mozilla/5.0', Referer: 'https://m.blog.naver.com/ultramsw67' },
+    signal: AbortSignal.timeout(10000),
+  });
+  const list = (await res.json())?.result?.noticePostViewList || [];
+  for (const n of list) {
+    if (!notices.some((x) => x.logNo === String(n.logNo))) notices.push({ logNo: String(n.logNo), title: n.title, added: new Date().toISOString().slice(0, 10) });
+  }
+  writeFileSync(NOTICE_FILE, JSON.stringify(notices, null, 2) + '\n');
+} catch (e) {
+  console.warn(`네이버 공지 목록을 못 읽었습니다 (${e.message}) — 저장된 공지 ${notices.length}개만 뺍니다`);
+}
+const noticeIds = new Set(notices.map((x) => x.logNo));
+
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
 const posts = [];
+let skippedNotices = 0;
 for (const file of walk(SRC)) {
   const parsed = parseFrontmatter(readFileSync(file, 'utf8'));
   if (!parsed || parsed.meta.type !== 'blog-post' || !parsed.meta.logNo) continue;
+  if (noticeIds.has(String(parsed.meta.logNo))) { skippedNotices++; continue; }
   const { meta, body } = parsed;
   const { html, firstImage, excerptFromQuote } = toHtml(body, meta.title);
   const post = {
@@ -172,7 +194,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
 writeFileSync(resolve('public/sitemap.xml'), sitemap);
 
 const byCat = posts.reduce((a, p) => ((a[p.category] = (a[p.category] || 0) + 1), a), {});
-console.log(`imported ${posts.length} posts from ${SRC}`);
+console.log(`imported ${posts.length} posts from ${SRC} (공지글 ${skippedNotices}편 제외)`);
 console.log(byCat);
 if (!existsSync(join(OUT, 'index.json'))) process.exit(1);
 
