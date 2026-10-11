@@ -8,6 +8,7 @@ import {
 import { loadIndex } from '../lib/posts';
 import { trackEvent } from '../lib/analytics';
 import { sendForm } from '../lib/notify';
+import { saveCheck } from '../lib/checklog';
 import { Arrow } from '../components/Icons';
 import '../check.css';
 
@@ -24,17 +25,12 @@ function usePenFont() {
   }, []);
 }
 
-// 진단이 끝나면 대표님 메일로 바로 알림 (2026-10-09 지시 — 이름·연락처·쪽지는 보내지 않는다)
+// 진단이 끝나면 결과를 대표님 DB(sood-db)에 쌓는다 → 매일 11시·23시 집계 메일 (2026-10-11, 10/9 의 즉시 메일을 바꿈)
+// 이름·연락처·쪽지는 보내지 않는다
 function alertOwner({ ans, stage, from, prev }) {
   const { total, axis } = calc(ans);
-  const lv = level(total);
   const ns = nextStep(ans, stage);
-  const again = prev ? ` · 다시 잰 것 ${prev.total}→${total}점` : '';
-  const subject = `[3분 진단] ${LEVELS[lv][0]} ${total}점 · ${STAGE_SHORT[stage]} · 다음 칸: ${ns ? SHORT[ns.i] : '모두 예'}${again}`;
-  const answers = Q.map(([ax, q], i) => `${i + 1}. [${ax}] ${q} → ${ansLabel(ans[i])}`).join('\n');
-  sendForm(subject, {
-    message: `점수 ${total}점 (${LEVELS[lv][0]}) · 단계 ${STAGE_SHORT[stage]}${again}\n갈래별(20점 만점): ${AXES.map((a, k) => `${a} ${axis[k] ?? '나중'}`).join(' · ')}\n다음 칸 질문: ${ns ? SHORT[ns.i] : '-'}\n들어온 곳: ${from || '진단 페이지'}\n\n답 10개\n${answers}\n\n(이름·연락처·쪽지 내용은 받지 않습니다)`,
-  }, { siteOnly: true });
+  saveCheck({ total, lv: level(total), stage, axis, ans, next: ns ? ns.i : -1, from: from || '진단 페이지', prev: prev ? prev.total : -1 });
 }
 
 function Plant({ lv, size = 84 }) {

@@ -263,9 +263,10 @@ test('홈: 혼자 고민하는 대표에게 칸이 상담 진행 바로 위에 �
   expect(await page.evaluate(() => document.querySelector('#alone').nextElementSibling.id)).toBe('process');
 });
 
-// ── 2026-10-09 3분 진단·체크표 받기 ── (메일은 실제로 보내지 않는다: api.web3forms.com 을 가로챈다)
+// ── 2026-10-09 3분 진단·체크표 받기 ── (메일은 실제로 보내지 않는다: api.web3forms.com 을 가로챈다. 진단 결과 DB(firestore)도 가로챈다 — 10/11)
 async function fakeForms(page) {
   const sent = [];
+  await page.route('https://firestore.googleapis.com/**', async (route) => { sent.push({ firestore: true }); await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' }); });
   await page.route('https://api.web3forms.com/**', async (route) => { sent.push(JSON.parse(route.request().postData() || '{}')); await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' }); });
   return sent;
 }
