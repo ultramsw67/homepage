@@ -15,6 +15,12 @@ if (!urls.length) {
   const sm = readFileSync('public/sitemap.xml', 'utf8');
   urls = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 }
+// 칼럼 글(/articles/…)은 네이버 블로그 원문과 같은 내용 → 제출하지 않는다 (2026-10-13).
+// IndexNow 는 참여 엔진(네이버 포함)끼리 공유되므로 엔진별로 나누지 않고 전부 뺀다. 빙·구글은 사이트맵으로 계속 수집.
+const skipped = urls.filter((u) => /\/articles\/./.test(u)).length;
+urls = urls.filter((u) => !/\/articles\/./.test(u));
+if (skipped) console.log(`칼럼 글 ${skipped}개는 제출하지 않음 (네이버 블로그 원문 보호)`);
+if (!urls.length) { console.log('제출할 URL 이 없습니다.'); process.exit(0); }
 
 // 키 파일이 실제로 배포되어 있는지 먼저 확인
 const check = await fetch(`${SITE}/${keyFile}`);

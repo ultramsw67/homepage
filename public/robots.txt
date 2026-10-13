@@ -1,11 +1,17 @@
-# 수트와후드 SOOD — 검색엔진과 AI 검색·답변 서비스의 수집을 모두 허용합니다.
+# 수트와후드 SOOD — 검색엔진과 AI 검색·답변 서비스의 수집을 허용합니다.
 # AI 가 읽기 쉬운 사이트 요약: https://soodcoach.com/llms.txt
 
 User-agent: *
 Allow: /
 
-# 네이버·빙·AI 검색/답변 서비스 (명시적 허용)
+# 네이버: 칼럼 글(/articles/…)은 네이버 블로그 원문과 같은 내용이라 수집하지 않습니다.
+# 원문(blog.naver.com/ultramsw67)이 네이버 검색에 나오도록 하기 위함 (2026-10-13)
+# 홈·소개·상담·진단·글 목록(/articles) 은 그대로 수집합니다.
 User-agent: Yeti
+Disallow: /articles/
+Allow: /
+
+# 빙·AI 검색/답변 서비스 (명시적 허용)
 User-agent: Bingbot
 User-agent: GPTBot
 User-agent: OAI-SearchBot
