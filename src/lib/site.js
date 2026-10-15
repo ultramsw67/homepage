@@ -57,7 +57,7 @@ export const services = [
 export const experience = [
   { period: '2025 —', org: '수트와후드 (SOOD)', short: 'SOOD', years: 1.2, role: '스타트업 경영 코치', desc: '초기 창업자와 1:1로 비즈니스 모델, 사업계획서, MVP·PMF 검증을 함께 봅니다.' },
   { period: '2023 — 2025', org: '(주)더문테크', short: '더문테크', years: 2, role: '전략 고문', desc: '30만 유저 서비스의 유저 세그멘테이션과 리텐션 관리, AI 에이전트 도입 모델 수립, 신규 사업 타당성 시뮬레이션.' },
-  { period: '2020 — 2023', org: '(주)오렌지가든', short: '오렌지가든', years: 3, role: 'CSO · 최고전략책임자', desc: '브랜드 제조·수출과 미디어 커머스 전략.' },
+  { period: '2020 — 2023', org: '(주)오렌지가든', short: '오렌지가든', years: 3.6, role: 'CSO · 최고전략책임자', desc: '브랜드 제조·수출과 미디어 커머스 전략.' },
   { period: '2001 — 2019', org: '(주)인터랙티비', short: '인터랙티비 창업 · 19년', years: 19, main: true, role: '창업자 · 대표이사', desc: '디지털 마케팅 회사를 세워 19년 동안 경영했습니다. 투자를 받아 회사를 키웠고 매각(Exit)까지 직접 마쳤습니다.' },
   { period: '1993 — 2000', org: '(주)현대석유화학', short: '현대석유화학', years: 7, main: true, role: '기획실 · M&A · 가치평가', desc: '현대그룹 계열사 기획실에서 M&A, 가치평가(Valuation), 신규 사업 타당성 분석을 맡았습니다.' },
 ];
