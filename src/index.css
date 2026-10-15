@@ -201,6 +201,28 @@ html.js #root > .page { display: none; }
 .timeline-points { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14.5px; line-height: 1.7; }
 .timeline-points li { padding: 0; margin: 2px 0; }
 .timeline-points li::before { display: none; }
+/* 2026-10-15 소개 경력 C안: 햇수 막대 + 주경력 두 단 */
+.span-bar { display: flex; height: 46px; gap: 3px; }
+.span-bar div { display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--ink); background: var(--paper-2); overflow: hidden; white-space: nowrap; min-width: 0; }
+.span-bar .hi { background: var(--accent); color: var(--white); font-size: 15px; }
+.span-bar .mid { background: #c9d4ef; }
+.span-years { position: relative; height: 18px; margin-top: 6px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.span-years span { position: absolute; top: 0; }
+.span-rest { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; color: var(--muted); }
+.span-rest b { color: var(--ink); font-weight: 700; }
+.span-main { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 44px); margin-top: 32px; }
+.span-main > div { border-left: 3px solid var(--accent); padding-left: 18px; }
+.span-main > div + div { border-left-color: #c9d4ef; }
+.span-main span { display: block; font-size: 13px; font-weight: 700; color: var(--accent); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+.span-main strong { display: block; font-size: clamp(20px, 1.9vw, 23px); font-weight: 700; letter-spacing: -.03em; margin-top: 4px; color: var(--ink); }
+.span-main em { display: block; font-style: normal; font-weight: 600; font-size: 15px; color: var(--ink); }
+.span-main p { color: var(--muted); font-size: 15px; margin-top: 8px; line-height: 1.7; }
+@media (max-width: 720px) {
+  .span-main { grid-template-columns: 1fr; }
+  .span-bar div:not(.hi) { font-size: 0; }
+  .span-bar .hi { font-size: 13px; }
+  .span-rest { flex-direction: column; }
+}
 
 .portrait { position: sticky; top: 104px; background: var(--ink); border-radius: var(--radius); overflow: hidden; padding: clamp(28px, 3vw, 40px); color: var(--paper); }
 .portrait-inner { position: relative; display: flex; flex-direction: column; gap: 20px; }

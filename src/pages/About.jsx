@@ -2,6 +2,19 @@ import { Link } from 'react-router-dom';
 import { experience, profile, cases } from '../lib/site';
 import { Arrow } from '../components/Icons';
 
+// 막대는 옛날 → 지금 순서. 연도 눈금은 막대 경계에 맞춘다 (시작·창업·매각·지금)
+const chrono = [...experience].reverse();
+const maxYears = Math.max(...experience.map((e) => e.years));
+const total = chrono.reduce((n, e) => n + e.years, 0);
+const startOf = (org) => chrono.slice(0, chrono.findIndex((e) => e.org === org)).reduce((n, e) => n + e.years, 0);
+const longest = chrono.find((e) => e.years === maxYears);
+const ticks = [
+  { y: chrono[0].period.slice(0, 4), style: { left: 0 } },
+  { y: longest.period.slice(0, 4), style: { left: `${(startOf(longest.org) / total) * 100}%` } },
+  { y: longest.period.slice(-4), style: { left: `${((startOf(longest.org) + longest.years) / total) * 100}%`, transform: 'translateX(-100%)' } },
+  { y: chrono.at(-1).period.slice(0, 4), style: { right: 0 } },
+];
+
 export default function About() {
   return (
     <div className="wrap page">
@@ -54,17 +67,28 @@ export default function About() {
           <p className="eyebrow">경력</p>
           <h2>경험은 다음 질문의 토대가 됩니다</h2>
         </div>
-        <ol className="timeline">
-          {experience.map((e, i) => (
-            <li key={e.org} className={i === 0 ? 'is-now' : undefined}>
-              <span>{e.period}</span>
-              <strong>{e.org}</strong>
-              <em>{e.role}</em>
-              <p>{e.desc}</p>
-              {e.points?.length ? <ul className="timeline-points">{e.points.map((pt) => <li key={pt}>{pt}</li>)}</ul> : null}
-            </li>
-          ))}
-        </ol>
+        {/* 2026-10-15 C안: 햇수만큼의 막대(옛날 → 지금) + 그 밖의 경력 한 줄 + 주경력 두 단. 다섯 칸 타임라인보다 약 40% 짧다 */}
+        <div className="career-span">
+          <div className="span-bar" aria-hidden="true">
+            {chrono.map((e) => <div key={e.org} className={e === longest ? 'hi' : e.main ? 'mid' : undefined} style={{ flex: e.years }}>{e.short}</div>)}
+          </div>
+          <div className="span-years" aria-hidden="true">
+            {ticks.map((t) => <span key={t.y} style={t.style}>{t.y}</span>)}
+          </div>
+          <ul className="span-rest">
+            {experience.filter((e) => !e.main).map((e) => <li key={e.org}><b>{e.org}</b> {e.role} {e.period}</li>)}
+          </ul>
+          <div className="span-main">
+            {experience.filter((e) => e.main).sort((a, b) => b.years - a.years).map((e) => (
+              <div key={e.org}>
+                <span>{e.period}</span>
+                <strong>{e.org}</strong>
+                <em>{e.role}</em>
+                <p>{e.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
         <p className="muted small" style={{ marginTop: 24 }}>연세대학교 화학공학 졸업</p>
         {/* 2026-10-09: 채널 링크는 맨 위가 아니라 경력 아래 작은 한 줄로 (링크드인 손님의 '실제 활동' 확인용) */}
         <p className="muted small about-channels">활동 채널 · <a href={profile.blog} target="_blank" rel="noreferrer">네이버 블로그</a> · <a href={profile.brunch} target="_blank" rel="noreferrer">브런치</a> · <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></p>

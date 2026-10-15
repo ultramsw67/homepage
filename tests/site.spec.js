@@ -41,8 +41,8 @@ test('contact uses ultramsw67@gmail.com and no themoontech', async ({ page }) =>
   await page.goto('/about');
   const about = await page.content();
   expect(about).not.toContain('themoontech');
-  expect(await page.locator('.timeline').textContent()).toContain('더문테크');
-  expect(await page.locator('.timeline').textContent()).toContain('전략 고문');
+  expect(await page.locator('.career-span').textContent()).toContain('더문테크');
+  expect(await page.locator('.career-span').textContent()).toContain('전략 고문');
   await page.goto('/');
   const home = await page.content();
   expect(home).not.toContain('themoontech');
