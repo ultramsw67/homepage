@@ -1,10 +1,10 @@
 {
- "at": "2026-10-15T00:01:43.362Z",
+ "at": "2026-10-15T01:01:20.926Z",
  "profile": {
   "url": "https://brunch.co.kr/@a3b90b2e717a467",
   "followers": 209,
-  "articles": 42,
-  "likes": 2336
+  "articles": 43,
+  "likes": 2343
  },
  "series": [
   {
@@ -17,6 +17,18 @@
   }
  ],
  "posts": [
+  {
+   "no": 44,
+   "url": "https://brunch.co.kr/@a3b90b2e717a467/44",
+   "title": "1,000조 쏟아붓는 빅테크, AI 머니는 어디로?",
+   "sub": "과열된 AI 머니의 비정상 순환 고리",
+   "excerpt": "2026년 2분기 빅테크 실적에는 AI 인프라 투자 열기가 그대로 드러났습니다. 메타는 석 달 동안 영업으로 들어온 현금 318억 달러 가운데 311억 달러를 데이터센터와 서버에 썼습니다. 그 결과 잉여현금흐름(F…",
+   "date": "2026-10-15",
+   "like": 7,
+   "comments": 0,
+   "series": null,
+   "thumb": "https://img1.kakaocdn.net/thumb/R640x0.fpng/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Fbrunch%2Fservice%2Fuser%2Ffjfy%2Fimage%2FACYneFLZZ1PqqRlVv2rVVlgNoXA.png"
+  },
   {
    "no": 43,
    "url": "https://brunch.co.kr/@a3b90b2e717a467/43",
