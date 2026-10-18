@@ -41,7 +41,7 @@ html,body{width:${W}px;height:${H}px;overflow:hidden;background:var(--ivory)}
   <div class="eyebrow">사례 연재 6</div>
   <div class="head">스타트업 사례<br><em>${total}편</em>을<br>분석했습니다</div>
   <div class="rule"></div>
-  <div class="axes">돈 버는 구조 · 첫 제품 · 피벗<br>1인 기업 · AI · 창업자</div>
+  <div class="axes">수익 구조 · 첫 제품 · 피벗<br>1인 기업 · AI · 창업자</div>
   <div class="cta">연재 모아 보기 <span>→</span></div>
 </div></body></html>`;
 

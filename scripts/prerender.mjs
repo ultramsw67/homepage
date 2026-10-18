@@ -179,7 +179,7 @@ render({
 render({
   path: '/series',
   title: `사례 연재 6개 ${seriesData.total}편 — 비즈니스 모델·MVP·피벗·1인 기업 | ${BRAND}`,
-  description: '한 회사를 끝까지 뜯어보는 스타트업 사례 연재 6개. 수드의 BM 해부, MVP 사례, 피벗 사례, 1인 기업 사례, AI 스타트업 해부, 창업자 이야기를 회차순으로 모았습니다.',
+  description: '남의 회사 숫자에서 내 회사의 답을 찾는 스타트업 사례 연재 6개. 수드의 BM 해부, MVP 사례, 피벗 사례, 1인 기업 사례, AI 스타트업 해부, 창업자 이야기를 회차순으로 모았습니다.',
   head: `    ${graph({ '@type': 'CollectionPage', '@id': `${SITE}/series`, name: '수드의 사례 연재', url: `${SITE}/series`, inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef, hasPart: seriesData.series.map((x) => ({ '@type': 'CreativeWorkSeries', name: x.name, description: x.desc, numberOfItems: x.items.length })) }, crumbs([{ name: '연재', path: '/series' }]))}\n`,
   body: `<main class="wrap page"><h1>남의 회사 숫자에서 내 회사의 답을 찾습니다</h1><p>스타트업 경영 코치 ${AUTHOR}의 블로그 사례 글 ${seriesData.total}편을 연재별로 모았습니다.</p>${seriesData.series.map((x) => `<h2>${esc(x.name)} (${x.items.length}편)</h2><p>${esc(x.desc)}</p><ol>${x.items.map((i) => `<li>${i.no}편 · ${esc(i.subject)} · ${fmt(i.date)} — <a href="${esc(i.url)}" rel="noreferrer">${esc(i.title)}</a></li>`).join('')}</ol>`).join('')}<p><a href="/articles">글 전체 보기</a> · <a href="/consulting">상담</a></p></main>`,
 });
