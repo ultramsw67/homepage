@@ -66,9 +66,9 @@ export default function Series() {
     <div className="wrap page">
       <header className="page-head">
         <p className="eyebrow">연재</p>
-        <h1>회사 하나를<br />끝까지 뜯어보는 <em>6개 연재</em></h1>
+        <h1>남의 회사 숫자에서<br />내 회사의 <em>답</em>을 찾습니다</h1>
         <p className="lead">
-          블로그 사례 글{data ? ` ${data.total}편` : ''}을 연재별로 모았습니다. 돈 버는 구조, 첫 제품, 방향 전환, 혼자 일하는 법,
+          블로그 사례 글{data ? ` ${data.total}편` : ''}을 연재별로 모았습니다. 수익 구조, 첫 제품, 방향 전환, 혼자 일하는 법,
           AI 스타트업, 창업자의 결정. 회차 제목을 누르면 네이버 블로그 글이 새 창에서 열립니다.
         </p>
       </header>
