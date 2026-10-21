@@ -379,7 +379,7 @@ export default function Check() {
         <div className="start rise">
           <p className="eyebrow">3분 창업 준비도 진단</p>
           <h1>내 창업 준비,<br />지금 어디쯤일까요?</h1>
-          <p className="lead">질문 10개, 3분이면 끝납니다. 아이디어도, 이름·연락처도 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도 괜찮습니다. 그 단계에 맞춰 봅니다.</p>
+          <p className="lead">질문 10개, 3분이면 끝납니다. 아이디어도, 이름·연락처도 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도, 출시해 매출이 있는 회사여도 괜찮습니다. 그 단계에 맞춰 봅니다.</p>
           <div className="facts"><span className="chip">질문 10개</span><span className="chip">약 3분</span><span className="chip">연락처 없음</span><span className="chip">이번 주 할 일 1개</span><span className="chip">1주 뒤 다시 재 보기</span></div>
           <button type="button" className="button primary" onClick={start}>진단 시작하기<Arrow /></button>
           <p className="small muted privacy">결과 요약만 이름 없이 수드에게 전달됩니다. 1주 뒤의 나에게 쓰는 한 줄은 이 기기와 내 캘린더에만 남습니다.</p>

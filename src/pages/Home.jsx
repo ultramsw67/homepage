@@ -28,19 +28,19 @@ export default function Home() {
         <div className="wrap hero-grid">
           <div className="hero-copy">
             <p className="eyebrow hero-eyebrow rise d1"><span className="dot" aria-hidden="true" />{profile.role} {profile.name}</p>
-            <h1 className="rise d2"><span className="nw">현대 기획실에서</span> <span className="nw">숫자를 배웠고,</span><br /><span className="nw">제 회사를</span> <span className="nw">19년 운영했습니다</span></h1>
+            {/* 2026-10-21: 페르소나 인터뷰 1차 반영 — 큰 제목을 방문자 이야기로, 이력은 아래 한 문장으로 (sood-humanize standard 통과) */}
+            <h1 className="rise d2"><span className="nw">회사 다니며 준비하든</span> <span className="nw">창업 3년 차든,</span><br /><span className="nw">다음 한 수는</span> <span className="nw">숫자로 정합니다</span></h1>
             <p className="lead rise d3">
-              지금은 초기 창업자와 마주 앉아 사업모델, 숫자, 자금 문제를 같이 봅니다.
-              수트와후드(SOOD)는 넥타이와 후드티를 둘 다 입어 본 사람의 자문이라는 뜻입니다.
+              사업모델, 숫자, 자금 가운데 지금 제일 급한 것 하나부터 같이 봅니다.
+              대기업 기획실에서 사업성을 따졌습니다. 직접 창업해 투자를 받아 키우고 매각까지 해 본 경험으로 자문합니다.
             </p>
-            {/* 2026-10-09: 첫 화면은 글로 먼저 믿음을 주고, 상담은 뒤로 (위 메뉴 '상담 문의'·아래 상담 칸에서 바로 찾게) */}
             <div className="actions rise d4">
-              <Link className="button primary" to="/series">사례 연재 먼저 보기<Arrow /></Link>
-              {/* 2026-10-09: 두 번째 버튼 = 3분 진단 (첫 화면 6초·이탈 81% — 글보다 가벼운 첫 행동) */}
-              <Link className="button ghost hero-check" to="/check">내 창업 준비, 3분 진단<Arrow /></Link>
+              <Link className="button primary hero-check" to="/check">내 사업 단계, 3분 진단<Arrow /></Link>
+              <Link className="button ghost" to="/series">사례 연재 먼저 보기<Arrow /></Link>
             </div>
+            <p className="note rise d4" style={{ marginTop: 12, fontSize: 14, color: 'var(--muted)' }}>연락처 없이 3분 · 아이디어 단계부터 출시·매출 단계까지, 지금 단계에 맞춘 진단</p>
             <div className="hero-meta rise d5">
-              <span>창업 3년 이내 대표, 1인 창업자와 일합니다</span>
+              <span>회사에 다니며 창업을 준비하는 분, 창업 3년 이내 대표와 함께합니다</span>
               <a className="hero-contact" href="#process">상담 문의는 아래에서<Down /></a>
             </div>
           </div>
@@ -73,6 +73,47 @@ export default function Home() {
                 <span>{s.label}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section" id="doors">
+        <div className="wrap">
+          <div className="section-head">
+            <h2>지금 어디쯤인가요?</h2>
+            <p className="lead">단계마다 먼저 볼 것이 다릅니다. 내 쪽 문으로 들어오세요.</p>
+          </div>
+          <div className="service-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+            <div className="service-card">
+              <span className="num">A</span>
+              <h3>회사에 다니며 창업을 준비하고 있어요</h3>
+              <p className="tagline">무엇부터 할지, 언제 나올지 막막한 단계</p>
+              <p>아이디어만 있어도 됩니다. 3분 진단으로 지금 단계와 이번 주에 할 일 하나를 먼저 확인해 보세요.</p>
+              <ul><li>3분 진단 · 연락처 없이</li><li>1인 창업 아이템 고르는 5가지 방법</li><li>고객 5명 대화 노트 (무료 자료)</li></ul>
+              <Link className="button primary" to="/check" style={{ marginTop: 14 }}>내 단계 3분 진단<Arrow /></Link>
+            </div>
+            <div className="service-card">
+              <span className="num">B</span>
+              <h3>창업했어요 (3년 이내)</h3>
+              <p className="tagline">지원사업·투자 심사를 앞두고 숫자로 증명해야 하는 단계</p>
+              <p>리텐션, 가격, 가치평가처럼 심사에서 묻는 숫자부터 봅니다. 진단에서는 '출시·매출'을 고르면 됩니다.</p>
+              <ul><li>3분 진단 · 출시·매출 단계</li><li>TIPS·프리A 심사 준비</li><li>13주 현금흐름, 유닛 이코노믹스</li></ul>
+              <Link className="button primary" to="/check" style={{ marginTop: 14 }}>우리 회사 3분 진단<Arrow /></Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section band" id="cases">
+        <div className="wrap">
+          <div className="section-head">
+            <h2>함께 푼 문제</h2>
+            <p className="lead">초기 스타트업과 1:1로 진행한 자문 가운데 일부입니다. 고객사 이름은 밝히지 않습니다.</p>
+          </div>
+          <div className="service-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+            <div className="service-card"><span className="num">숏폼 플랫폼</span><h3>투자자 관점으로 사업계획서를 다시 썼습니다</h3><p className="tagline">결과: 어워드 수상, 벤처기업 인증</p></div>
+            <div className="service-card"><span className="num">커뮤니티 플랫폼</span><h3>사용자 데이터로 리텐션 관리 전략을 세웠습니다</h3><p className="tagline">결과: 아하 모먼트를 찾아 유저 관리에 반영, 마케팅 성과 개선</p></div>
+            <div className="service-card"><span className="num">미디어 커머스</span><h3>신규 아이템은 UX 데이터 분석에서 찾았습니다</h3><p className="tagline">결과: 매출 상승, 주기별 실적 분석을 경영 전략에 반영</p></div>
           </div>
         </div>
       </section>

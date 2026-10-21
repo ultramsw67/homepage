@@ -146,7 +146,7 @@ html.js #root > .page { display: none; }
 
 /* 신뢰 요소 */
 .trust { padding-block: clamp(36px, 4.5vw, 60px); }
-.stats-inner { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(22px, 3vw, 44px); padding-top: clamp(30px, 4vw, 46px); }
+.stats-inner { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(22px, 3vw, 44px); padding-top: clamp(30px, 4vw, 46px); }
 .stats-inner div { display: flex; flex-direction: column; gap: 12px; }
 .stats-inner strong { font-family: var(--sans); font-size: clamp(19px, 1.9vw, 25px); font-weight: 700; color: var(--ink); letter-spacing: -.03em; line-height: 1.35; }
 .stats-inner span { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
@@ -538,6 +538,9 @@ html.js #root > .page { display: none; }
 .nav .nav-check { color: var(--accent); font-weight: 700; }
 .hero-check { border-color: var(--accent) !important; color: var(--accent) !important; }
 .hero-check:hover { background: rgba(31, 75, 184, .06) !important; }
+/* 2026-10-21: 첫 화면 진단 단추가 검정 주 단추가 됨 — 글자는 흰색 유지 */
+.button.primary.hero-check { color: #fff !important; border-color: var(--ink) !important; }
+.button.primary.hero-check:hover { background: var(--accent) !important; border-color: var(--accent) !important; }
 @media (max-width: 860px) {
   .mobile-bar.split { display: flex; gap: 0; padding-left: 0; padding-right: 0; }
   .mobile-bar.split a { flex: 1; width: auto; }
