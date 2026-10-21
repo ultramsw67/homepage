@@ -16,7 +16,7 @@ const DEFAULT_IMAGE = `${SITE}/sood-character.jpg`;   // 사람·브랜드 정�
 const OG_IMAGE = `${SITE}/og-card.png`;
 // 3분 진단 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-check.html — 크롬 헤드리스로 찍음)
 const CHECK_OG = `${SITE}/og-check.png`;
-// 상담 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-consulting.html — 황동 바탕·첫 상담 60분·한 장 체크표)
+// 상담 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-consulting.html — 황동 바탕·첫 커피챗 30분·한 장 체크표, 10/21 커피챗 전환)
 const CONSULT_OG = `${SITE}/og-consulting.png`;
 const OG_ALT = '수트와후드 SOOD — 스타트업 경영 코치 문성운, soodcoach.com';
 const PERSON_ID = `${SITE}/about#person`;
@@ -76,7 +76,7 @@ const ogSize = (image) => (image === OG_IMAGE || image === CHECK_OG || image ===
   ? `
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="${esc(image === CHECK_OG ? "3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비, 수트와후드 SOOD" : image === CONSULT_OG ? "첫 상담 60분 — 할 일을 종이 한 장으로, 수트와후드 SOOD 1:1 스타트업 경영 자문" : OG_ALT)}" />`
+    <meta property="og:image:alt" content="${esc(image === CHECK_OG ? "3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비, 수트와후드 SOOD" : image === CONSULT_OG ? "첫 커피챗 30분 무료 — 지금 고민을 편하게 듣습니다, 수트와후드 SOOD 1:1 스타트업 경영 자문" : OG_ALT)}" />`
   : '');
 
 function render({ path, title, description, type = 'website', image = OG_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl, ogUrl }) {
@@ -132,16 +132,16 @@ render({
 const offerCatalog = {
   '@type': 'Service', '@id': `${SITE}/consulting#service`, name: '1:1 스타트업 경영 자문', serviceType: '스타트업 경영 코칭', url: `${SITE}/consulting`,
   provider: { '@id': ORG_ID }, areaServed: { '@type': 'Country', name: '대한민국' }, audience: { '@type': 'Audience', audienceType: '창업 3년 이내 대표, 1인 창업자' },
-  hasOfferCatalog: { '@type': 'OfferCatalog', name: '자문 분야', itemListElement: [{ '@type': 'Offer', name: '첫 상담 60분', price: '0', priceCurrency: 'KRW', description: '현재 숫자와 고민을 듣고 먼저 풀 문제 하나와 4주 할 일을 한 장으로 정리 (무료)' }, ...services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.description } }))] },
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: '자문 분야', itemListElement: [{ '@type': 'Offer', name: '첫 커피챗 30분', price: '0', priceCurrency: 'KRW', description: '지금 고민을 듣고 도울 수 있는 일인지 함께 확인 (무료)' }, ...services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.description } }))] },
 };
 render({
   path: '/consulting',
   image: CONSULT_OG,
-  ogUrl: `${SITE}/consulting?card=b`, // 네이버 링크 카드가 새 그림을 읽게 (canonical 은 /consulting 그대로)
+  ogUrl: `${SITE}/consulting?card=c`, // 네이버 링크 카드가 새 그림을 읽게 (canonical 은 /consulting 그대로)
   title: `1:1 스타트업 경영 상담·자문 | ${BRAND}`,
-  description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 상담 60분 무료.',
+  description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 커피챗 30분 무료.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
-  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 상담 60분 · 무료</h3><p>지금 숫자와 고민을 듣고, 가장 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장으로 드립니다. 이 한 장을 '다음 한 수 1장'이라고 부릅니다. 계속 같이 할지는 그다음에 정하셔도 됩니다.</p><p>첫 상담은 무료입니다. 이어서 자문을 하실 때만 비용을 정합니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 1~2일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
+  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>첫 커피챗 30분 · 무료</h3><p>지금 하는 일과 막힌 곳을 편하게 듣고 제가 도울 수 있는 일인지 같이 확인합니다. 자문을 시작할지는 커피챗을 마친 뒤에 정하시면 됩니다. 자문을 시작하면 첫 시간에 '다음 한 수 1장'을 드립니다. 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장에 정리해 담았습니다.</p><p>커피챗은 무료입니다. 이어서 자문을 하실 때만 비용을 정합니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 1~2일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
 });
 
 // 3-1) 3분 창업 준비도 진단 · 체크표 받기 (2026-10-09)
@@ -263,7 +263,7 @@ const llms = [
   '## 주요 페이지',
   `- [홈](${SITE}/): 브랜드 소개, 자문 분야, 최근 칼럼`,
   `- [소개](${SITE}/about): ${AUTHOR}의 경력과 자문 사례`,
-  `- [상담 안내](${SITE}/consulting): 자문 분야, 진행 방식, 첫 상담(60분 무료), 자주 묻는 질문, 문의 폼`,
+  `- [상담 안내](${SITE}/consulting): 자문 분야, 진행 방식, 첫 커피챗(30분 무료), 자주 묻는 질문, 문의 폼`,
   `- [칼럼 전체 목록](${SITE}/articles): ${COLUMN_TOTAL}편`,
   `- [3분 창업 준비도 진단](${SITE}/check): 고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검, 지금 구간(씨앗·새싹·나무·열매)과 이번 주 할 일 하나, 1주 뒤 구글 캘린더 알림으로 다시 재기`,
   `- [스타트업 경영 체크표 4종](${SITE}/free): 고객 5명 대화 노트, 주문 1건 계산서, 피치덱 12항목 체크표, PoC 착수 전 합의표 (A4 PDF)`,

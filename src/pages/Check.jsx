@@ -358,7 +358,7 @@ export default function Check() {
               </div>
               <div className="mt"><Result ans={R.ans} stage={R.stage} prevAxis={before.axis} titles={titles} /></div>
               <Letter base={{ v: 1, st: R.stage, a: R.ans.slice(), q: ns ? ns.i : -1, h: hist }} />
-              <div className="minor"><Link className="text-link" to="/consulting#contact" state={{ message: `준비도 진단 ${LEVELS[level(before.total)][0]} → ${LEVELS[level(after.total)][0]} 구간 · 단계: ${STAGE_SHORT[R.stage]}\n` }}>이 결과로 무료 첫 상담 60분 신청하기<Arrow /></Link></div>
+              <div className="minor"><Link className="text-link" to="/consulting#contact" state={{ message: `준비도 진단 ${LEVELS[level(before.total)][0]} → ${LEVELS[level(after.total)][0]} 구간 · 단계: ${STAGE_SHORT[R.stage]}\n` }}>이 결과로 무료 커피챗 30분 신청하기<Arrow /></Link></div>
             </div>
           );
         })()}
@@ -416,8 +416,8 @@ export default function Check() {
                 <p className="small muted">{SHEETS[pick].desc} 이메일 없이 바로 받습니다.</p>
                 <a className="button gold block" href={SHEETS[pick].file} download onClick={() => trackEvent('check_sheet_download', { pick })}>「{SHEETS[pick].name}」 빈 양식 PDF 받기</a></div>
               <div><p className="step">② 수드에게 막힌 것 물어보기</p><Ask total={total} lv={lv} stage={S.stage} /></div>
-              <div><p className="step">③ 직접 상담 받기 · 60분 무료</p>
-                <Link className="button ghost block" to="/consulting#contact" state={{ message: memo }} onClick={() => trackEvent('check_to_consult')}>이 결과로 무료 첫 상담 60분 신청하기</Link></div>
+              <div><p className="step">③ 직접 상담 받기 · 커피챗 30분 무료</p>
+                <Link className="button ghost block" to="/consulting#contact" state={{ message: memo }} onClick={() => trackEvent('check_to_consult')}>이 결과로 무료 커피챗 30분 신청하기</Link></div>
             </div>
             <div className="minor"><button type="button" className="textlink" onClick={() => setS({ step: 'start', stage: null, ans: Array(10).fill(null), order: [], pos: 0 })}>처음부터 다시 하기</button></div>
           </div>
