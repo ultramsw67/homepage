@@ -25,7 +25,7 @@ export default function About() {
           <p className="lead">
             {/* 2026-10-21: 간결판 — 믿음을 줄 만큼만 (sood-humanize standard 통과). 스마트홈 = 솔루션, 광고 플랫폼 = 서비스 */}
             수트와후드 문성운입니다. 스마트홈 솔루션과 광고 플랫폼 서비스 두 사업을 키운 회사를 창업해 투자 유치부터 매각까지 이끌었습니다.
-            매각 뒤 2020~2025년에는 CSO와 전략 고문으로 스타트업 현장에서 일했습니다.
+            매각 뒤 2020년부터는 CSO와 전략 고문으로 스타트업 현장에서 일하고 있습니다.
           </p>
         </div>
         {/* 2026-10-09: 캐릭터 그림 대신 숫자 카드 4장 (D안, 'Exit' → '매각'). 그림이 아니라 글자라 휴대폰에서도 선명하다 */}
@@ -34,7 +34,7 @@ export default function About() {
           <ul>
             <li className="hi"><b>19<small>년</small></b><span>창업한 회사를<br />대표로 경영</span></li>
             <li><b>매각</b><span>투자 유치를 거쳐<br />매각까지 완주</span></li>
-            <li><b>2025</b><span>까지 CSO·전략 고문<br />30만 유저 서비스</span></li>
+            <li><b>현재</b><span>CSO·전략 고문<br />30만 유저 서비스</span></li>
             <li className="go"><b>20<small>개 팀</small></b><span>스타트업<br />1:1 자문</span></li>
           </ul>
         </figure>
