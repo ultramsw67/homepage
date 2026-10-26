@@ -79,7 +79,8 @@ function toHtml(body, title) {
       }
     }
     if (/^\*\s\*\s\*$/.test(line) || /^-{3,}$/.test(line) || /^_{3,}$/.test(line)) { html.push('<hr />'); continue; }
-    const img = line.match(/^!\[([^\]]*)\]\((\S+?)\)$/);
+    // 네이버 대표 이미지(썸네일)는 "[![](주소)](#)" 처럼 링크로 감싸 저장된다 → 그림으로 읽어야 홈페이지 썸네일이 블로그와 같다 (10/26)
+    const img = line.match(/^!\[([^\]]*)\]\((\S+?)\)$/) || line.match(/^\[!\[([^\]]*)\]\((\S+?)\)\]\(\S*\)$/);
     if (img) {
       const url = img[2];
       if (!firstImage) firstImage = url;
