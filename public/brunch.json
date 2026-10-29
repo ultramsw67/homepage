@@ -1,10 +1,10 @@
 {
- "at": "2026-10-28T23:02:02.940Z",
+ "at": "2026-10-29T00:01:20.315Z",
  "profile": {
   "url": "https://brunch.co.kr/@a3b90b2e717a467",
   "followers": 213,
-  "articles": 44,
-  "likes": 2420
+  "articles": 45,
+  "likes": 2426
  },
  "series": [
   {
@@ -17,6 +17,18 @@
   }
  ],
  "posts": [
+  {
+   "no": 46,
+   "url": "https://brunch.co.kr/@a3b90b2e717a467/46",
+   "title": "AI는 초안을, 사람은 서명을",
+   "sub": "KB국민은행 민원 처리 19.7일이 8.4일로 줄기까지",
+   "excerpt": "지난 9월 30일 서울 코엑스 그랜드볼륨. 한국마이크로소프트가 연 「마이크로소프트 인더스트리 서밋 2026」 금융 세션에 KB국민은행 김 부장(금융 AI2센터 부장 겸 AI Dev센터장)이 섰습니다. 그가 발표한 …",
+   "date": "2026-10-28",
+   "like": 6,
+   "comments": 0,
+   "series": null,
+   "thumb": "https://img1.kakaocdn.net/thumb/R640x0.fpng/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Fbrunch%2Fservice%2Fuser%2Ffjfy%2Fimage%2FfYJtS8QzifZW7rQA2mj1UWKkLFY.png"
+  },
   {
    "no": 45,
    "url": "https://brunch.co.kr/@a3b90b2e717a467/45",
