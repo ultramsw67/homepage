@@ -223,7 +223,7 @@ export default function Home() {
               <p>지금 하는 일과 막힌 곳을 편하게 듣고 제가 도울 수 있는 일인지 같이 확인합니다. 자문을 시작할지는 커피챗을 마친 뒤에 정하시면 됩니다. 자문을 시작하면 첫 시간에 ‘다음 한 수 1장’을 드립니다. 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장에 정리해 담았습니다.</p>
             </div>
             {/* 2026-10-09: 첫 화면에 있던 짧은 신청 칸을 이리로 옮김 — 적은 내용은 상담 폼으로 그대로 넘어간다 */}
-            <form className="offer-side" onSubmit={toContact} aria-label="커피챗 신청">
+            <form className="offer-side" onSubmit={toContact} aria-label="상담 요청">
               <div className="field">
                 <label htmlFor="leadName">이름</label>
                 <input id="leadName" name="leadName" type="text" autoComplete="name" maxLength="100" placeholder="이름 또는 팀 이름" />
@@ -236,8 +236,8 @@ export default function Home() {
                 <label htmlFor="leadIssue">지금 가장 막힌 것 한 줄</label>
                 <input id="leadIssue" name="leadIssue" type="text" maxLength="300" placeholder="지금 가장 급한 문제 하나" />
               </div>
-              <button className="button primary block" type="submit">이어서 작성하기<Arrow /></button>
-              <p className="small">계획서가 없어도 됩니다. 커피챗은 무료입니다.</p>
+              <button className="button primary block" type="submit">상담 요청 이어서 보내기<Arrow /></button>
+              <p className="small">계획서가 없어도 됩니다. 초기 상담 30분은 보수를 받지 않습니다.</p>
             </form>
           </div>
         </div>

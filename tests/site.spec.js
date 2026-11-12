@@ -75,6 +75,10 @@ test('mobile menu and consultation anchor', async ({ page }) => {
   await page.locator('#name').fill('검증용 팀');
   await page.locator('#email').fill('test@example.com');
   await page.locator('#message').fill('MVP 검증 상담 테스트');
+  // 2026-11-12: 상품·사업 단계가 비면 보내지지 않는다
+  expect(await page.locator('form').evaluate((f) => f.checkValidity())).toBeFalsy();
+  await page.locator('#product').selectOption('1회 자문 90분');
+  await page.locator('#stage').selectOption('준비 중');
   expect(await page.locator('form').evaluate((f) => f.checkValidity())).toBeTruthy();
 });
 
@@ -120,7 +124,7 @@ test('home lead card carries name, email and issue into the consulting form', as
   await page.locator('#leadName').fill('검증용 팀');
   await page.locator('#leadEmail').fill('lead@example.com');
   await page.locator('#leadIssue').fill('첫 매출이 안 나옵니다');
-  await page.getByRole('button', { name: '이어서 작성하기' }).click();
+  await page.getByRole('button', { name: '상담 요청 이어서 보내기' }).click();
   await expect(page).toHaveURL(/consulting#contact/);
   await expect(page.locator('#name')).toHaveValue('검증용 팀');
   await expect(page.locator('#email')).toHaveValue('lead@example.com');
@@ -418,4 +422,23 @@ test('블로그 공지글은 홈페이지 글에 없다', async ({ page }) => {
   }
   await page.goto('/articles');
   for (const n of notices) await expect(page.locator(`a[href$="/articles/${n.logNo}"]`)).toHaveCount(0);
+});
+
+// 2026-11-12 지시서 v3 2단계: 상품 칸 단추를 누르면 서식에 그 상품이 골라져 있고, 보내면 상품·단계가 함께 간다 (실제 메일은 가로챔)
+test('상담: 상품 칸 단추 → 서식에 상품이 골라지고 상품·단계가 함께 전송된다', async ({ page }) => {
+  const sent = [];
+  await page.route('https://api.web3forms.com/**', async (route) => { sent.push(JSON.parse(route.request().postData() || '{}')); await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' }); });
+  await page.goto('/consulting');
+  await page.locator('#offer-4weeks a.button').click();
+  await expect(page.locator('#product')).toHaveValue('4주 자문');
+  await page.locator('#name').fill('테스트');
+  await page.locator('#email').fill('test@example.com');
+  await page.locator('#stage').selectOption('아이디어');
+  await page.locator('#message').fill('시험');
+  await page.getByRole('button', { name: '상담 요청 보내기' }).click();
+  await expect(page.locator('.form-status')).toContainText('1~2일');
+  expect(sent).toHaveLength(1);
+  expect(sent[0].product).toBe('4주 자문');
+  expect(sent[0].stage).toBe('아이디어');
+  expect(sent[0].subject).toContain('4주 자문');
 });

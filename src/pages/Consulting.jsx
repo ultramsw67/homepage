@@ -6,10 +6,13 @@ import { Arrow } from '../components/Icons';
 import { Link } from 'react-router-dom';
 
 const ENDPOINT = 'https://api.web3forms.com/submit';
+// 서식 '원하시는 상품' 목록: 상품 네 단 + 사례 모집 (2026-11-12, 지시서 v3 2단계)
+const PRODUCTS = [...offers.map((o) => o.name), '사례 모집'];
+const STAGES = ['아이디어', '준비 중', '출시·매출 발생'];
 
 function mailtoLink(data) {
-  const body = `이름 / 팀: ${data.name}\n회신 이메일: ${data.email}\n상담 분야: ${data.service}\n\n현재 상황과 고민:\n${data.message}`;
-  const subject = `[SOOD 상담] ${data.service} · ${data.name}`;
+  const body = `원하시는 상품: ${data.product}\n성함: ${data.name}\n회사·팀: ${data.company || '-'}\n회신 이메일: ${data.email}\n사업 단계: ${data.stage}\n상담 분야: ${data.service}\n\n현재 상황과 고민:\n${data.message}`;
+  const subject = `[SOOD 상담] ${data.product} · ${data.name}`;
   return `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
@@ -22,7 +25,7 @@ export default function Consulting() {
   useEffect(() => {
     if (!prefill || !formRef.current) return;
     const form = formRef.current;
-    for (const key of ['name', 'email', 'message']) {
+    for (const key of ['product', 'name', 'email', 'message']) {
       if (prefill[key] && form.elements[key] && !form.elements[key].value) form.elements[key].value = prefill[key];
     }
     const next = ['name', 'email', 'message'].find((k) => !form.elements[k].value);
@@ -30,11 +33,17 @@ export default function Consulting() {
     return () => clearTimeout(t);
   }, [prefill]);
 
+  // 상품 칸 단추를 누르면 서식의 '원하시는 상품'이 미리 골라진다
+  function pickProduct(name) {
+    const sel = formRef.current?.elements.product;
+    if (sel) sel.value = name;
+  }
+
   async function contact(event) {
     event.preventDefault();
     const form = event.currentTarget;
     const fd = new FormData(form);
-    const data = { name: fd.get('name'), email: fd.get('email'), service: fd.get('service'), message: fd.get('message') };
+    const data = { product: fd.get('product'), name: fd.get('name'), company: fd.get('company'), email: fd.get('email'), stage: fd.get('stage'), service: fd.get('service'), message: fd.get('message') };
     if (fd.get('botcheck')) return;
 
     if (!profile.formKey) {
@@ -50,11 +59,14 @@ export default function Consulting() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: profile.formKey,
-          subject: `[SOOD 상담] ${data.service} · ${data.name}`,
+          subject: `[SOOD 상담] ${data.product} · ${data.name}`,
           from_name: 'SOOD 홈페이지 상담 폼',
+          product: data.product,
           name: data.name,
+          company: data.company || '-',
           email: data.email,
           replyto: data.email,
+          stage: data.stage,
           service: data.service,
           message: data.message,
         }),
@@ -80,7 +92,7 @@ export default function Consulting() {
           <h1>무엇을 돕는지,<br />어떻게 진행하는지</h1>
           <p className="lead">창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p>
           <div className="actions">
-            <a className="button primary" href="#contact">초기 상담 30분 신청<Arrow /></a>
+            <a className="button primary" href="#contact" onClick={() => pickProduct(offers[0].name)}>초기 상담 30분 신청<Arrow /></a>
             <a className="button ghost" href="#offer-single">1회 자문 보수 보기</a>
           </div>
         </header>
@@ -98,7 +110,7 @@ export default function Consulting() {
                 <p className="offer-price">{o.price}{o.priceNote && <span> · {o.priceNote}</span>}</p>
                 <p className="offer-desc">{o.desc}</p>
                 <ul>{o.notes.map((n) => <li key={n}>{n}</li>)}</ul>
-                <a className="button ghost block" href="#contact">{o.cta}<Arrow /></a>
+                <a className="button ghost block" href="#contact" onClick={() => pickProduct(o.name)}>{o.cta}<Arrow /></a>
               </article>
             ))}
           </div>
@@ -138,7 +150,7 @@ export default function Consulting() {
               <p>지금 하시는 일과 어려운 점을 듣고 자문으로 이어 갈 일인지 함께 확인합니다. 자문을 하실지는 상담을 마친 뒤 정하시면 됩니다. 자문을 시작하면 첫 시간에 ‘다음 한 수’ 한 장을 드립니다. 먼저 풀 문제 하나와 그다음 할 일을 종이 한 장에 정리한 것입니다.</p>
             </div>
             <div className="offer-side">
-              <a className="button primary block" href="#contact">초기 상담 30분 신청<Arrow /></a>
+              <a className="button primary block" href="#contact" onClick={() => pickProduct(offers[0].name)}>초기 상담 30분 신청<Arrow /></a>
               <p className="small">초기 상담은 보수를 받지 않습니다. 자문 보수는 위 상품 안내에 있습니다.</p>
             </div>
           </div>
@@ -179,14 +191,34 @@ export default function Consulting() {
           </div>
           <form className="form-card" onSubmit={contact} ref={formRef}>
             <h3>상담 요청</h3>
+            <div className="field">
+              <label htmlFor="product">원하시는 상품</label>
+              <select id="product" name="product" required defaultValue="">
+                <option value="" disabled>골라 주십시오</option>
+                {PRODUCTS.map((p) => <option key={p}>{p}</option>)}
+              </select>
+            </div>
             <div className="form-row">
               <div className="field">
-                <label htmlFor="name">이름 / 팀 또는 회사</label>
-                <input id="name" name="name" autoComplete="organization" required maxLength="100" placeholder="홍길동 / 팀 이름" />
+                <label htmlFor="name">성함</label>
+                <input id="name" name="name" autoComplete="name" required maxLength="100" placeholder="홍길동" />
               </div>
+              <div className="field">
+                <label htmlFor="company">회사·팀 이름 <span className="optional">(선택)</span></label>
+                <input id="company" name="company" autoComplete="organization" maxLength="100" placeholder="없으면 비워 두셔도 됩니다" />
+              </div>
+            </div>
+            <div className="form-row">
               <div className="field">
                 <label htmlFor="email">회신받을 이메일</label>
                 <input id="email" name="email" type="email" autoComplete="email" required maxLength="200" placeholder="hello@yourcompany.com" />
+              </div>
+              <div className="field">
+                <label htmlFor="stage">회사·사업 단계</label>
+                <select id="stage" name="stage" required defaultValue="">
+                  <option value="" disabled>골라 주십시오</option>
+                  {STAGES.map((st) => <option key={st}>{st}</option>)}
+                </select>
               </div>
             </div>
             <div className="field">
@@ -198,7 +230,7 @@ export default function Consulting() {
             </div>
             <div className="field">
               <label htmlFor="message">현재 상황과 고민</label>
-              <textarea id="message" name="message" required rows="5" maxLength="3000" placeholder="어떤 사업을 하고 계신가요? 가장 고민되는 점을 알려주세요." />
+              <textarea id="message" name="message" required rows="5" maxLength="3000" placeholder="한 줄이어도 됩니다. 어떤 사업을 하시는지, 가장 어려운 점이 무엇인지 적어 주십시오." />
             </div>
             <input type="checkbox" name="botcheck" tabIndex="-1" autoComplete="off" className="honeypot" aria-hidden="true" />
             <button className="button primary block" type="submit" disabled={state.phase === 'sending'}>
@@ -206,6 +238,7 @@ export default function Consulting() {
               <Arrow />
             </button>
             <p className="small">{profile.formKey ? '보내기를 누르면 수드에게 바로 전달됩니다. 입력한 이메일로 답장드립니다.' : '입력 내용으로 메일 앱이 열립니다. 사이트는 내용을 저장하지 않습니다.'}</p>
+            <p className="small">적어 주신 이메일과 내용은 회신에만 씁니다.</p>
             <p role="status" className="form-status">
               {state.text}
               {state.phase === 'error' && state.fallback && <> <a href={state.fallback}>메일 앱으로 보내기 →</a></>}
