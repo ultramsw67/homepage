@@ -340,7 +340,17 @@ test('3분 진단: 결과에서 상담으로 가면 고민 칸이 채워지고, 
   await page.getByRole('button', { name: '보내기' }).click();
   await expect(page.locator('.ask .sent')).toBeVisible();
   expect(sent[0].subject).toContain('[진단 상담실]');
-  await page.getByRole('link', { name: '이 결과로 무료 커피챗 30분 신청하기' }).click();
+  const mail = page.locator('.mailme');
+  await expect(mail.getByRole('button', { name: '결과 받기' })).toBeDisabled();
+  await mail.getByRole('textbox').fill('test@example.com');
+  await expect(mail.getByRole('button', { name: '결과 받기' })).toBeDisabled();
+  await mail.getByRole('checkbox').check();
+  await mail.getByRole('button', { name: '결과 받기' }).click();
+  await expect(mail.locator('.sent')).toBeVisible();
+  const req = sent.find((x) => (x.subject || '').includes('[진단 결과 요청]'));
+  expect(req.replyto).toBe('test@example.com');
+  expect(req.message).toContain('이번 주 할 일');
+  await page.getByRole('link', { name: '이 결과로 자문 문의하기' }).click();
   await expect(page.locator('#message')).toHaveValue(/준비도 진단 새싹 구간/);
 });
 

@@ -201,6 +201,44 @@ function Ask({ total, lv, stage }) {
   );
 }
 
+// 2026-11-12 지시서 v3 6단계: 결과를 메일로 받고 싶은 분만 이메일을 남긴다 (선택)
+// 진단 저장소(sood-db)에는 넣지 않고, 상담 서식과 같은 길로 대표님 메일에 간다 → 대표님이 직접 답장
+function MailMe({ ans, stage }) {
+  const [email, setEmail] = useState('');
+  const [agree, setAgree] = useState(false);
+  const [phase, setPhase] = useState('idle');
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  async function send() {
+    if (!ok || !agree) return;
+    setPhase('sending');
+    const { total, axis } = calc(ans);
+    const lv = level(total);
+    const ns = nextStep(ans, stage);
+    const axisLine = AXES.map((a, k) => (axis[k] == null ? null : `${a} ${axis[k]}`)).filter(Boolean).join(' · ');
+    const r = await sendForm(`[진단 결과 요청] ${LEVELS[lv][0]} ${total}점 · ${STAGE_SHORT[stage]}`, {
+      email: email.trim(), replyto: email.trim(),
+      message: `진단 결과를 메일로 받고 싶다는 요청입니다. 이 메일에 답장하시면 요청하신 분께 갑니다.\n\n구간: ${LEVELS[lv][0]} (${total}점)\n단계: ${STAGE_SHORT[stage]}\n갈래별 점수: ${axisLine}\n다음 칸 질문: ${ns ? SHORT[ns.i] : '-'}\n이번 주 할 일: ${ns ? TODO[ns.i] : '-'}\n\n수집 동의: 결과 발송 목적, 1년 보관`,
+    });
+    trackEvent('check_mail_request', { band: LEVELS[lv][0] });
+    setPhase(r.ok ? 'sent' : 'error');
+  }
+  return (
+    <div className="ask mailme">
+      <p className="step">결과를 메일로 받기 <span className="opt">선택</span></p>
+      <p className="small muted">결과와 이번 주 하실 일을 보내 드립니다. 적지 않으셔도 결과는 이 화면에서 그대로 보실 수 있습니다.</p>
+      {phase === 'sent' ? <p className="sent">받았습니다. 적어 주신 이메일로 결과를 보내 드리겠습니다.</p> : <>
+        <div className="row">
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="결과를 받을 이메일" placeholder="you@example.com" autoComplete="email" />
+          <button type="button" className="button primary" disabled={!ok || !agree || phase === 'sending'} onClick={send}>{phase === 'sending' ? '보내는 중…' : '결과 받기'}</button>
+        </div>
+        <label className="consent"><input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} /><span>결과를 받으려고 이메일을 적는 데 동의합니다</span></label>
+        <p className="consent-text">이메일과 진단 결과는 결과를 보내 드리는 데만 씁니다. 수드(SOOD) 외에는 쓰지 않고, 1년 뒤 지우거나 요청하시면 바로 지웁니다. 동의하지 않으셔도 결과는 이 화면에서 그대로 보실 수 있습니다.</p>
+        {phase === 'error' && <p className="hint-err">전송에 실패했습니다. 잠시 뒤 다시 눌러 주세요.</p>}
+      </>}
+    </div>
+  );
+}
+
 export default function Check() {
   usePenFont();
   const { hash, search } = useLocation();
@@ -358,7 +396,7 @@ export default function Check() {
               </div>
               <div className="mt"><Result ans={R.ans} stage={R.stage} prevAxis={before.axis} titles={titles} /></div>
               <Letter base={{ v: 1, st: R.stage, a: R.ans.slice(), q: ns ? ns.i : -1, h: hist }} />
-              <div className="minor"><Link className="text-link" to="/consulting#contact" state={{ message: `준비도 진단 ${LEVELS[level(before.total)][0]} → ${LEVELS[level(after.total)][0]} 구간 · 단계: ${STAGE_SHORT[R.stage]}\n` }}>이 결과로 무료 커피챗 30분 신청하기<Arrow /></Link></div>
+              <div className="minor"><Link className="text-link" to="/consulting#contact" state={{ message: `준비도 진단 ${LEVELS[level(before.total)][0]} → ${LEVELS[level(after.total)][0]} 구간 · 단계: ${STAGE_SHORT[R.stage]}\n` }} onClick={() => trackEvent('check_to_consult')}>이 결과로 자문 문의하기<Arrow /></Link></div>
             </div>
           );
         })()}
@@ -379,8 +417,8 @@ export default function Check() {
         <div className="start rise">
           <p className="eyebrow">3분 창업 준비도 진단</p>
           <h1>내 창업 준비,<br />지금 어디쯤일까요?</h1>
-          <p className="lead">질문 10개, 3분이면 끝납니다. 아이디어도, 이름·연락처도 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도, 출시해 매출이 있는 회사여도 괜찮습니다. 그 단계에 맞춰 봅니다.</p>
-          <div className="facts"><span className="chip">질문 10개</span><span className="chip">약 3분</span><span className="chip">연락처 없음</span><span className="chip">이번 주 할 일 1개</span><span className="chip">1주 뒤 다시 재 보기</span></div>
+          <p className="lead">질문 10개, 3분이면 끝납니다. 시작할 때는 이름·연락처를 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도, 출시해 매출이 있는 회사여도 괜찮습니다. 그 단계에 맞춰 봅니다.</p>
+          <div className="facts"><span className="chip">질문 10개</span><span className="chip">약 3분</span><span className="chip">시작할 때 연락처 묻지 않음</span><span className="chip">이번 주 할 일 1개</span><span className="chip">1주 뒤 다시 재 보기</span></div>
           <button type="button" className="button primary" onClick={start}>진단 시작하기<Arrow /></button>
           <p className="small muted privacy">결과 요약만 이름 없이 수드에게 전달됩니다. 1주 뒤의 나에게 쓰는 한 줄은 이 기기와 내 캘린더에만 남습니다.</p>
           {savedKey && (
@@ -409,6 +447,7 @@ export default function Check() {
           <h1 className="sr-only">3분 진단 결과</h1>
           <Result ans={S.ans} stage={S.stage} titles={titles} />
           <Letter base={{ v: 1, st: S.stage, a: S.ans.slice(), q: ns ? ns.i : -1, h: [] }} />
+          <MailMe ans={S.ans} stage={S.stage} />
           <div className="blk">
             <h2>이 결과로 할 수 있는 것</h2>
             <div className="ladder">
@@ -416,8 +455,8 @@ export default function Check() {
                 <p className="small muted">{SHEETS[pick].desc} 이메일 없이 바로 받습니다.</p>
                 <a className="button gold block" href={SHEETS[pick].file} download onClick={() => trackEvent('check_sheet_download', { pick })}>「{SHEETS[pick].name}」 빈 양식 PDF 받기</a></div>
               <div><p className="step">② 수드에게 막힌 것 물어보기</p><Ask total={total} lv={lv} stage={S.stage} /></div>
-              <div><p className="step">③ 직접 상담 받기 · 커피챗 30분 무료</p>
-                <Link className="button ghost block" to="/consulting#contact" state={{ message: memo }} onClick={() => trackEvent('check_to_consult')}>이 결과로 무료 커피챗 30분 신청하기</Link></div>
+              <div><p className="step">③ 자문 문의 · 초기 상담 30분은 보수를 받지 않습니다</p>
+                <Link className="button ghost block" to="/consulting#contact" state={{ message: memo }} onClick={() => trackEvent('check_to_consult')}>이 결과로 자문 문의하기</Link></div>
             </div>
             <div className="minor"><button type="button" className="textlink" onClick={() => setS({ step: 'start', stage: null, ans: Array(10).fill(null), order: [], pos: 0 })}>처음부터 다시 하기</button></div>
           </div>

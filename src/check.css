@@ -106,6 +106,11 @@
 .check .ask > .small { margin: 4px 0 10px; }
 .check .ask .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 8px; }
 .check .ask .sent { margin-top: 8px; font-weight: 600; color: var(--accent); }
+.check .mailme { margin-top: 20px; }
+.check .mailme .opt { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
+.check .mailme .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; cursor: pointer; margin-top: 10px; }
+.check .mailme .consent input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--accent); flex: none; padding: 0; }
+.check .mailme .consent-text { font-size: 13px; color: var(--muted); background: var(--paper-2); padding: 10px 12px; margin: 8px 0 0; line-height: 1.65; }
 .hint-err { color: #b3261e; font-size: 13.5px; margin-top: 6px; }
 .check .minor { margin-top: 20px; }
 
