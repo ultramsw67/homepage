@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { services, profile, process, faq } from '../lib/site';
+import { services, profile, process, faq, offers } from '../lib/site';
 import { trackLead } from '../lib/analytics';
 import { Arrow } from '../components/Icons';
 import { Link } from 'react-router-dom';
@@ -80,10 +80,30 @@ export default function Consulting() {
           <h1>무엇을 돕는지,<br />어떻게 진행하는지</h1>
           <p className="lead">창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p>
           <div className="actions">
-            <a className="button primary" href="#contact">무료 커피챗 30분 신청<Arrow /></a>
-            <a className="button ghost" href="#faq">자주 묻는 질문</a>
+            <a className="button primary" href="#contact">초기 상담 30분 신청<Arrow /></a>
+            <a className="button ghost" href="#offer-single">1회 자문 보수 보기</a>
           </div>
         </header>
+
+        {/* 3단계 사례·후기 자리: 제목과 상품 칸 사이 (작업 지시서 v3) */}
+
+        <section className="section" id="offers">
+          <div className="section-head">
+            <h2>자문 상품과 보수</h2>
+          </div>
+          <div className="offer-grid">
+            {offers.map((o) => (
+              <article id={o.id} key={o.id} className="offer-card">
+                <h3>{o.name}</h3>
+                <p className="offer-price">{o.price}{o.priceNote && <span> · {o.priceNote}</span>}</p>
+                <p className="offer-desc">{o.desc}</p>
+                <ul>{o.notes.map((n) => <li key={n}>{n}</li>)}</ul>
+                <a className="button ghost block" href="#contact">{o.cta}<Arrow /></a>
+              </article>
+            ))}
+          </div>
+          <p className="small offer-flow">초기 상담 → 1회 자문 → 4주 자문 순서로 이어 가실 수 있습니다. 어느 단계에서 멈추셔도 됩니다.</p>
+        </section>
 
         <section className="section" id="services">
           <div className="section-head">
@@ -114,12 +134,12 @@ export default function Consulting() {
           <div className="entry-offer">
             <div>
               <p className="eyebrow">처음이라면</p>
-              <h3>첫 커피챗 30분 · 무료</h3>
-              <p>지금 하는 일과 막힌 곳을 편하게 듣고 제가 도울 수 있는 일인지 같이 확인합니다. 자문을 시작할지는 커피챗을 마친 뒤에 정하시면 됩니다. 자문을 시작하면 첫 시간에 ‘다음 한 수 1장’을 드립니다. 먼저 풀 문제 하나와 4주 동안 할 일을 종이 한 장에 정리해 담았습니다.</p>
+              <h3>초기 상담 30분 · 보수 없음</h3>
+              <p>지금 하시는 일과 어려운 점을 듣고 자문으로 이어 갈 일인지 함께 확인합니다. 자문을 하실지는 상담을 마친 뒤 정하시면 됩니다. 자문을 시작하면 첫 시간에 ‘다음 한 수’ 한 장을 드립니다. 먼저 풀 문제 하나와 그다음 할 일을 종이 한 장에 정리한 것입니다.</p>
             </div>
             <div className="offer-side">
-              <a className="button primary block" href="#contact">무료 커피챗 30분 신청<Arrow /></a>
-              <p className="small">커피챗은 무료입니다. 이어서 자문을 하실 때만 비용을 정합니다.</p>
+              <a className="button primary block" href="#contact">초기 상담 30분 신청<Arrow /></a>
+              <p className="small">초기 상담은 보수를 받지 않습니다. 자문 보수는 위 상품 안내에 있습니다.</p>
             </div>
           </div>
         </section>
