@@ -103,6 +103,8 @@ export default function Consulting() {
         {/* 사례·후기: 제목과 상품 칸 사이 (지시서 v3 3단계) */}
         <section className="section" id="cases">
           <CaseBlock onRecruit={() => pickProduct('사례 모집')} />
+          {/* 지시서 v3 8단계: 상담 페이지에서 링크드인 경력으로 가는 길 (9단계 링크드인 소개와 맞춤) */}
+          <p className="muted small linkedin-line">경력은 <a href={profile.linkedin} target="_blank" rel="noreferrer">링크드인</a>에서 확인하실 수 있습니다.</p>
         </section>
 
         <section className="section" id="offers">

@@ -104,7 +104,7 @@ export default function About() {
       <section className="section">
         <div className="section-head">
           <p className="eyebrow">지금 하는 일</p>
-          <h2>쓰고, 코칭합니다</h2>
+          <h2>쓰고, 자문합니다</h2>
         </div>
         <div className="now-grid">
           <div><strong>칼럼</strong><p>네이버 블로그 「수트와후드」와 브런치에 스타트업 전략·투자·데이터 경영 글을 정기 연재하며, 모비인사이드 필진으로도 활동 중입니다.</p><Link className="text-link" to="/articles">글 보기<Arrow /></Link></div>
@@ -118,7 +118,7 @@ export default function About() {
           <h2>지금 풀고 싶은 문제가 있나요?</h2>
           <p style={{ marginTop: 8 }}>정리된 계획서가 없어도 괜찮습니다. 보통 1~2일 안에 답장드립니다.</p>
         </div>
-        <Link to="/consulting#contact" className="button primary">무료 커피챗 30분 신청<Arrow /></Link>
+        <Link to="/consulting#contact" className="button primary">자문 문의하기<Arrow /></Link>
       </div>
     </div>
   );

@@ -149,7 +149,7 @@ export default function Home() {
           <blockquote className="story-quote">“대기업의 넥타이와 창업가의 후드티, 둘 다 입어봤습니다.”</blockquote>
           <div className="story-body">
             <p>1993년 현대석유화학 기획실에서 첫 경력을 시작해 M&amp;A와 가치평가(Valuation)를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 자리였습니다. 2001년에는 넥타이를 풀고 IT 스타트업 인터랙티비를 창업했습니다. 투자를 유치해 회사를 키웠고 매각까지 이뤄냈습니다.</p>
-            <p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 코칭합니다.</p>
+            <p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 자문합니다.</p>
           </div>
           <div className="story-sign">
             <div className="who">

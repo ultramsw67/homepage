@@ -16,7 +16,7 @@ const DEFAULT_IMAGE = `${SITE}/sood-character.jpg`;   // 사람·브랜드 정�
 const OG_IMAGE = `${SITE}/og-card.png`;
 // 3분 진단 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-check.html — 크롬 헤드리스로 찍음)
 const CHECK_OG = `${SITE}/og-check.png`;
-// 상담 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-consulting.html — 황동 바탕·첫 커피챗 30분·한 장 체크표, 10/21 커피챗 전환)
+// 상담 전용 공유 그림 1200×630 (2026-10-09, 원본 scripts/og-consulting.html — 황동 바탕·한 장 체크표, 2026-11-12 지시서 v3 8단계: 초기 상담 30분·1회 자문 보수)
 const CONSULT_OG = `${SITE}/og-consulting.png`;
 const OG_ALT = '수트와후드 SOOD — 스타트업 경영 코치 문성운, soodcoach.com';
 const PERSON_ID = `${SITE}/about#person`;
@@ -59,7 +59,7 @@ const person = {
 const organization = {
   '@type': 'Organization', '@id': ORG_ID, name: BRAND, alternateName: ['수트와후드', 'SOOD', 'Suit & Hood'], url: SITE,
   logo: DEFAULT_IMAGE, image: DEFAULT_IMAGE, email: profile.email,
-  description: '스타트업 경영 코치 문성운의 1:1 경영 자문 브랜드. 창업 3년 이내 대표와 1인 창업자의 사업모델·지표·투자·정부지원·AI 활용을 코칭합니다.',
+  description: '스타트업 경영 코치 문성운의 1:1 경영 자문 브랜드. 창업 3년 이내 대표와 1인 창업자의 사업모델·지표·투자·정부지원·AI 활용을 자문합니다.',
   founder: { '@id': PERSON_ID }, areaServed: { '@type': 'Country', name: '대한민국' }, knowsAbout: topics,
   sameAs: [profile.blog, profile.brunch],
 };
@@ -76,7 +76,7 @@ const ogSize = (image) => (image === OG_IMAGE || image === CHECK_OG || image ===
   ? `
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="${esc(image === CHECK_OG ? "3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비, 수트와후드 SOOD" : image === CONSULT_OG ? "첫 커피챗 30분 무료 — 지금 고민을 편하게 듣습니다, 수트와후드 SOOD 1:1 스타트업 경영 자문" : OG_ALT)}" />`
+    <meta property="og:image:alt" content="${esc(image === CHECK_OG ? "3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비, 수트와후드 SOOD" : image === CONSULT_OG ? "초기 상담 30분은 보수를 받지 않습니다 · 1회 자문 90분 10만 원 — 수트와후드 SOOD 1:1 스타트업 경영 자문" : OG_ALT)}" />`
   : '');
 
 function render({ path, title, description, type = 'website', image = OG_IMAGE, head = '', body = '', file, noindex = false, canonicalUrl, ogUrl }) {
@@ -115,7 +115,7 @@ render({
   title: `${BRAND} | 스타트업 경영 코치 ${AUTHOR}`,
   description: `스타트업 경영 코치 문성운(수트와후드 SOOD). 현대석유화학 기획실에서 M&A와 가치평가를 맡았고, 2001년 창업한 인터랙티비를 19년 운영한 뒤 매각했습니다. 초기 창업자의 사업모델, 지표와 PMF, 정부지원과 투자, AI 1인 기업 운영을 1:1로 자문합니다. 경영 칼럼 ${COLUMN_TOTAL}편.`,
   head: `    ${graph({ '@type': 'WebSite', '@id': WEBSITE_ID, name: BRAND, alternateName: '수트와후드', url: SITE, inLanguage: 'ko', publisher: { '@id': ORG_ID } }, organization, person)}\n`,
-  body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>회사 다니며 준비하든 창업 3년 차든, 다음 한 수는 숫자로 정합니다. 사업모델, 숫자, 자금 가운데 지금 제일 급한 것 하나부터 같이 봅니다. 대기업 기획실에서 사업성을 따졌습니다. 직접 창업해 투자를 받아 키우고 매각까지 해 본 경험으로 자문합니다. 회사에 다니며 창업을 준비하는 분, 창업 3년 이내 대표와 함께합니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(statValue(s))}</strong> — ${esc(s.label)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>1993년 현대석유화학 기획실에서 첫 경력을 시작해 M&amp;A와 가치평가(Valuation)를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 자리였습니다. 2001년에는 넥타이를 풀고 IT 스타트업 인터랙티비를 창업했습니다. 투자를 유치해 회사를 키웠고 매각까지 이뤄냈습니다.</p><p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 코칭합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>코치 소개</h2><p>기획실에서는 사업성을 따지는 쪽에, 창업하고 나서는 그 숫자를 맞춰야 하는 쪽에 있었습니다. <a href="/about">경력 전체 보기</a></p><p><a href="/check">3분 창업 준비도 진단</a> · <a href="/free">경영 체크표 받기</a> · <a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
+  body: `<main class="wrap page"><h1>${BRAND} | 스타트업 경영 코치 ${AUTHOR}</h1><p>회사 다니며 준비하든 창업 3년 차든, 다음 한 수는 숫자로 정합니다. 사업모델, 숫자, 자금 가운데 지금 제일 급한 것 하나부터 같이 봅니다. 대기업 기획실에서 사업성을 따졌습니다. 직접 창업해 투자를 받아 키우고 매각까지 해 본 경험으로 자문합니다. 회사에 다니며 창업을 준비하는 분, 창업 3년 이내 대표와 함께합니다.</p>${channelLinks}<ul>${stats.map((s) => `<li><strong>${esc(statValue(s))}</strong> — ${esc(s.label)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>왜 수트와후드인가</h2><p>1993년 현대석유화학 기획실에서 첫 경력을 시작해 M&amp;A와 가치평가(Valuation)를 맡았습니다. 수천억 원 규모의 거래를 숫자로 따지는 자리였습니다. 2001년에는 넥타이를 풀고 IT 스타트업 인터랙티비를 창업했습니다. 투자를 유치해 회사를 키웠고 매각까지 이뤄냈습니다.</p><p>그 뒤로 여러 스타트업을 곁에서 자문해 왔습니다. 지금은 수트의 논리와 후드의 실행, 두 경험을 합쳐 창업자를 자문합니다.</p><h2>최근 글</h2><ul>${posts.slice(0, 6).map(postLink).join('')}</ul><h2>코치 소개</h2><p>기획실에서는 사업성을 따지는 쪽에, 창업하고 나서는 그 숫자를 맞춰야 하는 쪽에 있었습니다. <a href="/about">경력 전체 보기</a></p><p><a href="/check">3분 창업 준비도 진단</a> · <a href="/free">경영 체크표 받기</a> · <a href="/articles">글 전체 보기</a> · <a href="/about">소개</a> · <a href="/consulting">상담</a> · <a href="/consulting#faq">자주 묻는 질문</a></p></main>`,
 });
 
 // 2) 소개
@@ -125,21 +125,21 @@ render({
   description: ABOUT_DESC,
   type: 'profile',
   head: `    ${graph({ '@type': 'ProfilePage', '@id': `${SITE}/about`, url: `${SITE}/about`, name: `${AUTHOR} 소개`, inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, mainEntity: person }, organization, crumbs([{ name: '소개', path: '/about' }]))}\n`,
-  body: `<main class="wrap page"><h1>${AUTHOR} 소개</h1><p>수트와후드 ${AUTHOR}입니다. 스마트홈 솔루션과 광고 플랫폼 서비스 두 사업을 키운 회사를 창업해 투자 유치부터 매각까지 이끌었습니다. 매각 뒤 2020년부터는 CSO와 전략 고문으로 스타트업 현장에서 일하고 있습니다.</p><p>${AUTHOR}(수드)는 현대그룹 기획실에서 익힌 가치평가(Valuation) 방식과 IT 스타트업을 창업해 매각(Exit)까지 한 경험으로, 창업자가 매주 볼 숫자를 같이 정하는 스타트업 경영 코치입니다.</p><p>2023년부터 30만 유저 서비스의 전략 고문으로 리텐션 관리와 AI 에이전트 도입 모델을 맡고 있고, 지금까지 20개 팀의 사업모델·지표·투자·정부지원을 1:1로 자문했습니다. 비즈니스 모델 설계, 지표 튜닝, 신사업 타당성 시뮬레이션, 투자유치·정부지원사업, AI 에이전트 활용을 1:1로 코칭합니다.</p><p>매일 아침 네이버 블로그 「수트와후드」에 스타트업 경영 칼럼을 쓰고, 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」을 펴냈으며, 모비인사이드에 「수트와 후드의 스타트업 경영」을 연재합니다.</p>${channelLinks}<h2>경력</h2>${experienceHtml}<p>연세대학교 화학공학 졸업</p><h2>자문 사례</h2><ul>${cases.map((c) => `<li><strong>${esc(c.field)}</strong> — ${esc(c.result)}</li>`).join('')}</ul><p>고객사 이름과 상세 수치는 공개하지 않습니다.</p><p><a href="/consulting">상담 안내</a> · <a href="/articles">칼럼 보기</a></p></main>`,
+  body: `<main class="wrap page"><h1>${AUTHOR} 소개</h1><p>수트와후드 ${AUTHOR}입니다. 스마트홈 솔루션과 광고 플랫폼 서비스 두 사업을 키운 회사를 창업해 투자 유치부터 매각까지 이끌었습니다. 매각 뒤 2020년부터는 CSO와 전략 고문으로 스타트업 현장에서 일하고 있습니다.</p><p>${AUTHOR}(수드)는 현대그룹 기획실에서 익힌 가치평가(Valuation) 방식과 IT 스타트업을 창업해 매각(Exit)까지 한 경험으로, 창업자가 매주 볼 숫자를 같이 정하는 스타트업 경영 코치입니다.</p><p>2023년부터 30만 유저 서비스의 전략 고문으로 리텐션 관리와 AI 에이전트 도입 모델을 맡고 있고, 지금까지 20개 팀의 사업모델·지표·투자·정부지원을 1:1로 자문했습니다. 비즈니스 모델 설계, 지표 튜닝, 신사업 타당성 시뮬레이션, 투자유치·정부지원사업, AI 에이전트 활용을 1:1로 자문합니다.</p><p>매일 아침 네이버 블로그 「수트와후드」에 스타트업 경영 칼럼을 쓰고, 브런치북 「온라인 쇼핑몰의 데이터 경영 전략」 「런웨이 12주, 1000억의 증명」을 펴냈으며, 모비인사이드에 「수트와 후드의 스타트업 경영」을 연재합니다.</p>${channelLinks}<h2>경력</h2>${experienceHtml}<p>연세대학교 화학공학 졸업</p><h2>자문 사례</h2><ul>${cases.map((c) => `<li><strong>${esc(c.field)}</strong> — ${esc(c.result)}</li>`).join('')}</ul><p>고객사 이름과 상세 수치는 공개하지 않습니다.</p><p><a href="/consulting">상담 안내</a> · <a href="/articles">칼럼 보기</a></p></main>`,
 });
 
 // 3) 상담
 const offerCatalog = {
-  '@type': 'Service', '@id': `${SITE}/consulting#service`, name: '1:1 스타트업 경영 자문', serviceType: '스타트업 경영 코칭', url: `${SITE}/consulting`,
+  '@type': 'Service', '@id': `${SITE}/consulting#service`, name: '1:1 스타트업 경영 자문', serviceType: '스타트업 경영 자문', url: `${SITE}/consulting`,
   provider: { '@id': ORG_ID }, areaServed: { '@type': 'Country', name: '대한민국' }, audience: { '@type': 'Audience', audienceType: '창업 3년 이내 대표, 1인 창업자' },
   hasOfferCatalog: { '@type': 'OfferCatalog', name: '자문 분야', itemListElement: [...offers.map((o) => ({ '@type': 'Offer', name: o.name, description: o.desc, ...(/^[\d,]+원$/.test(o.price) ? { price: o.price.replace(/[^\d]/g, ''), priceCurrency: 'KRW' } : o.price === '보수 없음' ? { price: '0', priceCurrency: 'KRW' } : {}) })), ...services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.description } }))] },
 };
 render({
   path: '/consulting',
   image: CONSULT_OG,
-  ogUrl: `${SITE}/consulting?card=c`, // 네이버 링크 카드가 새 그림을 읽게 (canonical 은 /consulting 그대로)
+  ogUrl: `${SITE}/consulting?card=d`, // 네이버 링크 카드가 새 그림을 읽게 (그림을 바꿀 때마다 글자를 바꾼다, 11/12 c→d) (canonical 은 /consulting 그대로)
   title: `1:1 스타트업 경영 상담·자문 | ${BRAND}`,
-  description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 커피챗 30분 무료.',
+  description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 자문. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 초기 상담 30분은 보수를 받지 않으며, 1회 자문은 90분 10만 원입니다.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
   body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>함께 푼 문제 · 익명 사례</h2><ul>${caseCards.map((c) => `<li><strong>${esc(c.tag)}</strong> — ${esc(c.title)} 결과: ${esc(c.result)}</li>`).join('')}</ul><p>${esc(recruit.title)}. ${esc(recruit.body)}</p><h2>자문 상품과 보수</h2><ul>${offers.map((o) => `<li><strong>${esc(o.name)} · ${esc(o.price)}</strong> — ${esc(o.desc)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>초기 상담 30분 · 보수 없음</h3><p>지금 하시는 일과 어려운 점을 듣고 자문으로 이어 갈 일인지 함께 확인합니다. 자문을 하실지는 상담을 마친 뒤 정하시면 됩니다. 자문을 시작하면 첫 시간에 '다음 한 수' 한 장을 드립니다. 먼저 풀 문제 하나와 그다음 할 일을 종이 한 장에 정리한 것입니다.</p><p>초기 상담은 보수를 받지 않습니다. 자문 보수는 위 상품 안내에 있습니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 1~2일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
 });
@@ -152,10 +152,10 @@ render({
   // 네이버 링크 카드는 og:url 을 열쇠로 옛 그림을 기억한다 → 그림을 바꿀 때 ?card= 값을 바꿔 새로 읽게 한다 (canonical 은 /check 그대로, 2026-10-09)
   ogUrl: `${SITE}/check?card=c`,
   title: `3분 창업 준비도 진단 — 질문 10개로 보는 내 창업 준비 | ${BRAND}`,
-  description: '고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검하는 3분 창업 준비도 진단. 아이디어와 연락처는 묻지 않고, 지금 어느 구간(씨앗·새싹·나무·열매)인지와 이번 주 할 일 하나를 드리고, 1주 뒤 구글 캘린더 알림으로 다시 재 볼 수 있습니다.',
+  description: '고객·문제·돈·실행·자금 다섯 갈래를 질문 10개로 점검하는 3분 창업 준비도 진단. 시작할 때 이름·연락처는 묻지 않고, 지금 어느 구간(씨앗·새싹·나무·열매)인지와 이번 주 할 일 하나를 드리고, 1주 뒤 구글 캘린더 알림으로 다시 재 볼 수 있습니다.',
   head: `    ${graph({ '@type': 'WebPage', '@id': `${SITE}/check`, url: `${SITE}/check`, name: '3분 창업 준비도 진단', inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef }, crumbs([{ name: '3분 진단', path: '/check' }]))}
 `,
-  body: `<main class="wrap page"><h1>3분 창업 준비도 진단</h1><p>질문 10개, 3분이면 끝납니다. 아이디어도, 이름·연락처도 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도, 출시해 매출이 있는 회사여도 괜찮습니다. 고객·문제·돈·실행·자금과 팀, 다섯 갈래로 지금 준비가 어디쯤인지 보고, 다음 칸으로 가는 질문 하나와 이번 주 할 일을 드립니다.</p><h2>진단 질문 10개</h2><ol>${CHECK_QS.map((q) => `<li>${esc(q)}</li>`).join('')}</ol><p>답은 예·조금·아니오로 고릅니다. 결과는 씨앗·새싹·나무·열매 네 단계로 나옵니다. <a href="/free">체크표 받기</a> · <a href="/consulting">상담 안내</a></p></main>`,
+  body: `<main class="wrap page"><h1>3분 창업 준비도 진단</h1><p>질문 10개, 3분이면 끝납니다. 시작할 때는 이름·연락처를 묻지 않습니다. 회사에 다니며 고민만 하는 단계여도, 출시해 매출이 있는 회사여도 괜찮습니다. 고객·문제·돈·실행·자금과 팀, 다섯 갈래로 지금 준비가 어디쯤인지 보고, 다음 칸으로 가는 질문 하나와 이번 주 할 일을 드립니다.</p><h2>진단 질문 10개</h2><ol>${CHECK_QS.map((q) => `<li>${esc(q)}</li>`).join('')}</ol><p>답은 예·조금·아니오로 고릅니다. 결과는 씨앗·새싹·나무·열매 네 단계로 나옵니다. <a href="/free">체크표 받기</a> · <a href="/consulting">상담 안내</a></p></main>`,
 });
 render({
   path: '/free',
@@ -169,7 +169,7 @@ render({
 // 4) 글 목록
 render({
   path: '/articles',
-  title: `스타트업 경영 칼럼 ${COLUMN_TOTAL}편 | ${BRAND}`,
+  title: `스타트업 경영 칼럼 | ${BRAND}`,
   description: '사업모델·가격 전략, 투자유치·정부지원사업, 1인 기업 AI 활용, MVP·PMF 실전 전술, 창업자 멘탈·조직. 네이버 블로그 칼럼과 브런치 연재를 한곳에.',
   head: `    ${graph({ '@type': 'CollectionPage', '@id': `${SITE}/articles`, name: '스타트업 경영 칼럼', url: `${SITE}/articles`, inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef, mainEntity: { '@type': 'ItemList', numberOfItems: posts.length, itemListElement: posts.slice(0, 30).map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/articles/${p.id}`, name: p.title })) } }, crumbs([{ name: '칼럼', path: '/articles' }]))}\n`,
   body: `<main class="wrap page"><h1>스타트업 경영 칼럼</h1><p>스타트업 경영 코치 ${AUTHOR}(수트와후드 SOOD)이 쓰는 글 ${COLUMN_TOTAL}편입니다. 네이버 블로그 칼럼 ${posts.length}편과 브런치 글 ${brunchPosts.length}편.</p><ul>${posts.map(postLink).join('')}</ul><h2>브런치</h2><p>연재와 이야기 ${brunchPosts.length}편 — 원문은 브런치에서 읽습니다.</p><ul>${brunchPosts.map(brunchLink).join('')}</ul></main>`,
@@ -178,7 +178,7 @@ render({
 // 4-1) 사례 연재 (2026-10-05)
 render({
   path: '/series',
-  title: `사례 연재 6개 ${seriesData.total}편 — 비즈니스 모델·MVP·피벗·1인 기업 | ${BRAND}`,
+  title: `사례 연재 6개 — 비즈니스 모델·MVP·피벗·1인 기업 | ${BRAND}`,
   description: '남의 회사 숫자에서 내 회사의 답을 찾는 스타트업 사례 연재 6개. 수드의 BM 해부, MVP 사례, 피벗 사례, 1인 기업 사례, AI 스타트업 해부, 창업자 이야기를 회차순으로 모았습니다.',
   head: `    ${graph({ '@type': 'CollectionPage', '@id': `${SITE}/series`, name: '수드의 사례 연재', url: `${SITE}/series`, inLanguage: 'ko', isPartOf: { '@id': WEBSITE_ID }, author: personRef, hasPart: seriesData.series.map((x) => ({ '@type': 'CreativeWorkSeries', name: x.name, description: x.desc, numberOfItems: x.items.length })) }, crumbs([{ name: '연재', path: '/series' }]))}\n`,
   body: `<main class="wrap page"><h1>남의 회사 숫자에서 내 회사의 답을 찾습니다</h1><p>스타트업 경영 코치 ${AUTHOR}의 블로그 사례 글 ${seriesData.total}편을 연재별로 모았습니다.</p>${seriesData.series.map((x) => `<h2>${esc(x.name)} (${x.items.length}편)</h2><p>${esc(x.desc)}</p><ol>${x.items.map((i) => `<li>${i.no}편 · ${esc(i.subject)} · ${fmt(i.date)} — <a href="${esc(i.url)}" rel="noreferrer">${esc(i.title)}</a></li>`).join('')}</ol>`).join('')}<p><a href="/articles">글 전체 보기</a> · <a href="/consulting">상담</a></p></main>`,

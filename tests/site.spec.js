@@ -395,7 +395,7 @@ test('3분 진단 자리: 메뉴·상담 페이지에서 진단으로 간다', a
   await expect(page).toHaveURL(/\/check$/);
 });
 
-// 2026-10-09: 바깥 채널(블로그·브런치·링크드인)·이메일은 바닥글 한 곳. 이메일은 상담 페이지에만, 소개는 경력 아래 작은 한 줄만
+// 2026-10-09: 바깥 채널(블로그·브런치·링크드인)·이메일은 바닥글 한 곳. 이메일은 상담 페이지에만, 소개는 경력 아래 작은 한 줄만 (11/12: 상담 페이지 링크드인 한 줄 추가)
 test('바깥 링크 정리: 본문에는 채널·이메일이 반복되지 않는다', async ({ page }) => {
   const outside = 'main a[href*="blog.naver.com/ultramsw67"]:not(.article-head a), main a[href*="brunch.co.kr"], main a[href*="linkedin.com"], main a[href^="mailto:"]';
   await page.goto('/');
@@ -403,7 +403,10 @@ test('바깥 링크 정리: 본문에는 채널·이메일이 반복되지 않�
   await expect(page.locator('footer a[href^="mailto:"]')).toHaveCount(1);
   await page.goto('/consulting');
   await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(1);
-  await expect(page.locator('main a[href*="brunch.co.kr"], main a[href*="linkedin.com"]')).toHaveCount(0);
+  await expect(page.locator('main a[href*="brunch.co.kr"]')).toHaveCount(0);
+  // 2026-11-12 지시서 v3 8단계: 상담 페이지는 사례 아래 링크드인 한 줄만 (대표님 선택)
+  await expect(page.locator('main a[href*="linkedin.com"]')).toHaveCount(1);
+  await expect(page.locator('main .linkedin-line a[href*="linkedin.com"]')).toHaveCount(1);
   await page.goto('/about');
   await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(0);
   await expect(page.locator('main a[href*="linkedin.com"]')).toHaveCount(1);
@@ -514,4 +517,16 @@ test('표지: 홈·글 목록·글 세 편 위가 같은 글씨 카드, 그림�
     await expect(page.locator('.text-cover.big .tc-title')).toHaveText(p.title);
     if (p.thumb) await expect(page.locator(`.article-body img[src="${p.thumb}"]`)).toHaveCount(0);
   }
+});
+
+// 2026-11-12 지시서 v3 8단계: 상담에서 링크드인으로 가는 길, 소개·자료 받기에 예전 문구(커피챗·코칭)가 없다
+test('상담·소개·자료 받기: 링크드인 길과 자문 문구', async ({ page }) => {
+  await page.goto('/consulting');
+  await expect(page.locator('#cases .linkedin-line a')).toHaveAttribute('href', /linkedin\.com\/in\//);
+  for (const path of ['/about', '/free', '/']) {
+    await page.goto(path);
+    await expect(page.locator('main, #root').first()).not.toContainText(/커피챗|코칭/);
+  }
+  await page.goto('/about');
+  await expect(page.getByRole('link', { name: '자문 문의하기' })).toBeVisible();
 });
