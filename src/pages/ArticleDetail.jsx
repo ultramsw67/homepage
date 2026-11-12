@@ -5,6 +5,7 @@ import { profile } from '../lib/site';
 import { Q, CATEGORY_Q, POST_SHEET, SHEETS } from '../lib/check';
 import { trackEvent } from '../lib/analytics';
 import PostCard from '../components/PostCard';
+import ColumnCta from '../components/ColumnCta';
 
 export default function ArticleDetail() {
   const { id } = useParams();
@@ -68,13 +69,7 @@ export default function ArticleDetail() {
             </div>
           );
         })()}
-        <div className="article-cta">
-          <div>
-            <strong>이 주제로 고민 중이라면</strong>
-            <p>무료 커피챗 30분에 지금 상황을 편하게 듣고 제가 도울 수 있는 일인지 같이 확인합니다.</p>
-          </div>
-          <Link className="button primary" to="/consulting#contact">무료 커피챗 30분 신청</Link>
-        </div>
+        <ColumnCta category={post.category} />
         <nav className="prev-next" aria-label="이전 · 다음 글">
           {newer ? <Link to={'/articles/' + newer.id}><span>다음 글</span>{newer.title}</Link> : <span />}
           {older ? <Link to={'/articles/' + older.id} className="older"><span>이전 글</span>{older.title}</Link> : <span />}

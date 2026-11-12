@@ -29,6 +29,8 @@ export default function Consulting() {
     for (const key of ['product', 'name', 'email', 'message']) {
       if (prefill[key] && form.elements[key] && !form.elements[key].value) form.elements[key].value = prefill[key];
     }
+    // 칼럼 아래 '자문 문의'에서 온 분야 (선택 칸은 늘 값이 있어 따로 넣는다)
+    if (prefill.service && [...form.elements.service.options].some((o) => o.value === prefill.service)) form.elements.service.value = prefill.service;
     const next = ['name', 'email', 'message'].find((k) => !form.elements[k].value);
     const t = setTimeout(() => form.elements[next || 'message']?.focus({ preventScroll: true }), 400);
     return () => clearTimeout(t);

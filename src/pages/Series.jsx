@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import ColumnCta from '../components/ColumnCta';
 import { Link, useSearchParams } from 'react-router-dom';
 import { loadSeries, formatDate } from '../lib/posts';
 
@@ -100,6 +101,7 @@ export default function Series() {
           내 회사에 맞춰 같이 보고 싶다면 <Link to="/consulting#contact">상담 문의</Link>로 오세요.
         </p>
       )}
+      {data && <div className="list-cta"><ColumnCta title="연재에서 다룬 문제를 내 회사에 맞춰 보고 싶다면" /></div>}
     </div>
   );
 }

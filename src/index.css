@@ -602,3 +602,6 @@ html.js #root > .page { display: none; }
 .hero-voice { margin-top: 20px; font-size: 13.5px; color: var(--muted); }
 .hero-voice audio { margin-top: 8px; width: 100%; max-width: 360px; }
 .hero-hand { display: block; margin-top: 20px; max-width: 300px; height: auto; }
+/* 글 목록·연재 목록 아래 자문 안내 (2026-11-12, 지시서 v3 5단계) */
+.list-cta { margin-top: clamp(36px, 4vw, 56px); }
+.article-cta .button svg { margin-left: 6px; }

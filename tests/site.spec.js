@@ -471,3 +471,19 @@ test('홈 첫 화면: 경력 한 줄과 초기 상담 단추 하나, 진단은 �
   await expect(page).toHaveURL(/consulting#contact/);
   await expect(page.locator('#product')).toHaveValue('초기 상담 30분');
 });
+
+// 2026-11-12 지시서 v3 5단계: 글·글 목록·연재 목록 아래 같은 자문 안내(보수 보임), 글 분류가 맞으면 서식에 분야가 골라짐
+test('칼럼 하단: 보수가 보이는 자문 안내, 분류에 맞는 분야가 골라진다', async ({ page }) => {
+  const inv = posts.find((p) => p.category === '투자유치·정부지원사업');
+  await page.goto('/articles/' + inv.id);
+  const cta = page.locator('.article-cta');
+  await expect(cta).toContainText('100,000원');
+  await expect(cta).not.toContainText('커피챗');
+  await cta.getByRole('link', { name: '자문 문의' }).click();
+  await expect(page).toHaveURL(/consulting#contact/);
+  await expect(page.locator('#service')).toHaveValue('투자 · 정부지원');
+  for (const path of ['/articles', '/series']) {
+    await page.goto(path);
+    await expect(page.locator('.list-cta .article-cta')).toContainText('1회 자문 90분');
+  }
+});

@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { loadIndex, loadBrunch, loadSearch, toBrunchPost, label, CATEGORY_ORDER } from '../lib/posts';
 import { profile } from '../lib/site';
 import PostCard from '../components/PostCard';
+import ColumnCta from '../components/ColumnCta';
 
 const PAGE = 18;
 const CHANNELS = [
@@ -165,6 +166,7 @@ export default function Articles() {
         )
       )}
       {!posts && !error && <p className="muted">글을 불러오는 중입니다.</p>}
+      {posts && <div className="list-cta"><ColumnCta title="글에서 다룬 문제를 내 회사에 맞춰 보고 싶다면" /></div>}
     </div>
   );
 }
