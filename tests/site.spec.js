@@ -280,7 +280,7 @@ test('3분 진단: 아이디어 단계 → 결과·빨간 펜·다음 칸 → �
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await expect(page.locator('.mobile-bar .mb-check')).toHaveText('3분 진단');
-  await page.locator('.hero-check').click();
+  await page.locator('.hero a[href="/check"]').click();   // 2026-11-12: 첫 화면 진단은 글씨 안내로 내림
   await expect(page).toHaveURL(/\/check$/);
   await page.getByRole('button', { name: '진단 시작하기' }).click();
   await page.locator('.answers button').first().click();   // 아이디어 단계
@@ -457,4 +457,17 @@ test('사례: 홈 첫 화면 다음과 상담 페이지 위에 익명 사례·�
   expect(order.indexOf('cases')).toBeLessThan(order.indexOf('offers'));
   await page.locator('#cases .case-recruit a').click();
   await expect(page.locator('#product')).toHaveValue('사례 모집');
+});
+
+// 2026-11-12 지시서 v3 4단계: 첫 화면 주 단추는 초기 상담 하나(상품이 골라짐), 진단은 글씨 안내, 경력 한 줄, 사진·빈 목소리 자리 없음
+test('홈 첫 화면: 경력 한 줄과 초기 상담 단추 하나, 진단은 글씨 안내', async ({ page }) => {
+  await page.goto('/');
+  const hero = page.locator('.hero');
+  await expect(hero.locator('.hero-career')).toContainText('인터랙티비 대표이사 19년');
+  await expect(hero.locator('.actions .button')).toHaveCount(1);
+  await expect(hero.locator('audio, .hero-hand')).toHaveCount(0);
+  await expect(hero.locator('a[href="/check"]')).toBeVisible();
+  await hero.getByRole('link', { name: '초기 상담 30분 신청' }).click();
+  await expect(page).toHaveURL(/consulting#contact/);
+  await expect(page.locator('#product')).toHaveValue('초기 상담 30분');
 });

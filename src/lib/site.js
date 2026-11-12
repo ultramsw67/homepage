@@ -15,6 +15,10 @@ export const profile = {
   // gaId: 구글 애널리틱스 GA4 측정 ID 'G-XXXXXXXXXX' (analytics.google.com, 반드시 ultramsw67@gmail.com 계정으로 발급)
   // naverId: 네이버 애널리틱스 사이트 ID (선택, analytics.naver.com)
   analytics: { gaId: 'G-MGEY7WJB1Q', naverId: '1c1ee53ecdd6f70' },
+  // 홈 첫 화면 목소리 소개(얼굴 없이 목소리만, 30~60초)와 손글씨 메모. 파일이 생기면 public/ 에 넣고 경로를 적는다 — 비어 있으면 자리가 보이지 않는다 (2026-11-12 지시서 v3 4단계)
+  // 손글씨 권장: 투명 배경 PNG, 가로 600px 안팎, 「숫자는 맞춰야 합니다」 + 서명 「문성운」
+  voiceIntro: '',
+  handNote: '',
 };
 
 export const services = [
@@ -94,7 +98,7 @@ export const picks = [
 export const stats = [
   { value: '현대석유화학 기획실, 1993~2000', label: 'M&A와 가치평가를 맡았습니다' },
   { value: '인터랙티비 창업, 2001~2019', label: '투자를 받아 키웠고 매각했습니다' },
-  { value: 'CSO·전략 고문, 2020~현재', label: '30만 유저 서비스의 리텐션과 신사업을 맡고 있습니다' },
+  { value: '스타트업 고문·CSO, 2020~현재', label: '30만 유저 서비스의 리텐션과 신사업을 맡고 있습니다' },
   { value: '초기 스타트업 20팀', label: '1:1로 자문했습니다' },
   // {n} = 네이버 블로그 글 + 브런치 글 합계. 매일 09:00 '발행 반영'이 두 목록을 새로 받아 배포하면 따라 바뀐다 (2026-09-24)
   { value: '경영 칼럼 {n}편', label: '네이버 블로그와 브런치에 씁니다', dynamic: 'posts' },

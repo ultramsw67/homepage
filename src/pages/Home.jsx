@@ -30,16 +30,25 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow hero-eyebrow rise d1"><span className="dot" aria-hidden="true" />{profile.role} {profile.name}</p>
             {/* 2026-10-21: 페르소나 인터뷰 1차 반영 — 큰 제목을 방문자 이야기로, 이력은 아래 한 문장으로 (sood-humanize standard 통과) */}
+            {/* 2026-11-12 지시서 v3 4단계: 경력 한 줄 (인터랙티비 19년·자문 팀 수·칼럼 수) */}
+            <p className="hero-career rise d2"><b>전 (주)인터랙티비 대표이사 19년 · 창업과 매각</b><b>1:1 자문 20팀</b><b>경영 칼럼 {COLUMN_TOTAL}편</b></p>
             <h1 className="rise d2"><span className="nw">회사 다니며 준비하든</span> <span className="nw">창업 3년 차든,</span><br /><span className="nw">다음 한 수는</span> <span className="nw">숫자로 정합니다</span></h1>
             <p className="lead rise d3">
               사업모델, 숫자, 자금 가운데 지금 제일 급한 것 하나부터 같이 봅니다.
               대기업 기획실에서 사업성을 따졌습니다. 직접 창업해 투자를 받아 키우고 매각까지 해 본 경험으로 자문합니다.
             </p>
+            {/* 2026-11-12: 첫 행동은 자문 문의 — 진단은 작은 글씨 안내로 내림 */}
             <div className="actions rise d4">
-              <Link className="button primary hero-check" to="/check">내 사업 단계, 3분 진단<Arrow /></Link>
-              <Link className="button ghost" to="/series">사례 연재 먼저 보기<Arrow /></Link>
+              <Link className="button primary" to="/consulting#contact" state={{ product: '초기 상담 30분' }}>초기 상담 30분 신청<Arrow /></Link>
             </div>
-            <p className="note rise d4" style={{ marginTop: 12, fontSize: 14, color: 'var(--muted)' }}>연락처 없이 3분 · 아이디어 단계부터 출시·매출 단계까지, 지금 단계에 맞춘 진단</p>
+            <p className="note rise d4" style={{ marginTop: 12, fontSize: 14, color: 'var(--muted)' }}>먼저 내 단계를 보고 싶으시면 <Link className="text-link" to="/check">3분 진단<Arrow /></Link></p>
+            {profile.voiceIntro && (
+              <div className="hero-voice rise d5">
+                <p>문성운 소개, 약 1분 · 얼굴 없이 목소리만</p>
+                <audio controls preload="none" src={profile.voiceIntro} />
+              </div>
+            )}
+            {profile.handNote && <img className="hero-hand rise d5" src={profile.handNote} alt="손글씨 메모: 숫자는 맞춰야 합니다 — 문성운" width="300" />}
             <div className="hero-meta rise d5">
               <span>회사에 다니며 창업을 준비하는 분, 창업 3년 이내 대표와 함께합니다</span>
               <a className="hero-contact" href="#process">상담 문의는 아래에서<Down /></a>
@@ -262,7 +271,7 @@ export default function Home() {
           </div>
           {/* 2026-10-09: 바깥 채널·이메일은 바닥글 한 곳, 이메일 주소는 상담 페이지에만 */}
           <div className="actions">
-            <Link className="button primary" to="/consulting#contact">무료 커피챗 신청하기<Arrow /></Link>
+            <Link className="button primary" to="/consulting#contact" state={{ product: '초기 상담 30분' }}>초기 상담 30분 신청<Arrow /></Link>
           </div>
         </div>
       </section>

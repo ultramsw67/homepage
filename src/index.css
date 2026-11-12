@@ -593,3 +593,12 @@ html.js #root > .page { display: none; }
 .case-recruit { margin-top: 22px; }
 @media (max-width: 1000px) { .case-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .case-grid { grid-template-columns: 1fr; } }
+/* 홈 첫 화면 경력 한 줄·목소리·손글씨 자리 (2026-11-12, 지시서 v3 4단계) */
+.hero-career { margin: 16px 0 0; font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.7; }
+.hero-career { display: flex; flex-wrap: wrap; gap: 4px 0; }
+.hero-career b { font-weight: 600; white-space: nowrap; }
+.hero-career b + b::before { content: '│'; margin: 0 10px; color: var(--line); font-weight: 400; }
+@media (max-width: 620px) { .hero-career { gap: 2px 14px; } .hero-career b + b::before { content: none; } .hero-career b { white-space: normal; } }
+.hero-voice { margin-top: 20px; font-size: 13.5px; color: var(--muted); }
+.hero-voice audio { margin-top: 8px; width: 100%; max-width: 360px; }
+.hero-hand { display: block; margin-top: 20px; max-width: 300px; height: auto; }
