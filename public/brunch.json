@@ -1,10 +1,10 @@
 {
- "at": "2026-11-11T23:02:37.555Z",
+ "at": "2026-11-12T01:02:08.518Z",
  "profile": {
   "url": "https://brunch.co.kr/@a3b90b2e717a467",
   "followers": 219,
-  "articles": 46,
-  "likes": 2506
+  "articles": 47,
+  "likes": 2513
  },
  "series": [
   {
@@ -17,6 +17,18 @@
   }
  ],
  "posts": [
+  {
+   "no": 48,
+   "url": "https://brunch.co.kr/@a3b90b2e717a467/48",
+   "title": "머코어는 어떻게 1년 반 만에 26배가 됐을까",
+   "sub": "AI가 똑똑해질수록 전문가의 시간이 비싸지는 이유",
+   "excerpt": "머코어(Mercor)는 AI 연구소에 의사·변호사·과학자의 시간을 공급하는 전문가 데이터 기업입니다. 공개 데이터가 바닥나면서 전문가 평가 수요가 커졌고, 연 환산 매출은 1년 반도 안 돼 26배 넘게 늘었습니다.…",
+   "date": "2026-11-12",
+   "like": 7,
+   "comments": 0,
+   "series": null,
+   "thumb": "https://img1.kakaocdn.net/thumb/R640x0.fpng/?fname=http%3A%2F%2Ft1.kakaocdn.net%2Fbrunch%2Fservice%2Fuser%2Ffjfy%2Fimage%2FY70MLKfDs-JRUgYf2Z1sjRliqc4.png"
+  },
   {
    "no": 47,
    "url": "https://brunch.co.kr/@a3b90b2e717a467/47",
