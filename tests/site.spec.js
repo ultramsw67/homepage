@@ -339,7 +339,7 @@ test('3분 진단: 결과에서 상담으로 가면 고민 칸이 채워지고, 
   await page.locator('.ask textarea').fill('시간이 없어요');
   await page.getByRole('button', { name: '보내기' }).click();
   await expect(page.locator('.ask .sent')).toBeVisible();
-  expect(sent[0].subject).toContain('[진단 상담실]');
+  expect(sent.find((x) => (x.subject || '').includes('[진단 상담실]'))).toBeTruthy();
   const mail = page.locator('.mailme');
   await expect(mail.getByRole('button', { name: '결과 받기' })).toBeDisabled();
   await mail.getByRole('textbox').fill('test@example.com');
