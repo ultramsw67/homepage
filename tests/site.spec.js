@@ -530,3 +530,13 @@ test('상담·소개·자료 받기: 링크드인 길과 자문 문구', async (
   await page.goto('/about');
   await expect(page.getByRole('link', { name: '자문 문의하기' })).toBeVisible();
 });
+
+// 2026-11-12 배포 전 확정: 상담 상품 칸에 빈칸 표시([보수]·[부가세]·[화상/대면])가 남아 있지 않다
+test('상담 상품: 빈칸 표시 없음, 4주 자문은 문의, 화상·대면 모두 가능', async ({ page }) => {
+  await page.goto('/consulting');
+  const offers = page.locator('#offers');
+  await expect(offers).not.toContainText(/\[[^\]]*\]/);
+  await expect(offers).toContainText('100,000원');
+  await expect(offers).toContainText('화상·대면 모두 가능');
+  await expect(offers).not.toContainText('부가세');
+});
