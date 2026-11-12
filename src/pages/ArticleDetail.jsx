@@ -6,6 +6,19 @@ import { Q, CATEGORY_Q, POST_SHEET, SHEETS } from '../lib/check';
 import { trackEvent } from '../lib/analytics';
 import PostCard from '../components/PostCard';
 import ColumnCta from '../components/ColumnCta';
+import TextCover from '../components/TextCover';
+
+// 2026-11-12 지시서 v3 7단계: 글 위에는 글씨 카드 표지를 두고, 본문 맨 앞의 네이버 표지 그림 한 장만 숨긴다
+// (표지 그림 앞 글이 짧을 때만 = 맨 앞일 때만. 본문 중간의 다른 그림은 그대로)
+function dropCover(html, thumb) {
+  if (!html || !thumb) return html || '';
+  const i = html.indexOf('<figure');
+  if (i < 0) return html;
+  const end = html.indexOf('</figure>', i);
+  if (end < 0 || !html.slice(i, end).includes(thumb.split('?')[0])) return html;
+  if (html.slice(0, i).replace(/<[^>]+>/g, '').length > 800) return html;
+  return html.slice(0, i) + html.slice(end + '</figure>'.length);
+}
 
 export default function ArticleDetail() {
   const { id } = useParams();
@@ -48,7 +61,8 @@ export default function ArticleDetail() {
           {post.url && <><span>·</span><a href={post.url} target="_blank" rel="noreferrer">네이버 원문{post.comments ? ` · 댓글 ${post.comments}` : ''}</a></>}
         </p>
       </header>
-      <div className="article-body" dangerouslySetInnerHTML={{ __html: post.html }} />
+      <TextCover kind={label(post.category)} title={post.title} date={post.date} big />
+      <div className="article-body" dangerouslySetInnerHTML={{ __html: dropCover(post.html, post.thumb) }} />
       <footer className="article-foot">
         {/* 2026-10-09: 글 주제에 맞는 진단 질문 하나를 글 안에서 바로 누르게 — 누르면 /check 에서 나머지 9개 */}
         {(() => {

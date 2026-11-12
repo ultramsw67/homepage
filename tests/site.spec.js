@@ -497,3 +497,21 @@ test('칼럼 하단: 보수가 보이는 자문 안내, 분류에 맞는 분야�
     await expect(page.locator('.list-cta .article-cta')).toContainText('1회 자문 90분');
   }
 });
+
+// 2026-11-12 지시서 v3 7단계: 홈·글 목록·글 위 표지가 같은 글씨 카드, 네이버 그림을 불러오지 못해도 검은 네모가 없다
+test('표지: 홈·글 목록·글 세 편 위가 같은 글씨 카드, 그림이 막혀도 표지가 보인다', async ({ page }) => {
+  await page.route('https://postfiles.pstatic.net/**', (r) => r.abort());
+  await page.goto('/');
+  const home = page.locator('.post-grid .post-card').first();
+  await expect(home.locator('.post-thumb .text-cover .tc-title')).toHaveText(posts[0].title);
+  await expect(home.locator('.post-thumb img:not(.tc-char)')).toHaveCount(0);
+  await page.goto('/articles');
+  const cards = page.locator('.post-grid .post-card');
+  await expect(cards.first().locator('.text-cover')).toBeVisible();
+  expect(await cards.locator('.post-thumb').count()).toBe(await cards.locator('.post-thumb .text-cover').count());
+  for (const p of posts.slice(0, 3)) {
+    await page.goto('/articles/' + p.id);
+    await expect(page.locator('.text-cover.big .tc-title')).toHaveText(p.title);
+    if (p.thumb) await expect(page.locator(`.article-body img[src="${p.thumb}"]`)).toHaveCount(0);
+  }
+});
