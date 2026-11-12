@@ -614,3 +614,7 @@ html.js #root > .page { display: none; }
 /* 글 목록·연재 목록 아래 자문 안내 (2026-11-12, 지시서 v3 5단계) */
 .list-cta { margin-top: clamp(36px, 4vw, 56px); }
 .article-cta .button svg { margin-left: 6px; }
+
+/* 지시서 v3 8단계: 상담 페이지 사례 아래 링크드인 한 줄 */
+.linkedin-line { margin-top: 18px; }
+.linkedin-line a { text-decoration: underline; text-underline-offset: 3px; }
