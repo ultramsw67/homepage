@@ -442,3 +442,19 @@ test('상담: 상품 칸 단추 → 서식에 상품이 골라지고 상품·단
   expect(sent[0].stage).toBe('아이디어');
   expect(sent[0].subject).toContain('4주 자문');
 });
+
+// 2026-11-12 지시서 v3 3단계: 홈·상담 페이지 윗부분에 익명 사례 4장과 후기 모집, 모집 단추는 서식에 '사례 모집'을 골라 둔다
+test('사례: 홈 첫 화면 다음과 상담 페이지 위에 익명 사례·후기 모집, 모집 단추는 사례 모집을 고른다', async ({ page }) => {
+  await page.goto('/');
+  const ids = await page.locator('main > section, #root section').evaluateAll((els) => els.map((e) => e.id).filter(Boolean));
+  expect(ids.indexOf('cases')).toBeLessThan(ids.indexOf('doors'));
+  await expect(page.locator('#cases .case-card')).toHaveCount(4);
+  await page.locator('#cases .case-recruit a').click();
+  await expect(page).toHaveURL(/consulting#contact/);
+  await expect(page.locator('#product')).toHaveValue('사례 모집');
+  await page.goto('/consulting');
+  const order = await page.locator('section[id]').evaluateAll((els) => els.map((e) => e.id));
+  expect(order.indexOf('cases')).toBeLessThan(order.indexOf('offers'));
+  await page.locator('#cases .case-recruit a').click();
+  await expect(page.locator('#product')).toHaveValue('사례 모집');
+});

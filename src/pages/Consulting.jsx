@@ -4,6 +4,7 @@ import { services, profile, process, faq, offers } from '../lib/site';
 import { trackLead } from '../lib/analytics';
 import { Arrow } from '../components/Icons';
 import { Link } from 'react-router-dom';
+import CaseBlock from '../components/CaseBlock';
 
 const ENDPOINT = 'https://api.web3forms.com/submit';
 // 서식 '원하시는 상품' 목록: 상품 네 단 + 사례 모집 (2026-11-12, 지시서 v3 2단계)
@@ -97,7 +98,10 @@ export default function Consulting() {
           </div>
         </header>
 
-        {/* 3단계 사례·후기 자리: 제목과 상품 칸 사이 (작업 지시서 v3) */}
+        {/* 사례·후기: 제목과 상품 칸 사이 (지시서 v3 3단계) */}
+        <section className="section" id="cases">
+          <CaseBlock onRecruit={() => pickProduct('사례 모집')} />
+        </section>
 
         <section className="section" id="offers">
           <div className="section-head">

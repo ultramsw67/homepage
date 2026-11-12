@@ -586,3 +586,10 @@ html.js #root > .page { display: none; }
 @media (max-width: 1000px) { .offer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .offer-grid { grid-template-columns: 1fr; } }
 .field .optional { font-weight: 400; color: var(--muted); }
+/* 익명 사례 네 장 + 후기 모집 (2026-11-12, 지시서 v3 3단계) */
+.case-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.case-card h3 { font-size: clamp(18px, 1.6vw, 21px); line-height: 1.45; }
+.case-card .tagline { margin-top: 12px; font-size: 14.5px; line-height: 1.65; }
+.case-recruit { margin-top: 22px; }
+@media (max-width: 1000px) { .case-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .case-grid { grid-template-columns: 1fr; } }

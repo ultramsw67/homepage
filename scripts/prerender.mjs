@@ -4,7 +4,7 @@
 // 실행: node scripts/prerender.mjs  (package.json build 에서 vite build 뒤에 자동 실행)
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { experience, services, profile, cases, process as steps, faq, stats, offers } from '../src/lib/site.js';
+import { experience, services, profile, cases, process as steps, faq, stats, offers, caseCards, recruit } from '../src/lib/site.js';
 
 const SITE = 'https://soodcoach.com';
 const DIST = resolve('dist');
@@ -141,7 +141,7 @@ render({
   title: `1:1 스타트업 경영 상담·자문 | ${BRAND}`,
   description: '창업 3년 이내 대표와 1인 창업자를 위한 1:1 경영 코칭. 정부지원사업·첫 투자 심사 준비, 사업모델, 지표·PMF, AI 활용을 함께 봅니다. 첫 커피챗 30분 무료.',
   head: `    ${graph(offerCatalog, { '@type': 'FAQPage', '@id': `${SITE}/consulting#faq`, mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, organization, crumbs([{ name: '상담', path: '/consulting' }]))}\n`,
-  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>자문 상품과 보수</h2><ul>${offers.map((o) => `<li><strong>${esc(o.name)} · ${esc(o.price)}</strong> — ${esc(o.desc)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>초기 상담 30분 · 보수 없음</h3><p>지금 하시는 일과 어려운 점을 듣고 자문으로 이어 갈 일인지 함께 확인합니다. 자문을 하실지는 상담을 마친 뒤 정하시면 됩니다. 자문을 시작하면 첫 시간에 '다음 한 수' 한 장을 드립니다. 먼저 풀 문제 하나와 그다음 할 일을 종이 한 장에 정리한 것입니다.</p><p>초기 상담은 보수를 받지 않습니다. 자문 보수는 위 상품 안내에 있습니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 1~2일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
+  body: `<main class="wrap page"><h1>1:1 경영 상담</h1><p>창업 3년 이내 대표, 1인 창업자와 일합니다. 정부지원사업이나 첫 투자 심사를 앞두고 숫자로 증명해야 한다면 특히 잘 맞습니다. 자주 받는 질문은 아래에 먼저 답해 두었습니다.</p><h2>함께 푼 문제 · 익명 사례</h2><ul>${caseCards.map((c) => `<li><strong>${esc(c.tag)}</strong> — ${esc(c.title)} 결과: ${esc(c.result)}</li>`).join('')}</ul><p>${esc(recruit.title)}. ${esc(recruit.body)}</p><h2>자문 상품과 보수</h2><ul>${offers.map((o) => `<li><strong>${esc(o.name)} · ${esc(o.price)}</strong> — ${esc(o.desc)}</li>`).join('')}</ul><h2>이런 문제를 같이 봅니다</h2>${servicesHtml()}<h2>상담은 이렇게 진행됩니다</h2><ol>${steps.map((p) => `<li><strong>${esc(p.title)}</strong> — ${esc(p.desc)}</li>`).join('')}</ol><h3>초기 상담 30분 · 보수 없음</h3><p>지금 하시는 일과 어려운 점을 듣고 자문으로 이어 갈 일인지 함께 확인합니다. 자문을 하실지는 상담을 마친 뒤 정하시면 됩니다. 자문을 시작하면 첫 시간에 '다음 한 수' 한 장을 드립니다. 먼저 풀 문제 하나와 그다음 할 일을 종이 한 장에 정리한 것입니다.</p><p>초기 상담은 보수를 받지 않습니다. 자문 보수는 위 상품 안내에 있습니다.</p>${faqHtml}<h2>문의</h2><p>정리된 계획서가 없어도 괜찮습니다. 현재 상황과 고민부터 들려주세요. 보통 1~2일 안에 답장드립니다.</p><p><a href="mailto:${profile.email}">${profile.email}</a></p></main>`,
 });
 
 // 3-1) 3분 창업 준비도 진단 · 체크표 받기 (2026-10-09)

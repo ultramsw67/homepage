@@ -4,6 +4,7 @@ import { services, profile, stats, process, picks } from '../lib/site';
 import { loadIndex } from '../lib/posts';
 import { COLUMN_TOTAL } from '../lib/columns';
 import PostCard from '../components/PostCard';
+import CaseBlock from '../components/CaseBlock';
 import { Arrow, Down } from '../components/Icons';
 
 export default function Home() {
@@ -77,6 +78,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 사례·후기 모집: 첫 화면 다음, '지금 어디쯤인가요?'보다 위 (2026-11-12 지시서 v3 3단계) */}
+      <section className="section band" id="cases">
+        <div className="wrap">
+          <CaseBlock />
+        </div>
+      </section>
+
       <section className="section" id="doors">
         <div className="wrap">
           <div className="section-head">
@@ -104,19 +112,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section band" id="cases">
-        <div className="wrap">
-          <div className="section-head">
-            <h2>함께 푼 문제</h2>
-            <p className="lead">초기 스타트업과 1:1로 진행한 자문 가운데 일부입니다. 고객사 이름은 밝히지 않습니다.</p>
-          </div>
-          <div className="service-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
-            <div className="service-card"><span className="num">숏폼 플랫폼</span><h3>투자자 관점으로 사업계획서를 다시 썼습니다</h3><p className="tagline">결과: 어워드 수상, 벤처기업 인증</p></div>
-            <div className="service-card"><span className="num">커뮤니티 플랫폼</span><h3>사용자 데이터로 리텐션 관리 전략을 세웠습니다</h3><p className="tagline">결과: 아하 모먼트를 찾아 유저 관리에 반영, 마케팅 성과 개선</p></div>
-            <div className="service-card"><span className="num">미디어 커머스</span><h3>신규 아이템은 UX 데이터 분석에서 찾았습니다</h3><p className="tagline">결과: 매출 상승, 주기별 실적 분석을 경영 전략에 반영</p></div>
-          </div>
-        </div>
-      </section>
 
       <section className="section band" id="services">
         <div className="wrap">
