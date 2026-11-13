@@ -115,7 +115,7 @@ export default function Consulting() {
             {offers.map((o) => (
               <article id={o.id} key={o.id} className="offer-card">
                 <h3>{o.name}</h3>
-                <p className="offer-price">{o.price}{o.priceNote && <span> · {o.priceNote}</span>}</p>
+                <p className="offer-price">{o.price}{o.priceNote && <span>{o.priceNote}</span>}</p>
                 <p className="offer-desc">{o.desc}</p>
                 <ul>{o.notes.map((n) => <li key={n}>{n}</li>)}</ul>
                 <a className="button ghost block" href="#contact" onClick={() => pickProduct(o.name)}>{o.cta}<Arrow /></a>
