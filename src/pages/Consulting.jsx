@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { services, profile, process, faq, offers } from '../lib/site';
+import { services, profile, process, faq, offers, feeRules } from '../lib/site';
 import { trackLead } from '../lib/analytics';
 import { Arrow } from '../components/Icons';
 import { Link } from 'react-router-dom';
@@ -123,6 +123,10 @@ export default function Consulting() {
             ))}
           </div>
           <p className="small offer-flow">초기 상담 → 1회 자문 → 4주 자문 순서로 이어 가실 수 있습니다. 어느 단계에서 멈추셔도 됩니다.</p>
+          <div className="fee-rules">
+            <h3>보수는 이렇게 정합니다</h3>
+            <ol>{feeRules.map((r) => <li key={r}>{r}</li>)}</ol>
+          </div>
         </section>
 
         <section className="section" id="services">
@@ -159,7 +163,7 @@ export default function Consulting() {
             </div>
             <div className="offer-side">
               <a className="button primary block" href="#contact" onClick={() => pickProduct(offers[0].name)}>초기 상담 30분 신청<Arrow /></a>
-              <p className="small">초기 상담은 보수를 받지 않습니다. 자문 보수는 위 상품 안내에 있습니다.</p>
+              <p className="small">초기 상담은 보수를 받지 않습니다. 자문 보수는 상담 뒤, 시작하기 전에 알려 드립니다.</p>
             </div>
           </div>
         </section>

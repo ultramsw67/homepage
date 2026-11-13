@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { offers } from '../lib/site';
 import { Arrow } from './Icons';
 
 // 칼럼·글 목록·연재 목록 아래 공통 안내 (2026-11-12, 지시서 v3 5단계). 글 분류가 상담 분야와 맞으면 서식에 그 분야를 골라 둔다.
@@ -11,13 +10,12 @@ const SERVICE_BY_CATEGORY = {
 };
 
 export default function ColumnCta({ category, title = '이 주제로 고민 중이라면' }) {
-  const single = offers.find((o) => o.id === 'offer-single');
   const service = SERVICE_BY_CATEGORY[category];
   return (
     <div className="article-cta">
       <div>
         <strong>{title}</strong>
-        <p>초기 상담 30분(보수 없음), 또는 {single.name} {single.price}. 지금 상황만 적어 주시면 됩니다.</p>
+        <p>초기 상담 30분은 보수를 받지 않습니다. 지금 상황만 적어 주시면 1~2일 안에 답장드립니다.</p>
       </div>
       <Link className="button primary" to="/consulting#contact" state={service ? { service } : undefined}>자문 문의<Arrow /></Link>
     </div>

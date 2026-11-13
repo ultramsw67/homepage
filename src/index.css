@@ -592,6 +592,10 @@ html.js #root > .page { display: none; }
 .offer-card li { padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink); line-height: 1.6; }
 .offer-card .button { margin-top: auto; }
 .offer-flow { margin-top: 16px; color: var(--muted); }
+.fee-rules { margin-top: 22px; padding: 18px 22px; border: 1px solid var(--line, rgba(0,0,0,.12)); border-radius: 14px; }
+.fee-rules h3 { font-size: 16px; margin: 0 0 8px; }
+.fee-rules ol { margin: 0; padding-left: 20px; }
+.fee-rules li { margin: 4px 0; }
 @media (max-width: 1000px) { .offer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .offer-grid { grid-template-columns: 1fr; } }
 .field .optional { font-weight: 400; color: var(--muted); }
