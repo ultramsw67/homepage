@@ -41,7 +41,7 @@ edit('src/lib/analytics.js', (s) => s
 const MARK = '<!-- old-host-redirect -->';
 const snippet = `    ${MARK}\n    <script>(function(){var h=location.hostname;if(${JSON.stringify(OLD_HOSTS)}.indexOf(h)<0)return;var r=document.referrer,q='old_host='+encodeURIComponent(h);if(r&&r.indexOf('//'+h)<0)q+='&old_ref='+encodeURIComponent(r);location.replace('https://${NEW}'+location.pathname+(location.search?location.search+'&':'?')+q+location.hash)})()</script>\n`;
 edit('index.html', (s) => s.includes(MARK)
-  ? s.replace(new RegExp(`\s*${MARK}\n\s*<script>[^\n]*</script>\n`), `\n${snippet}`)
+  ? s.replace(new RegExp(`\\s*${MARK}\n\\s*<script>[^\n]*</script>\n`), `\n${snippet}`)
   : s.replace(/(<head>\s*\n)/, `$1${snippet}`),
   () => '옛 주소 → 새 주소 이동 스크립트');
 
