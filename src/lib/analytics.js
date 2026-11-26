@@ -42,14 +42,45 @@ function loadScript(src) {
 
 // GA4: 첫 페이지뷰는 config 가 보내고, 이후 화면 전환은 GA4 '향상된 측정'(브라우저 기록 기반 페이지 변경, 기본 켜짐)이 자동 집계한다.
 // 여기서 page_view 를 따로 보내면 두 번 집계되므로 보내지 않는다.
+// 옛 주소(sood-page.web.app·soodcoach.co.kr 등)로 온 손님 보정 (2026-11-26)
+// index.html 이 옛 주소를 soodcoach.com 으로 넘길 때 old_host(옛 주소)·old_ref(원래 들어온 곳)를 붙인다.
+// 그대로 두면 GA 가 출처를 '옛 주소 / referral' 로 잡아 원래 출처(네이버·구글 등)를 잃는다.
+// → 주소에서 두 값을 지우고, 원래 출처가 있으면 그것을 referrer 로, 없으면 referrer 를 무시(직접 방문)로 보낸다.
+let oldAddress;
+export function takeOldAddress() {
+  if (oldAddress !== undefined) return oldAddress;
+  oldAddress = null;
+  try {
+    const url = new URL(window.location.href);
+    const host = url.searchParams.get('old_host');
+    if (host) {
+      oldAddress = { host, ref: url.searchParams.get('old_ref') || '' };
+      url.searchParams.delete('old_host');
+      url.searchParams.delete('old_ref');
+      window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+    }
+  } catch {
+    // 주소 정리에 실패해도 사이트 동작은 그대로
+  }
+  return oldAddress;
+}
+
 let gaStarted = false;
 function startGA() {
   if (gaStarted) return;
   gaStarted = true;
+  const old = takeOldAddress(); // gtag 를 불러오기 전에 주소를 정리해야 GA 가 깨끗한 주소로 첫 페이지뷰를 잡는다
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() { window.dataLayer.push(arguments); }; // gtag 는 배열이 아니라 arguments 객체를 넣어야 동작한다
   window.gtag('js', new Date());
-  window.gtag('config', GA);
+  const cfg = {};
+  if (old) {
+    cfg.page_location = window.location.href;
+    if (old.ref) cfg.page_referrer = old.ref;
+    else cfg.ignore_referrer = true;
+  }
+  window.gtag('config', GA, cfg);
+  if (old) window.gtag('event', 'old_address_arrival', { old_host: old.host, had_referrer: old.ref ? 'yes' : 'no' });
   loadScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GA)}`);
 }
 
@@ -70,6 +101,7 @@ function withNaver(fn) {
 
 // App 의 경로 변경마다 호출
 export function trackPageview() {
+  if (typeof window !== 'undefined') takeOldAddress(); // 내 브라우저(집계 제외)에서도 주소의 old_host 표시는 지운다
   if (!onSite()) return;
   if (GA) startGA();
   if (NAVER) withNaver(() => window.wcs_do());
