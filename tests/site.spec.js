@@ -502,17 +502,18 @@ test('칼럼 하단: 금액 없는 자문 안내, 분류에 맞는 분야가 골
   }
 });
 
-// 2026-11-12 지시서 v3 7단계: 홈·글 목록·글 위 표지가 같은 글씨 카드, 네이버 그림을 불러오지 못해도 검은 네모가 없다
-test('표지: 홈·글 목록·글 세 편 위가 같은 글씨 카드, 그림이 막혀도 표지가 보인다', async ({ page }) => {
+// 2026-11-12 지시서 v3 7단계: 글 위 표지는 글씨 카드, 네이버 그림을 불러오지 못해도 검은 네모가 없다
+// 2026-11-27: 홈·글 목록 카드에는 표지를 두지 않는다 — 제목이 카드에 한 번만 나온다
+test('표지: 카드는 제목 한 번만, 글 세 편 위는 글씨 카드, 그림이 막혀도 표지가 보인다', async ({ page }) => {
   await page.route('https://postfiles.pstatic.net/**', (r) => r.abort());
   await page.goto('/');
   const home = page.locator('.post-grid .post-card').first();
-  await expect(home.locator('.post-thumb .text-cover .tc-title')).toHaveText(posts[0].title);
-  await expect(home.locator('.post-thumb img:not(.tc-char)')).toHaveCount(0);
+  await expect(home.locator('h3')).toHaveText(posts[0].title);
+  await expect(home.locator('.post-thumb, .text-cover, img')).toHaveCount(0);
   await page.goto('/articles');
   const cards = page.locator('.post-grid .post-card');
-  await expect(cards.first().locator('.text-cover')).toBeVisible();
-  expect(await cards.locator('.post-thumb').count()).toBe(await cards.locator('.post-thumb .text-cover').count());
+  await expect(cards.first().locator('h3')).toBeVisible();
+  expect(await cards.locator('.text-cover').count()).toBe(0);
   for (const p of posts.slice(0, 3)) {
     await page.goto('/articles/' + p.id);
     await expect(page.locator('.text-cover.big .tc-title')).toHaveText(p.title);
