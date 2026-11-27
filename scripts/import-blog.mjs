@@ -151,16 +151,34 @@ try {
 }
 const noticeIds = new Set(notices.map((x) => x.logNo));
 
+// 대가를 받고 쓴 홍보 글은 홈페이지 글 목록·칼럼 수에 넣지 않는다 (2026-11-27 대표님 지시)
+// ① scripts/blog-promo.json 에 logNo 를 직접 적거나 ② 글 앞부분(첫 15줄)에 대가 표시 문구가 있으면 자동으로 빼고 그 파일에 쌓는다.
+// 다시 넣고 싶은 글은 파일에서 지우고, 글의 대가 표시 문구도 확인한다.
+const PROMO_FILE = resolve('scripts/blog-promo.json');
+const promos = existsSync(PROMO_FILE) ? JSON.parse(readFileSync(PROMO_FILE, 'utf8')) : [];
+// 일반 글에도 나오는 낱말(유료 광고·협찬 등)은 넣지 않는다 — 11/27 시험에서 「유료 광고보다 먼저 할 일」 같은 글이 잘못 걸렸다.
+// 대가 표시는 이 문장 꼴로 쓴다: "○○와 협업해 작성한 글입니다" / "소정의 원고료를 받아 작성했습니다"
+const PROMO_MARK = /원고료를 받|소정의 원고료|대가를 받고 작성|대가를 받아 작성|협업해 작성한 글|협업하여 작성한 글/;
+const isPromo = (body) => PROMO_MARK.test(body.split(/\r?\n/).filter((l) => l.trim()).slice(0, 15).join('\n'));
+
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
 const posts = [];
 let skippedNotices = 0;
+let skippedPromos = 0;
 for (const file of walk(SRC)) {
   const parsed = parseFrontmatter(readFileSync(file, 'utf8'));
   if (!parsed || parsed.meta.type !== 'blog-post' || !parsed.meta.logNo) continue;
   if (noticeIds.has(String(parsed.meta.logNo))) { skippedNotices++; continue; }
   const { meta, body } = parsed;
+  const logNo = String(meta.logNo);
+  if (promos.some((x) => x.logNo === logNo)) { skippedPromos++; continue; }
+  if (isPromo(body)) {
+    promos.push({ logNo, title: meta.title, added: new Date().toISOString().slice(0, 10), how: '대가 표시 문구 자동 감지' });
+    skippedPromos++;
+    continue;
+  }
   const { html, firstImage, excerptFromQuote } = toHtml(body, meta.title);
   const post = {
     id: String(meta.logNo),
@@ -178,6 +196,7 @@ for (const file of walk(SRC)) {
 }
 posts.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 writeFileSync(join(OUT, 'index.json'), JSON.stringify(posts));
+writeFileSync(PROMO_FILE, JSON.stringify(promos, null, 2) + '\n');
 
 const today = new Date().toISOString().slice(0, 10);
 const newest = posts[0]?.date || today;
@@ -195,7 +214,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
 writeFileSync(resolve('public/sitemap.xml'), sitemap);
 
 const byCat = posts.reduce((a, p) => ((a[p.category] = (a[p.category] || 0) + 1), a), {});
-console.log(`imported ${posts.length} posts from ${SRC} (공지글 ${skippedNotices}편 제외)`);
+console.log(`imported ${posts.length} posts from ${SRC} (공지글 ${skippedNotices}편 · 대가 받은 홍보 글 ${skippedPromos}편 제외)`);
 console.log(byCat);
 if (!existsSync(join(OUT, 'index.json'))) process.exit(1);
 
